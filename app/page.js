@@ -1,23 +1,7 @@
-"use client";
-import { useState } from "react";
-
-const PHONE = "966564612017";
-const cities = ["الرياض", "جدة", "مكة المكرمة", "المدينة المنورة", "الدمام", "الخبر", "الطائف", "أبها", "تبوك", "بريدة", "حائل", "جازان"];
+import LeadForm from "../components/LeadForm";
+import { cities } from "../lib/cities";
 
 export default function Home() {
-  const [form, setForm] = useState({ name: "", city: "", district: "", type: "منزل" });
-  const update = (e) => setForm({ ...form, [e.target.name]: e.target.value });
-
-  const send = (e) => {
-    e.preventDefault();
-    const msg = `السلام عليكم، أرغب في فحص تغطية الفايبر
-الاسم: ${form.name}
-المدينة: ${form.city}
-الحي: ${form.district}
-نوع المبنى: ${form.type}`;
-    window.open(`https://wa.me/${PHONE}?text=${encodeURIComponent(msg)}`, "_blank");
-  };
-
   return (
     <main>
       <section className="hero">
@@ -31,22 +15,7 @@ export default function Home() {
               <li>✔ متابعة طلبك حتى التركيب</li>
             </ul>
           </div>
-
-          <form className="lead-form" onSubmit={send}>
-            <h3>افحص التغطية الآن</h3>
-            <input name="name" placeholder="الاسم" required onChange={update} />
-            <select name="city" required defaultValue="" onChange={update}>
-              <option value="" disabled>اختر المدينة</option>
-              {cities.map((c) => <option key={c}>{c}</option>)}
-            </select>
-            <input name="district" placeholder="الحي" required onChange={update} />
-            <select name="type" onChange={update}>
-              <option>منزل</option>
-              <option>شقة</option>
-              <option>مكتب / منشأة</option>
-            </select>
-            <button type="submit" className="btn btn-wa">أرسل الطلب عبر واتساب</button>
-          </form>
+          <LeadForm />
         </div>
       </section>
 
@@ -61,7 +30,9 @@ export default function Home() {
 
         <h2>نغطي مدن المملكة</h2>
         <div className="cities">
-          {cities.map((c) => <span key={c}>تركيب فايبر {c}</span>)}
+          {cities.map((c) => (
+            <a key={c.slug} href={`/${c.slug}`}>تركيب فايبر {c.name}</a>
+          ))}
         </div>
       </section>
     </main>
