@@ -4,13 +4,13 @@ import { cities } from "../lib/cities";
 
 const PHONE = "966564612017";
 
-export default function LeadForm({ defaultCity = "" }) {
+export default function LeadForm({ defaultCity = "", operator = "" }) {
   const [form, setForm] = useState({ name: "", city: defaultCity, district: "", type: "منزل" });
   const update = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
   const send = (e) => {
     e.preventDefault();
-    const msg = `السلام عليكم، أرغب في فحص تغطية الفايبر
+    const msg = `السلام عليكم، أرغب في فحص تغطية الفايبر${operator ? ` (${operator})` : ""}
 الاسم: ${form.name}
 المدينة: ${form.city}
 الحي: ${form.district}
@@ -20,7 +20,7 @@ export default function LeadForm({ defaultCity = "" }) {
 
   return (
     <form className="lead-form" onSubmit={send}>
-      <h3>افحص التغطية الآن</h3>
+      <h3>{operator ? `افحص تغطية ${operator} الآن` : "افحص التغطية الآن"}</h3>
       <input name="name" placeholder="الاسم" required onChange={update} />
       <select name="city" required value={form.city} onChange={update}>
         <option value="" disabled>اختر المدينة</option>
