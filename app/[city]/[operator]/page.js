@@ -3,6 +3,9 @@ import { cities } from "../../../lib/cities";
 import { operators, operatorCities } from "../../../lib/operators";
 import LeadForm from "../../../components/LeadForm";
 
+const PHONE_LOCAL = "0564612017";
+const PHONE_WA = "966564612017";
+
 export const dynamicParams = false;
 
 export function generateStaticParams() {
@@ -21,8 +24,8 @@ export async function generateMetadata({ params }) {
   const { c, o } = getData(city, operator);
   if (!c || !o) return {};
   return {
-    title: `تركيب فايبر ${o.name} ${c.name} | فحص التغطية وطلب الاشتراك - سعودي واصل`,
-    description: `تبغى فايبر ${o.name} في ${c.name}؟ نفحص لك تغطية ${o.name} في مبناك مجاناً، نوضح لك الباقات المتاحة، ونرفع طلبك ونتابعه حتى التركيب. أحياء ${c.districts.slice(0, 3).join("، ")} وغيرها.`,
+    title: `مندوب فايبر ${o.name} ${c.name} | تركيب الألياف البصرية وفحص التغطية - سعودي واصل`,
+    description: `رقم مندوب فايبر ${o.name} في ${c.name}: فحص تغطية مجاني لمبناك، شرح الباقات المتاحة، ورفع طلب التركيب ومتابعته حتى التفعيل. تواصل واتساب مباشرة.`,
   };
 }
 
@@ -33,7 +36,9 @@ export default async function OperatorPage({ params }) {
   const others = operators.filter((x) => x.slug !== o.slug);
 
   const faqs = [
-    { q: `هل فايبر ${o.name} متوفر في حيي في ${c.name}؟`, a: `التغطية تختلف من حي لحي ومن مبنى لمبنى. أرسل حيك عبر النموذج أو واتساب ونفحص لك توفر فايبر ${o.name} في مبناك تحديداً.` },
+    { q: `كيف أتواصل مع مندوب فايبر ${o.name} في ${c.name}؟`, a: `تواصل معنا واتساب أو اتصال على ${PHONE_LOCAL}، أو عبّي النموذج في أعلى الصفحة ونرد عليك بأسرع وقت.` },
+    { q: "هل الطلب عن طريق المندوب عليه رسوم إضافية؟", a: `لا، خدمتنا بدون أي رسوم إضافية عليك. تدفع فقط قيمة الباقة ورسوم ${o.name} حسب العرض اللي تختاره.` },
+    { q: `هل فايبر ${o.name} متوفر في حيي في ${c.name}؟`, a: `التغطية تختلف من حي لحي ومن مبنى لمبنى. أرسل حيك وموقع مبناك ونفحص لك توفر فايبر ${o.name} تحديداً.` },
     { q: `كم أسعار باقات فايبر ${o.name}؟`, a: `الأسعار والعروض تتغير باستمرار، راسلنا ونرسل لك باقات ${o.name} والعروض الحالية المتاحة لمبناك.` },
     { q: "هل يوجد رسوم تركيب؟", a: "تختلف حسب العرض ونوع المبنى، ونوضح لك كل التفاصيل قبل رفع الطلب." },
     { q: `هل أقدر أنتقل من مشغل آخر إلى ${o.name}؟`, a: `نعم إذا كان مبناك مغطى من ${o.name}. ننصحك تتأكد من أي التزام أو مدة عقد على اشتراكك الحالي قبل الانتقال.` },
@@ -51,12 +56,12 @@ export default async function OperatorPage({ params }) {
       <section className="hero">
         <div className="container hero-grid">
           <div>
-            <h1>تركيب فايبر {o.name} في {c.name}</h1>
-            <p className="hero-sub">افحص تغطية ألياف {o.name} البصرية في مبناك بـ{c.name}، واعرف الباقات المتاحة، ونرفع طلبك ونتابعه حتى التركيب.</p>
+            <h1>مندوب فايبر {o.name} في {c.name}</h1>
+            <p className="hero-sub">تركيب ألياف {o.name} البصرية في {c.name}: نفحص تغطية مبناك مجاناً، نشرح لك الباقات، ونرفع طلبك ونتابعه حتى التفعيل.</p>
             <ul className="hero-points">
+              <li>✔ تواصل مباشر مع المندوب واتساب</li>
               <li>✔ فحص تغطية {o.name} مجاناً</li>
-              <li>✔ توضيح الباقات والعروض الحالية</li>
-              <li>✔ متابعة الطلب حتى التفعيل</li>
+              <li>✔ بدون رسوم إضافية على خدمتنا</li>
             </ul>
           </div>
           <LeadForm defaultCity={c.name} operator={o.name} />
@@ -64,7 +69,24 @@ export default async function OperatorPage({ params }) {
       </section>
 
       <section className="container">
-        <p className="notice">سعودي واصل جهة مستقلة وليست الموقع الرسمي لـ{o.name}. نساعدك في فحص التغطية ورفع طلب الاشتراك ومتابعته.</p>
+        <p className="notice">سعودي واصل جهة مستقلة وليست الموقع الرسمي لـ{o.name}. نساعدك كمندوب مبيعات في فحص التغطية ورفع طلب الاشتراك ومتابعته.</p>
+
+        <h2>رقم مندوب فايبر {o.name} {c.name}</h2>
+        <div className="contact-box">
+          <p>للاستفسار عن تغطية وباقات فايبر {o.name} في {c.name}، تواصل مع المندوب مباشرة:</p>
+          <div className="header-actions">
+            <a href={`tel:${PHONE_LOCAL}`} className="btn btn-call">📞 {PHONE_LOCAL}</a>
+            <a href={`https://wa.me/${PHONE_WA}`} className="btn btn-wa">راسلنا واتساب</a>
+          </div>
+        </div>
+
+        <h2>ليه تطلب فايبر {o.name} عن طريق مندوب؟</h2>
+        <div className="steps">
+          <div className="card"><h4>رد سريع</h4><p>بدل الانتظار في خدمة العملاء، تتواصل مع مندوب يرد عليك واتساب مباشرة.</p></div>
+          <div className="card"><h4>شرح واضح</h4><p>نشرح لك الباقات والفروق بينها ونرشح لك الأنسب لاستخدامك.</p></div>
+          <div className="card"><h4>متابعة الطلب</h4><p>نتابع طلبك مع الفنيين حتى يتم التركيب، وتسألنا في أي وقت عن الحالة.</p></div>
+          <div className="card"><h4>مقارنة المشغلين</h4><p>لو مبناك مغطى من أكثر من مشغل، نوضح لك الفرق قبل ما تقرر.</p></div>
+        </div>
 
         <h2>عن فايبر {o.name}</h2>
         <p>{o.about}</p>
@@ -73,12 +95,12 @@ export default async function OperatorPage({ params }) {
         <p>{c.intro}</p>
         <p>تغطية {o.name} بالألياف البصرية في {c.name} ممتدة في أحياء كثيرة لكنها تختلف من مبنى لآخر، لذلك أول خطوة دائماً هي فحص عنوانك. أرسل اسم حيك وموقع مبناك ونرد عليك بالنتيجة والخيارات المتاحة.</p>
 
-        <h2>أحياء {c.name}</h2>
+        <h2>مندوب فايبر {o.name} في أحياء {c.name}</h2>
         <div className="cities">
           {c.districts.map((d) => <span key={d}>فايبر {o.name} حي {d}</span>)}
         </div>
 
-        <h2>خطوات طلب فايبر {o.name} عن طريقنا</h2>
+        <h2>خطوات طلب فايبر {o.name} عن طريق المندوب</h2>
         <div className="steps">
           <div className="card"><span>1</span><h4>أرسل عنوانك</h4><p>المدينة والحي وموقع المبنى عبر النموذج أو واتساب.</p></div>
           <div className="card"><span>2</span><h4>فحص التغطية</h4><p>نتحقق من توفر فايبر {o.name} في مبناك.</p></div>
@@ -97,12 +119,12 @@ export default async function OperatorPage({ params }) {
         <p>لو مبناك مغطى من أكثر من مشغل، نقارن لك بين الباقات المتاحة من حيث السرعة والسعر ومدة الالتزام، وتختار الأنسب لاستخدامك.</p>
         <div className="cities">
           {others.map((x) => (
-            <a key={x.slug} href={`/${c.slug}/${x.slug}`}>تركيب فايبر {x.name} {c.name}</a>
+            <a key={x.slug} href={`/${c.slug}/${x.slug}`}>مندوب فايبر {x.name} {c.name}</a>
           ))}
           <a href={`/${c.slug}`}>كل خيارات الفايبر في {c.name}</a>
         </div>
 
-        <h2>أسئلة شائعة عن فايبر {o.name} في {c.name}</h2>
+        <h2>أسئلة شائعة عن مندوب فايبر {o.name} في {c.name}</h2>
         <div className="card faq">
           {faqs.map((f) => (
             <div key={f.q}><h4>{f.q}</h4><p>{f.a}</p></div>

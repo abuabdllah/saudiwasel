@@ -1,6 +1,11 @@
 import { notFound } from "next/navigation";
 import { cities } from "../../lib/cities";
+import { operators, operatorCities } from "../../lib/operators";
 import LeadForm from "../../components/LeadForm";
+import InfoSections from "../../components/InfoSections";
+
+const PHONE_LOCAL = "0564612017";
+const PHONE_WA = "966564612017";
 
 export const dynamicParams = false;
 
@@ -13,8 +18,8 @@ export async function generateMetadata({ params }) {
   const c = cities.find((x) => x.slug === city);
   if (!c) return {};
   return {
-    title: `تركيب فايبر ${c.name} | فحص تغطية الألياف البصرية - سعودي واصل`,
-    description: `تركيب الألياف البصرية (الفايبر) في ${c.name}: فحص تغطية مجاني لمبناك، مقارنة بين جميع المشغلين، ومتابعة الطلب حتى التركيب. أحياء ${c.districts.slice(0, 3).join("، ")} وغيرها.`,
+    title: `تركيب فايبر ومندوب فايبر ${c.name} | فحص تغطية الألياف البصرية مجاناً - سعودي واصل`,
+    description: `مندوب فايبر في ${c.name}: فحص تغطية الألياف البصرية مجاناً لمبناك، مقارنة بين جميع المشغلين، ومتابعة الطلب حتى التركيب. أحياء ${c.districts.slice(0, 3).join("، ")} وغيرها.`,
   };
 }
 
@@ -22,6 +27,7 @@ export default async function CityPage({ params }) {
   const { city } = await params;
   const c = cities.find((x) => x.slug === city);
   if (!c) notFound();
+  const hasOperators = operatorCities.includes(c.slug);
 
   return (
     <main>
@@ -29,11 +35,11 @@ export default async function CityPage({ params }) {
         <div className="container hero-grid">
           <div>
             <h1>تركيب الألياف البصرية (الفايبر) في {c.name}</h1>
-            <p className="hero-sub">افحص تغطية الفايبر في مبناك بـ{c.name} — كل الشبكات في طلب واحد، ونساعدك تختار الباقة الأنسب.</p>
+            <p className="hero-sub">مندوب فايبر في {c.name}: نفحص تغطية مبناك لدى كل الشبكات في طلب واحد، ونساعدك تختار الباقة الأنسب ونتابع طلبك حتى التركيب.</p>
             <ul className="hero-points">
               <li>✔ فحص تغطية مجاني في جميع أحياء {c.name}</li>
               <li>✔ مقارنة بين جميع المشغلين</li>
-              <li>✔ متابعة طلبك حتى التركيب والتفعيل</li>
+              <li>✔ تواصل مباشر مع المندوب واتساب</li>
             </ul>
           </div>
           <LeadForm defaultCity={c.name} />
@@ -41,22 +47,39 @@ export default async function CityPage({ params }) {
       </section>
 
       <section className="container">
+        <h2>الألياف البصرية في {c.name}</h2>
+        <p>{c.intro}</p>
+
+        <h2>مندوب فايبر {c.name}</h2>
+        <div className="contact-box">
+          <p>للاستفسار عن تغطية وباقات الفايبر في {c.name} لدى جميع المشغلين، تواصل مع المندوب مباشرة:</p>
+          <div className="header-actions">
+            <a href={`tel:${PHONE_LOCAL}`} className="btn btn-call">📞 {PHONE_LOCAL}</a>
+            <a href={`https://wa.me/${PHONE_WA}`} className="btn btn-wa">راسلنا واتساب</a>
+          </div>
+        </div>
+
+        {hasOperators && (
+          <>
+            <h2>فايبر حسب المشغل في {c.name}</h2>
+            <div className="cities">
+              {operators.map((o) => (
+                <a key={o.slug} href={`/${c.slug}/${o.slug}`}>مندوب فايبر {o.name} {c.name}</a>
+              ))}
+            </div>
+          </>
+        )}
+
         <h2>أحياء نغطيها في {c.name}</h2>
         <div className="cities">
           {c.districts.map((d) => <span key={d}>فايبر حي {d}</span>)}
         </div>
-        <p style={{ marginTop: 12 }}>وغيرها من أحياء {c.name}. أرسل اسم حيك ونفحص لك التغطية فوراً.</p>
+        <p style={{ marginTop: 12 }}>وغيرها من أحياء {c.name} و{c.region}. أرسل اسم حيك ونفحص لك التغطية فوراً.</p>
+      </section>
 
-        <h2>أسئلة شائعة عن الفايبر في {c.name}</h2>
-        <div className="card faq">
-          <h4>كيف أعرف إن الفايبر متوفر في مبناي؟</h4>
-          <p>أرسل مدينتك وحيك عبر النموذج أو واتساب، ونفحص التغطية لدى جميع المشغلين في {c.name}.</p>
-          <h4>هل الفحص برسوم؟</h4>
-          <p>لا، فحص التغطية مجاني بالكامل.</p>
-          <h4>كم يستغرق التركيب؟</h4>
-          <p>يختلف حسب المشغل والحي، ونتابع معك الطلب خطوة بخطوة حتى التفعيل.</p>
-        </div>
+      <InfoSections place={c.name} />
 
+      <section className="container">
         <h2>مدن أخرى</h2>
         <div className="cities">
           {cities.filter((x) => x.slug !== c.slug).map((x) => (
