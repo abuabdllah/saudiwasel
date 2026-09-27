@@ -52,9 +52,16 @@ export default async function CityPage({ params }) {
 
       <section className="container">
         <h2>الألياف البصرية في {c.name}</h2>
-        <p>{c.intro}</p>
+<p>{c.intro}</p>
 
-        <h2>مندوب فايبر {c.name}</h2>
+{c.localSeo && (
+  <>
+    <h2>خدمات الفايبر في {c.name}</h2>
+    <p>{c.localSeo}</p>
+  </>
+)}
+
+<h2>مندوب فايبر {c.name}</h2>
         <div className="contact-box">
           <p>للاستفسار عن تغطية وباقات الفايبر في {c.name} لدى جميع المشغلين، تواصل مع المندوب مباشرة:</p>
           <div className="header-actions">
