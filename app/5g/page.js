@@ -1,13 +1,12 @@
-import LeadForm from "../../components/LeadForm";
+﻿import LeadForm from "../../components/LeadForm";
 import { fivegOperators, fivegUpdated } from "../../lib/fiveg";
 
 const PHONE_LOCAL = "0564612017";
 const PHONE_WA = "966564612017";
 
 export const metadata = {
-  title: "مندوب راوتر 5G | اشتراك انترنت 5G منزلي STC وموبايلي وزين وسلام - سعودي واصل",
-  description: "مندوب راوتر 5G في جميع مدن المملكة: قارن باقات الإنترنت المنزلي 5G من STC وموبايلي وزين وسلام بالأسعار الرسمية، واطلب الراوتر ونتابع معك حتى التفعيل.",
-  alternates: { canonical: "/5g" },
+  title: "راوتر 5G في السعودية | STC وموبايلي وزين وسلام - سعودي واصل",
+description: "مندوب راوتر 5G في السعودية. قارن خيارات راوتر STC وموبايلي وزين وسلام، وتعرف على الباقات والأسعار والسرعات المتاحة واطلب الخدمة بسهولة.",
 };
 
 const faqs = [

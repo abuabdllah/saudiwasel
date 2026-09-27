@@ -1,4 +1,4 @@
-import { notFound } from "next/navigation";
+﻿import { notFound } from "next/navigation";
 import LeadForm from "../../../components/LeadForm";
 import { fivegOperators, fivegUpdated } from "../../../lib/fiveg";
 
@@ -14,11 +14,15 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }) {
   const { operator } = await params;
   const o = fivegOperators.find((x) => x.slug === operator);
+
   if (!o) return {};
+
   return {
-    title: `مندوب راوتر 5G ${o.name} | باقات ${o.brand} وأسعارها - سعودي واصل`,
-    description: `اشتراك راوتر 5G ${o.name} المنزلي: أسعار باقات ${o.brand} الرسمية المحدثة، الراوتر مجاني، ومندوب يتابع طلبك حتى التفعيل في جميع مدن المملكة.`,
-    alternates: { canonical: `/5g/${o.slug}` },
+    title: `راوتر 5G ${o.name} | باقات ${o.brand} وأسعارها - سعودي واصل`,
+    description: `راوتر 5G ${o.name} في السعودية. تعرف على باقات ${o.brand} والأسعار والسرعات المتاحة، وتواصل معنا لمعرفة التغطية والاشتراك.`,
+    alternates: {
+      canonical: `/5g/${o.slug}`,
+    },
   };
 }
 

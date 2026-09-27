@@ -16,14 +16,17 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }) {
   const { city } = await params;
   const c = cities.find((x) => x.slug === city);
+
   if (!c) return {};
+
   return {
-    title: `تركيب فايبر ومندوب فايبر ${c.name} | فحص تغطية الألياف البصرية مجاناً - سعودي واصل`,
-    description: `مندوب فايبر في ${c.name}: فحص تغطية الألياف البصرية مجاناً لمبناك، مقارنة بين جميع المشغلين، ومتابعة الطلب حتى التركيب. أحياء ${c.districts.slice(0, 3).join("، ")} وغيرها.`,
-    alternates: { canonical: `/${c.slug}` },
+    title: `مندوب فايبر ${c.name} | تركيب ألياف بصرية وفحص التغطية - سعودي واصل`,
+    description: `مندوب فايبر في ${c.name}. افحص تغطية الألياف البصرية لمبناك، تعرف على خيارات الفايبر والباقات المتاحة، واطلب الخدمة بسهولة.`,
+    alternates: {
+      canonical: `/${c.slug}`,
+    },
   };
 }
-
 export default async function CityPage({ params }) {
   const { city } = await params;
   const c = cities.find((x) => x.slug === city);
