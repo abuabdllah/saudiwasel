@@ -7,15 +7,16 @@ export default function Footer() {
           <a href="/jeddah">فايبر جدة</a>
           <a href="/riyadh">فايبر الرياض</a>
           <a href="/jeddah/stc">فايبر STC جدة</a>
+          <a href="/jeddah/salam">فايبر سلام جدة</a>
           <a href="/jeddah/mobily">فايبر موبايلي جدة</a>
           <a href="/fiber-vs-5g">فايبر ولا 5G؟</a>
         </nav>
         <nav className="footer-links" aria-label="روابط راوتر 5G">
           <a href="/5g">مندوب راوتر 5G</a>
           <a href="/5g/stc">راوتر 5G STC</a>
-          <a href="/5g/mobily">راوتر 5G موبايلي</a>
-          <a href="/5g/zain">راوتر 5G زين</a>
           <a href="/5g/salam">راوتر 5G سلام</a>
+          <a href="/5g/zain">راوتر 5G زين</a>
+          <a href="/5g/mobily">راوتر 5G موبايلي</a>
         </nav>
         <strong>سعودي واصل</strong> — مندوب فايبر وراوتر 5G لجميع الشركات في مدن المملكة
         <p className="disclaimer">

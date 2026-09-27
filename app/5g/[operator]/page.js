@@ -19,7 +19,7 @@ export async function generateMetadata({ params }) {
 
   return {
     title: `راوتر 5G ${o.name} | باقات ${o.brand} وأسعارها - سعودي واصل`,
-    description: `راوتر 5G ${o.name} في السعودية. تعرف على باقات ${o.brand} والأسعار والسرعات المتاحة، وتواصل معنا لمعرفة التغطية والاشتراك.`,
+    description: `راوتر 5G ${o.name} في السعودية. تعرف على باقات ${o.brand} والمميزات والسرعات المتاحة، وتواصل معنا لمعرفة التغطية والاشتراك.`,
     alternates: {
       canonical: `/5g/${o.slug}`,
     },
@@ -35,7 +35,6 @@ export default async function FiveGOperatorPage({ params }) {
   const faqs = [
     { q: `كيف أشترك في راوتر 5G ${o.name}؟`, a: `عبّي النموذج أو راسلنا واتساب على ${PHONE_LOCAL}، ونتأكد من تغطية ${o.name} 5G على عنوانك ونرفع لك الطلب ونتابعه حتى يوصلك الراوتر.` },
     { q: `هل راوتر ${o.name} 5G مجاني؟`, a: "نعم، الراوتر مجاني مع الاشتراك في الباقات الحالية." },
-    { q: `كم سعر باقات ${o.brand}؟`, a: `تلاقي جدول الأسعار الحالية في الصفحة. العروض تتغير، فراسلنا ونأكد لك السعر قبل الاشتراك.` },
     { q: "هل الطلب عن طريق المندوب عليه رسوم إضافية؟", a: "لا، تدفع قيمة الباقة فقط حسب عرض الشركة." },
     { q: `إيش الأحسن: ${o.name} 5G ولا فايبر؟`, a: "لو مبناك مغطى بالفايبر، الفايبر أثبت وأحياناً أرخص. ولو مش مغطى أو محتاج تركيب سريع ومرونة، 5G هو الخيار الأنسب." },
   ];
@@ -66,18 +65,26 @@ export default async function FiveGOperatorPage({ params }) {
       <section className="container">
         <p className="notice">سعودي واصل جهة مستقلة وليست الموقع الرسمي لـ{o.name}. نساعدك كمندوب مبيعات في اختيار الباقة ورفع الطلب ومتابعته.</p>
 
-        <h2>أسعار باقات {o.brand} (آخر تحديث: {fivegUpdated})</h2>
+        <h2>مميزات باقات {o.brand} (آخر تحديث: {fivegUpdated})</h2>
         <div className="table-wrap">
           <table className="compare">
-            <thead><tr><th>الباقة</th><th>التحميل</th><th>الرفع</th><th>السعر</th><th>المزايا</th></tr></thead>
+            <thead><tr><th>الباقة</th><th>التحميل</th><th>الرفع</th><th>المزايا</th></tr></thead>
             <tbody>
               {o.packages.map((p) => (
-                <tr key={p.name}><td>{p.name}</td><td>{p.down}</td><td>{p.up}</td><td>{p.price}</td><td>{p.perks}</td></tr>
+                <tr key={p.name}><td>{p.name}</td><td>{p.down}</td><td>{p.up}</td><td>{p.perks}</td></tr>
               ))}
             </tbody>
           </table>
         </div>
-        <p className="small-note">الأسعار شاملة ضريبة القيمة المضافة ومنقولة من الموقع الرسمي لـ{o.name}. العروض تتغير باستمرار، تواصل معنا لتأكيد السعر الحالي.</p>
+        <p className="small-note">المميزات حسب عروض المشغل الحالية وقد تتغير، تواصل معنا للتأكيد.</p>
+
+        <div className="contact-box">
+          <h3>أسعار باقات {o.name}</h3>
+          <p>الأسعار والعروض بتتغير كل فترة، وأحيانًا في خصومات لأول شهور. ابعتلنا واتساب ونبعتلك أحدث سعر وعرض متاح لعنوانك.</p>
+          <div className="header-actions">
+            <a href={`https://wa.me/${PHONE_WA}`} className="btn btn-wa">راسلنا واتساب</a>
+          </div>
+        </div>
 
         <h2>رقم مندوب راوتر 5G {o.name}</h2>
         <div className="contact-box">
