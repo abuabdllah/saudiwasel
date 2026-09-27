@@ -38,7 +38,7 @@ export default async function CityPage({ params }) {
       <section className="hero">
         <div className="container hero-grid">
           <div>
-            <h1>تركيب الألياف البصرية (الفايبر) في {c.name}</h1>
+            <h1>تركيب فايبر في {c.name} وفحص تغطية الألياف البصرية</h1>
             <p className="hero-sub">مندوب فايبر في {c.name}: نفحص تغطية مبناك لدى كل الشبكات في طلب واحد، ونساعدك تختار الباقة الأنسب ونتابع طلبك حتى التركيب.</p>
             <ul className="hero-points">
               <li>✔ فحص تغطية مجاني في جميع أحياء {c.name}</li>
@@ -51,16 +51,15 @@ export default async function CityPage({ params }) {
       </section>
 
       <section className="container">
-        <h2>الألياف البصرية في {c.name}</h2>
+        <h2>خدمات الفايبر في {c.name}</h2>
 <p>{c.intro}</p>
 
 {c.localSeo && (
   <>
-    <h2>خدمات الفايبر في {c.name}</h2>
+    <h2>تركيب الفايبر وفحص التغطية في {c.name}</h2>
     <p>{c.localSeo}</p>
   </>
 )}
-
 <h2>مندوب فايبر {c.name}</h2>
         <div className="contact-box">
           <p>للاستفسار عن تغطية وباقات الفايبر في {c.name} لدى جميع المشغلين، تواصل مع المندوب مباشرة:</p>
