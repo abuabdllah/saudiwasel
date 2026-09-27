@@ -24,7 +24,7 @@ export async function generateMetadata({ params }) {
   const { c, o } = getData(city, operator);
   if (!c || !o) return {};
   return {
-    title: `مندوب فايبر ${o.name} ${c.name} | أسعار الباقات وتركيب الألياف البصرية - سعودي واصل`,
+    title: `مندوب فايبر ${o.name} ${c.name} | مندوب الياف بصرية ${o.name} - سعودي واصل`,
     description: `رقم مندوب فايبر ${o.name} في ${c.name}: مميزات باقات ${o.name} المحدثة، فحص تغطية مجاني لمبناك، ورفع طلب التركيب ومتابعته حتى التفعيل. تواصل واتساب مباشرة.`,
     alternates: { canonical: `/${c.slug}/${o.slug}` },
   };
