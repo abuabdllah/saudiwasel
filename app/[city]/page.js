@@ -20,6 +20,7 @@ export async function generateMetadata({ params }) {
   return {
     title: `تركيب فايبر ومندوب فايبر ${c.name} | فحص تغطية الألياف البصرية مجاناً - سعودي واصل`,
     description: `مندوب فايبر في ${c.name}: فحص تغطية الألياف البصرية مجاناً لمبناك، مقارنة بين جميع المشغلين، ومتابعة الطلب حتى التركيب. أحياء ${c.districts.slice(0, 3).join("، ")} وغيرها.`,
+    alternates: { canonical: `/${c.slug}` },
   };
 }
 
@@ -75,6 +76,9 @@ export default async function CityPage({ params }) {
           {c.districts.map((d) => <span key={d}>فايبر حي {d}</span>)}
         </div>
         <p style={{ marginTop: 12 }}>وغيرها من أحياء {c.name} و{c.region}. أرسل اسم حيك ونفحص لك التغطية فوراً.</p>
+
+        <h2>مبناك في {c.name} مش مغطى بالفايبر؟</h2>
+        <p>راوتر 5G هو البديل الأسرع: من غير تمديدات ولا موعد فني، والراوتر مجاني مع الاشتراك. <a href="/5g">شوف باقات راوتر 5G</a> أو <a href="/fiber-vs-5g">قارن بين الفايبر و5G</a>.</p>
       </section>
 
       <InfoSections place={c.name} />
