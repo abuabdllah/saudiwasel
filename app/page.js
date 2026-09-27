@@ -5,7 +5,7 @@ import { cities } from "../lib/cities";
 export const metadata = {
   title: "مندوب فايبر في السعودية | تركيب ألياف بصرية وفحص التغطية - سعودي واصل",
   description:
-    "مندوب فايبر في السعودية لفحص تغطية الألياف البصرية ومقارنة خيارات STC وموبايلي وزين وسلام، مع متابعة طلب الاشتراك والتركيب والتفعيل.",
+    "مندوب فايبر في السعودية لفحص تغطية الألياف البصرية ومقارنة خيارات STC وسلام وزين وموبايلي، مع متابعة طلب الاشتراك والتركيب والتفعيل.",
   alternates: { canonical: "/" },
 };
 
@@ -45,7 +45,7 @@ export default function Home() {
 
             <ul className="hero-points">
               <li>✔ فحص تغطية الفايبر</li>
-              <li>✔ STC وموبايلي وزين وسلام</li>
+              <li>✔ STC وسلام وزين وموبايلي</li>
               <li>✔ متابعة طلب الاشتراك حتى التفعيل</li>
             </ul>
           </div>
@@ -69,6 +69,7 @@ export default function Home() {
 
         <div className="cities">
           <a href="/jeddah/stc">مندوب فايبر STC جدة</a>
+          <a href="/jeddah/salam">مندوب فايبر سلام جدة</a>
           <a href="/jeddah/mobily">مندوب فايبر موبايلي جدة</a>
         </div>
 
@@ -90,9 +91,9 @@ export default function Home() {
         <div className="cities">
           <a href="/5g">مندوب راوتر 5G</a>
           <a href="/5g/stc">راوتر 5G STC</a>
-          <a href="/5g/mobily">راوتر 5G موبايلي</a>
-          <a href="/5g/zain">راوتر 5G زين</a>
           <a href="/5g/salam">راوتر 5G سلام</a>
+          <a href="/5g/zain">راوتر 5G زين</a>
+          <a href="/5g/mobily">راوتر 5G موبايلي</a>
           <a href="/fiber-vs-5g">فايبر ولا راوتر 5G؟</a>
         </div>
 

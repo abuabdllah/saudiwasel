@@ -5,7 +5,7 @@ import Footer from "../components/Footer";
 export const metadata = {
   metadataBase: new URL("https://saudiwasel.com"),
   title: "سعودي واصل | مندوب فايبر وراوتر 5G لجميع الشركات في السعودية",
-  description: "سعودي واصل: مندوب فايبر وراوتر 5G لـ STC وموبايلي وزين وسلام في جميع مدن المملكة. نفحص التغطية، نقارن الباقات، ونتابع طلبك حتى التفعيل.",
+  description: "سعودي واصل: مندوب فايبر وراوتر 5G لـ STC وسلام وزين وموبايلي في جميع مدن المملكة. نفحص التغطية، نقارن الباقات، ونتابع طلبك حتى التفعيل.",
   applicationName: "سعودي واصل",
   openGraph: {
     siteName: "سعودي واصل",
