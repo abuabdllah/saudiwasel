@@ -60,9 +60,9 @@ export default async function CityPage({ params }) {
     <p>{c.localSeo}</p>
   </>
 )}
-<h2>مندوب فايبر {c.name}</h2>
+<h2>مندوب الياف بصرية في {c.name}</h2>
         <div className="contact-box">
-          <p>للاستفسار عن تغطية وباقات الفايبر في {c.name} لدى جميع المشغلين، تواصل مع المندوب مباشرة:</p>
+          <p>للاستفسار عن تغطية وباقات الفايبر في {c.name} لدى جميع المشغلين، تواصل مع مندوب الياف بصرية مستقل يساعدك في فحص الخيارات ومتابعة الطلب:</p>
           <div className="header-actions">
             <a href={`tel:${PHONE_LOCAL}`} className="btn btn-call">📞 {PHONE_LOCAL}</a>
             <a href={`https://wa.me/${PHONE_WA}`} className="btn btn-wa">راسلنا واتساب</a>

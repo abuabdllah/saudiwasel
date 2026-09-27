@@ -4,6 +4,7 @@ import { fivegOperators, fivegUpdatedISO } from "../lib/fiveg";
 
 // آخر تعديل حقيقي للصفحات العامة
 const siteUpdatedISO = "2026-09-27";
+const articlesUpdatedISO = "2026-09-27";
 
 // اختيار أحدث تاريخ
 const latest = (...dates) => dates.sort().at(-1);
@@ -64,6 +65,18 @@ export default function sitemap() {
       lastModified: latest(fiberUpdatedISO, fivegUpdatedISO),
       priority: 0.8,
     },
+
+    // المقالات
+    {
+      url: `${base}/articles`,
+      lastModified: articlesUpdatedISO,
+      priority: 0.7,
+    },
+    ...["stc-fiber-request", "check-fiber-coverage", "mandoob-vs-technician"].map((slug) => ({
+      url: `${base}/articles/${slug}`,
+      lastModified: articlesUpdatedISO,
+      priority: 0.7,
+    })),
 
     // صفحات الموقع
     {
