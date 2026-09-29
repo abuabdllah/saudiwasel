@@ -5,6 +5,7 @@ import LeadForm from "../../../components/LeadForm";
 import JsonLd, { breadcrumbSchema, faqSchema, serviceSchema } from "../../../components/JsonLd";
 import { RiyadhOperatorPage } from "../../../components/RiyadhPages";
 import { MakkahOperatorPage } from "../../../components/MakkahPages";
+import { EasternOperatorPage } from "../../../components/EasternPages";
 
 const PHONE_LOCAL = "0564612017";
 const PHONE_WA = "966564612017";
@@ -29,12 +30,16 @@ export async function generateMetadata({ params }) {
   const title = c.slug === "jeddah"
     ? `رقم مندوب فايبر ${o.name} جدة | أسعار باقات 2026`
     : `رقم مندوب فايبر ${o.name} ${c.name} | باقات 2026`;
-  const correctedTitle = c.slug === "riyadh" ? `رقم مندوب فايبر ${o.name} الرياض | أسعار باقات 2026` : c.slug === "makkah" ? `رقم مندوب فايبر ${o.name} مكة | أسعار باقات 2026` : title;
+  const correctedTitle = c.slug === "riyadh" ? `رقم مندوب فايبر ${o.name} الرياض | أسعار باقات 2026` : c.slug === "makkah" ? `رقم مندوب فايبر ${o.name} مكة | أسعار باقات 2026` : ["dammam", "khobar"].includes(c.slug) ? `رقم مندوب فايبر ${o.name} ${c.name} | أسعار باقات 2026` : title;
   const description = c.slug === "makkah"
     ? `رقم مندوب فايبر ${o.name} مكة لفحص المبنى، مراجعة الباقات، ومتابعة طلب التركيب للسكن الدائم أو المستأجر.`
     : c.slug === "riyadh"
       ? `رقم مندوب فايبر ${o.name} الرياض لفحص عنوان المبنى، مراجعة الباقات، ورفع طلب الألياف ومتابعة التركيب عبر الاتصال أو واتساب.`
-      : `رقم مندوب فايبر ${o.name} في ${c.name} لفحص التغطية، معرفة الباقات المتاحة، ورفع طلب التركيب ومتابعته حتى التفعيل عبر واتساب.`;
+      : c.slug === "dammam"
+        ? `رقم مندوب فايبر ${o.name} الدمام لفحص المبنى، مراجعة باقات 2026، ومتابعة تركيب الألياف عبر الاتصال أو واتساب.`
+        : c.slug === "khobar"
+          ? `رقم مندوب فايبر ${o.name} الخبر للتحقق من الشقة أو المجمع، مقارنة الباقات، ومتابعة طلب التركيب عبر واتساب.`
+          : `رقم مندوب فايبر ${o.name} في ${c.name} لفحص التغطية، معرفة الباقات المتاحة، ورفع طلب التركيب ومتابعته حتى التفعيل عبر واتساب.`;
   return {
     title: correctedTitle,
     description,
@@ -50,6 +55,7 @@ export default async function OperatorPage({ params }) {
   if (!c || !o) notFound();
   if (c.slug === "riyadh") return <RiyadhOperatorPage operator={o} />;
   if (c.slug === "makkah") return <MakkahOperatorPage operator={o} />;
+  if (["dammam", "khobar"].includes(c.slug)) return <EasternOperatorPage city={c.slug} operator={o} />;
   const others = operators.filter((x) => x.slug !== o.slug);
 
   const faqs = [
