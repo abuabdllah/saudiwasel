@@ -3,6 +3,7 @@ import { cities } from "../../../lib/cities";
 import { operators, operatorCities } from "../../../lib/operators";
 import LeadForm from "../../../components/LeadForm";
 import JsonLd, { breadcrumbSchema, faqSchema, serviceSchema } from "../../../components/JsonLd";
+import { RiyadhOperatorPage } from "../../../components/RiyadhPages";
 
 const PHONE_LOCAL = "0564612017";
 const PHONE_WA = "966564612017";
@@ -27,12 +28,15 @@ export async function generateMetadata({ params }) {
   const title = c.slug === "jeddah"
     ? `رقم مندوب فايبر ${o.name} جدة | أسعار باقات 2026`
     : `رقم مندوب فايبر ${o.name} ${c.name} | باقات 2026`;
-  const description = `رقم مندوب فايبر ${o.name} في ${c.name} لفحص التغطية، معرفة الباقات المتاحة، ورفع طلب التركيب ومتابعته حتى التفعيل عبر واتساب.`;
+  const correctedTitle = c.slug === "riyadh" ? `رقم مندوب فايبر ${o.name} الرياض | أسعار باقات 2026` : title;
+  const description = c.slug === "riyadh"
+    ? `رقم مندوب فايبر ${o.name} الرياض لفحص عنوان المبنى، مراجعة الباقات، ورفع طلب الألياف ومتابعة التركيب عبر الاتصال أو واتساب.`
+    : `رقم مندوب فايبر ${o.name} في ${c.name} لفحص التغطية، معرفة الباقات المتاحة، ورفع طلب التركيب ومتابعته حتى التفعيل عبر واتساب.`;
   return {
-    title,
+    title: correctedTitle,
     description,
-    openGraph: { title, description, images: ["/opengraph-image.png"] },
-    twitter: { card: "summary_large_image", title, description, images: ["/twitter-image.png"] },
+    openGraph: { title: correctedTitle, description, images: ["/opengraph-image.png"] },
+    twitter: { card: "summary_large_image", title: correctedTitle, description, images: ["/twitter-image.png"] },
     alternates: { canonical: `/${c.slug}/${o.slug}` },
   };
 }
@@ -41,6 +45,7 @@ export default async function OperatorPage({ params }) {
   const { city, operator } = await params;
   const { c, o } = getData(city, operator);
   if (!c || !o) notFound();
+  if (c.slug === "riyadh") return <RiyadhOperatorPage operator={o} />;
   const others = operators.filter((x) => x.slug !== o.slug);
 
   const faqs = [
