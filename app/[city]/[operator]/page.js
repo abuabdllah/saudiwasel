@@ -80,18 +80,18 @@ export default async function OperatorPage({ params }) {
           </div>
         </div>
 
-        <h2>مميزات باقات فايبر {o.name} (آخر تحديث: {o.updated})</h2>
+        <h2>{o.packages.some((p) => p.price) ? "أسعار" : "مميزات"} باقات فايبر {o.name} (آخر تحديث: {o.updated})</h2>
         <div className="table-wrap">
           <table className="compare">
-            <thead><tr><th>الباقة</th><th>التحميل</th><th>الرفع</th><th>المزايا</th></tr></thead>
+            <thead><tr><th>الباقة</th><th>التحميل</th><th>الرفع</th>{o.packages.some((p) => p.price) && <th>السعر</th>}<th>المزايا</th></tr></thead>
             <tbody>
               {o.packages.map((p) => (
-                <tr key={p.name}><td>{p.name}</td><td>{p.down}</td><td>{p.up}</td><td>{p.perks}</td></tr>
+                <tr key={p.name}><td>{p.name}</td><td>{p.down}</td><td>{p.up}</td>{o.packages.some((item) => item.price) && <td>{p.price}</td>}<td>{p.perks}</td></tr>
               ))}
             </tbody>
           </table>
         </div>
-        <p className="small-note">المميزات حسب عروض المشغل الحالية وقد تتغير، تواصل معنا للتأكيد.</p>
+        <p className="small-note">{o.packages.some((p) => p.price) ? `الأسعار شاملة ضريبة القيمة المضافة ومنقولة من الموقع الرسمي لـ${o.name}. العروض والأسعار قد تتغير، تواصل معنا لتأكيد السعر الحالي قبل الاشتراك.` : "المميزات حسب عروض المشغل الحالية وقد تتغير، تواصل معنا للتأكيد."}</p>
 
         <div className="contact-box">
           <h3>أسعار باقات {o.name}</h3>
@@ -122,9 +122,20 @@ export default async function OperatorPage({ params }) {
         <p>تغطية {o.name} بالألياف البصرية في {c.name} ممتدة في أحياء كثيرة لكنها تختلف من مبنى لآخر، لذلك أول خطوة دائماً هي فحص عنوانك. أرسل اسم حيك وموقع مبناك ونرد عليك بالنتيجة والخيارات المتاحة.</p>
 
         <h2>مندوب فايبر {o.name} في أحياء {c.name}</h2>
-        <div className="cities">
-          {c.districts.map((d) => <span key={d}>فايبر {o.name} حي {d}</span>)}
-        </div>
+        {c.slug === "jeddah" ? (
+          <div className="district-details">
+            {c.districts.slice(0, 5).map((d) => (
+              <div key={d}>
+                <h3>طلب فايبر {o.name} في حي {d}</h3>
+                <p>إذا كنت في حي {d}، أرسل موقع المبنى لفحص توفر ألياف {o.name} على العنوان نفسه. وجود الخدمة في شارع قريب لا يعني بالضرورة توفرها في المبنى، لذلك نتحقق أولاً ثم نوضح لك خيارات الاشتراك دون افتراض مسبق للتغطية.</p>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="cities">
+            {c.districts.map((d) => <span key={d}>فايبر {o.name} حي {d}</span>)}
+          </div>
+        )}
 
         <h2>خطوات طلب فايبر {o.name} عن طريق المندوب</h2>
         <div className="steps">

@@ -43,24 +43,23 @@ export default function FiveGPage() {
       <section className="container">
         <p className="notice">سعودي واصل جهة مستقلة وليست الموقع الرسمي لأي مشغل. نساعدك كمندوب مبيعات في اختيار الباقة ورفع الطلب ومتابعته.</p>
 
-        <h2>مقارنة سريعة لمميزات 5G عند كل شركة</h2>
+        <h2>مقارنة سريعة: أرخص باقة 5G عند كل شركة</h2>
         <div className="table-wrap">
           <table className="compare">
-            <thead><tr><th>الشركة</th><th>الباقة</th><th>التحميل</th><th>الرفع</th><th>المميزات</th></tr></thead>
+            <thead><tr><th>الشركة</th><th>الباقة</th><th>السرعة</th><th>السعر</th></tr></thead>
             <tbody>
               {fivegOperators.map((o) => (
                 <tr key={o.slug}>
                   <td><a href={`/5g/${o.slug}`}>{o.name}</a></td>
                   <td>{o.packages[0].name}</td>
                   <td>{o.packages[0].down}</td>
-                  <td>{o.packages[0].up}</td>
-                  <td>{o.packages[0].perks}</td>
+                  <td>{o.packages[0].price}</td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
-        <p className="small-note">آخر تحديث: {fivegUpdated}. المميزات حسب عروض المشغل الحالية وقد تتغير، تواصل معنا للتأكيد.</p>
+        <p className="small-note">الأسعار شاملة الضريبة ومنقولة من المواقع الرسمية للشركات (آخر تحديث: {fivegUpdated}). العروض والأسعار قد تتغير.</p>
 
         <h2>باقات راوتر 5G حسب الشركة</h2>
         <div className="cities">

@@ -59,6 +59,13 @@ export default function sitemap() {
     // 5G حسب المشغل
     ...fivegUrls,
 
+    // صفحات 5G المحلية في جدة
+    ...["5g", "zain"].map((slug) => ({
+      url: `${base}/jeddah/${slug}`,
+      lastModified: fivegUpdatedISO,
+      priority: 0.8,
+    })),
+
     // مقارنة الفايبر و5G
     {
       url: `${base}/fiber-vs-5g`,
