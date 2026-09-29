@@ -4,6 +4,7 @@ import { operators, operatorCities } from "../../lib/operators";
 import LeadForm from "../../components/LeadForm";
 import InfoSections from "../../components/InfoSections";
 import JsonLd, { breadcrumbSchema, serviceSchema } from "../../components/JsonLd";
+import { RiyadhCityPage } from "../../components/RiyadhPages";
 
 const PHONE_LOCAL = "0564612017";
 const PHONE_WA = "966564612017";
@@ -36,6 +37,7 @@ export default async function CityPage({ params }) {
   const { city } = await params;
   const c = cities.find((x) => x.slug === city);
   if (!c) notFound();
+  if (c.slug === "riyadh") return <RiyadhCityPage />;
   const hasOperators = operatorCities.includes(c.slug);
   const schemas = [
     breadcrumbSchema([{ name: "الرئيسية", path: "/" }, { name: c.name, path: `/${c.slug}` }]),

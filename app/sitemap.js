@@ -5,6 +5,7 @@ import { fivegOperators, fivegUpdatedISO } from "../lib/fiveg";
 // آخر تعديل حقيقي للصفحات العامة
 const siteUpdatedISO = "2026-09-29";
 const articlesUpdatedISO = "2026-09-27";
+const riyadhUpdatedISO = "2026-09-29";
 
 // اختيار أحدث تاريخ
 const latest = (...dates) => dates.sort().at(-1);
@@ -15,7 +16,7 @@ export default function sitemap() {
   // صفحات المدن
   const cityUrls = cities.map((city) => ({
     url: `${base}/${city.slug}`,
-    lastModified: fiberUpdatedISO,
+    lastModified: city.slug === "riyadh" ? riyadhUpdatedISO : fiberUpdatedISO,
     priority: 0.8,
   }));
 
@@ -23,7 +24,7 @@ export default function sitemap() {
   const fiberOperatorUrls = operatorCities.flatMap((city) =>
     operators.map((operator) => ({
       url: `${base}/${city}/${operator.slug}`,
-      lastModified: operator.updatedISO,
+      lastModified: city === "riyadh" ? riyadhUpdatedISO : operator.updatedISO,
       priority: 0.9,
     }))
   );
