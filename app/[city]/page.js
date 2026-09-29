@@ -6,6 +6,7 @@ import InfoSections from "../../components/InfoSections";
 import JsonLd, { breadcrumbSchema, serviceSchema } from "../../components/JsonLd";
 import { RiyadhCityPage } from "../../components/RiyadhPages";
 import { MakkahCityPage } from "../../components/MakkahPages";
+import { EasternCityPage } from "../../components/EasternPages";
 
 const PHONE_LOCAL = "0564612017";
 const PHONE_WA = "966564612017";
@@ -25,6 +26,10 @@ export async function generateMetadata({ params }) {
   const title = c.slug === "makkah" ? "مندوب فايبر مكة | تركيب الألياف البصرية" : `مندوب فايبر ${c.name} | تركيب الألياف البصرية`;
   const description = c.slug === "makkah"
     ? "رقم مندوب فايبر مكة لفحص عنوان السكن، مقارنة خيارات الألياف و5G، ومتابعة طلب التركيب عبر الاتصال أو واتساب."
+    : c.slug === "dammam"
+      ? "رقم مندوب فايبر الدمام لفحص المبنى، مقارنة الألياف براوتر 5G، ومتابعة طلب التركيب في الأحياء والمخططات الجديدة."
+      : c.slug === "khobar"
+        ? "رقم مندوب فايبر الخبر لفحص الشقق والمجمعات، مقارنة الفايبر و5G، ومتابعة طلب التركيب عبر الاتصال أو واتساب."
     : `رقم مندوب فايبر ${c.name} لفحص تغطية الألياف البصرية، معرفة الخيارات المتاحة، ومتابعة طلب التركيب والتفعيل.`;
   return {
     title,
@@ -42,6 +47,7 @@ export default async function CityPage({ params }) {
   if (!c) notFound();
   if (c.slug === "riyadh") return <RiyadhCityPage />;
   if (c.slug === "makkah") return <MakkahCityPage />;
+  if (["dammam", "khobar"].includes(c.slug)) return <EasternCityPage city={c.slug} />;
   const hasOperators = operatorCities.includes(c.slug);
   const schemas = [
     breadcrumbSchema([{ name: "الرئيسية", path: "/" }, { name: c.name, path: `/${c.slug}` }]),
