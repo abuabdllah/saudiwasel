@@ -23,8 +23,8 @@ export async function generateMetadata({ params }) {
   return {
     title,
     description,
-    openGraph: { title, description },
-    twitter: { title, description },
+    openGraph: { title, description, images: ["/opengraph-image.png"] },
+    twitter: { card: "summary_large_image", title, description, images: ["/twitter-image.png"] },
     alternates: {
       canonical: `/5g/${o.slug}`,
     },
@@ -66,22 +66,22 @@ export default async function FiveGOperatorPage({ params }) {
       <section className="container">
         <p className="notice">سعودي واصل جهة مستقلة وليست الموقع الرسمي لـ{o.name}. نساعدك كمندوب مبيعات في اختيار الباقة ورفع الطلب ومتابعته.</p>
 
-        <h2>مميزات باقات {o.brand} (آخر تحديث: {fivegUpdated})</h2>
+        <h2>أسعار باقات {o.brand} (آخر تحديث: {fivegUpdated})</h2>
         <div className="table-wrap">
           <table className="compare">
-            <thead><tr><th>الباقة</th><th>التحميل</th><th>الرفع</th><th>المزايا</th></tr></thead>
+            <thead><tr><th>الباقة</th><th>التحميل</th><th>الرفع</th><th>السعر</th><th>المزايا</th></tr></thead>
             <tbody>
               {o.packages.map((p) => (
-                <tr key={p.name}><td>{p.name}</td><td>{p.down}</td><td>{p.up}</td><td>{p.perks}</td></tr>
+                <tr key={p.name}><td>{p.name}</td><td>{p.down}</td><td>{p.up}</td><td>{p.price}</td><td>{p.perks}</td></tr>
               ))}
             </tbody>
           </table>
         </div>
-        <p className="small-note">المميزات حسب عروض المشغل الحالية وقد تتغير، تواصل معنا للتأكيد.</p>
+        <p className="small-note">الأسعار شاملة ضريبة القيمة المضافة ومنقولة من الموقع الرسمي لـ{o.name} وقد تتغير. تواصل معنا لتأكيد السعر الحالي.</p>
 
         <div className="contact-box">
-          <h3>أسعار باقات {o.name}</h3>
-          <p>تتغير الأسعار والعروض من وقت إلى آخر، وقد تتوفر خصومات للأشهر الأولى. راسلنا عبر واتساب لنرسل لك أحدث سعر وعرض متاح لعنوانك.</p>
+          <h3>تأكيد أسعار باقات {o.name}</h3>
+          <p>تتغير الأسعار والعروض من وقت إلى آخر، وقد تتوفر خصومات للأشهر الأولى. راسلنا عبر واتساب لتأكيد أحدث سعر وعرض متاح لعنوانك.</p>
           <div className="header-actions">
             <a href={`https://wa.me/${PHONE_WA}`} className="btn btn-wa">راسلنا واتساب</a>
           </div>

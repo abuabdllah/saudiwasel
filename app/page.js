@@ -8,8 +8,8 @@ const description = "رقم مندوب فايبر في السعودية لفحص
 export const metadata = {
   title,
   description,
-  openGraph: { title, description },
-  twitter: { title, description },
+  openGraph: { title, description, images: ["/opengraph-image.png"] },
+  twitter: { card: "summary_large_image", title, description, images: ["/twitter-image.png"] },
   alternates: { canonical: "/" },
 };
 

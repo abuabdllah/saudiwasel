@@ -12,9 +12,11 @@ export const metadata = {
     siteName: "سعودي واصل",
     locale: "ar_SA",
     type: "website",
+    images: ["/opengraph-image.png"],
   },
   twitter: {
     card: "summary_large_image",
+    images: ["/twitter-image.png"],
   },
 };
 

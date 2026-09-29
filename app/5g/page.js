@@ -6,7 +6,7 @@ const PHONE_WA = "966564612017";
 
 const title = "راوتر 5G السعودية | STC وسلام وزين وموبايلي";
 const description = "رقم مندوب راوتر 5G في السعودية لمقارنة خيارات STC وسلام وزين وموبايلي، ومعرفة المميزات والتغطية وطلب الخدمة.";
-export const metadata = { title, description, openGraph: { title, description }, twitter: { title, description } };
+export const metadata = { title, description, openGraph: { title, description, images: ["/opengraph-image.png"] }, twitter: { card: "summary_large_image", title, description, images: ["/twitter-image.png"] } };
 
 const faqs = [
   { q: "ما راوتر 5G المنزلي؟", a: "جهاز يستقبل شبكة الجيل الخامس من أقرب برج ويحولها إلى شبكة واي فاي داخل المنزل، دون أسلاك أو تمديدات أو زيارة فني." },
@@ -42,10 +42,10 @@ export default function FiveGPage() {
       <section className="container">
         <p className="notice">سعودي واصل جهة مستقلة وليست الموقع الرسمي لأي مشغل. نساعدك كمندوب مبيعات في اختيار الباقة ورفع الطلب ومتابعته.</p>
 
-        <h2>مقارنة سريعة لمميزات 5G عند كل شركة</h2>
+        <h2>مقارنة سريعة لأسعار 5G عند كل شركة</h2>
         <div className="table-wrap">
           <table className="compare">
-            <thead><tr><th>الشركة</th><th>الباقة</th><th>التحميل</th><th>الرفع</th><th>المميزات</th></tr></thead>
+            <thead><tr><th>الشركة</th><th>الباقة</th><th>التحميل</th><th>الرفع</th><th>السعر</th><th>المميزات</th></tr></thead>
             <tbody>
               {fivegOperators.map((o) => (
                 <tr key={o.slug}>
@@ -53,6 +53,7 @@ export default function FiveGPage() {
                   <td>{o.packages[0].name}</td>
                   <td>{o.packages[0].down}</td>
                   <td>{o.packages[0].up}</td>
+                  <td>{o.packages[0].price}</td>
                   <td>{o.packages[0].perks}</td>
                 </tr>
               ))}

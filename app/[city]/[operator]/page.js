@@ -31,8 +31,8 @@ export async function generateMetadata({ params }) {
   return {
     title,
     description,
-    openGraph: { title, description },
-    twitter: { title, description },
+    openGraph: { title, description, images: ["/opengraph-image.png"] },
+    twitter: { card: "summary_large_image", title, description, images: ["/twitter-image.png"] },
     alternates: { canonical: `/${c.slug}/${o.slug}` },
   };
 }
@@ -87,22 +87,22 @@ export default async function OperatorPage({ params }) {
           </div>
         </div>
 
-        <h2>مميزات باقات فايبر {o.name} (آخر تحديث: {o.updated})</h2>
+        <h2>أسعار باقات فايبر {o.name} (آخر تحديث: {o.updated})</h2>
         <div className="table-wrap">
           <table className="compare">
-            <thead><tr><th>الباقة</th><th>التحميل</th><th>الرفع</th><th>المزايا</th></tr></thead>
+            <thead><tr><th>الباقة</th><th>التحميل</th><th>الرفع</th><th>السعر</th><th>المزايا</th></tr></thead>
             <tbody>
               {o.packages.map((p) => (
-                <tr key={p.name}><td>{p.name}</td><td>{p.down}</td><td>{p.up}</td><td>{p.perks}</td></tr>
+                <tr key={p.name}><td>{p.name}</td><td>{p.down}</td><td>{p.up}</td><td>{p.price}</td><td>{p.perks}</td></tr>
               ))}
             </tbody>
           </table>
         </div>
-        <p className="small-note">المميزات حسب عروض المشغل الحالية وقد تتغير، تواصل معنا للتأكيد.</p>
+        <p className="small-note">الأسعار شاملة ضريبة القيمة المضافة ومنقولة من الموقع الرسمي لـ{o.name} وقد تتغير. تواصل معنا لتأكيد السعر الحالي قبل الاشتراك.</p>
 
         <div className="contact-box">
-          <h3>أسعار باقات {o.name}</h3>
-          <p>تتغير الأسعار والعروض من وقت إلى آخر، وقد تتوفر خصومات للأشهر الأولى. راسلنا عبر واتساب لنرسل لك أحدث سعر وعرض متاح لعنوانك.</p>
+          <h3>تأكيد أسعار باقات {o.name}</h3>
+          <p>تتغير الأسعار والعروض من وقت إلى آخر، وقد تتوفر خصومات للأشهر الأولى. راسلنا عبر واتساب لتأكيد أحدث سعر وعرض متاح لعنوانك.</p>
           <div className="header-actions">
             <a href={`https://wa.me/${PHONE_WA}`} className="btn btn-wa">راسلنا واتساب</a>
           </div>
@@ -128,10 +128,12 @@ export default async function OperatorPage({ params }) {
         <p>{c.intro}</p>
         <p>تغطية {o.name} بالألياف البصرية في {c.name} ممتدة في أحياء كثيرة لكنها تختلف من مبنى لآخر، لذلك أول خطوة دائماً هي فحص عنوانك. أرسل اسم حيك وموقع مبناك ونرد عليك بالنتيجة والخيارات المتاحة.</p>
 
-        <h2>مندوب فايبر {o.name} في أحياء {c.name}</h2>
-        <div className="cities">
-          {c.districts.map((d) => <span key={d}>فايبر {o.name} حي {d}</span>)}
-        </div>
+        {c.slug !== "jeddah" && <>
+          <h2>مندوب فايبر {o.name} في أحياء {c.name}</h2>
+          <div className="cities">
+            {c.districts.map((d) => <span key={d}>فايبر {o.name} حي {d}</span>)}
+          </div>
+        </>}
 
         {c.slug === "jeddah" && o.slug === "stc" && (
           <>
