@@ -1,6 +1,7 @@
 import "./globals.css";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import JsonLd, { organizationSchema } from "../components/JsonLd";
 
 export const metadata = {
   metadataBase: new URL("https://saudiwasel.com"),
@@ -21,6 +22,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="ar" dir="rtl">
       <body>
+        <JsonLd data={organizationSchema} />
         <Header />
         {children}
         <Footer />

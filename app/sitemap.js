@@ -3,7 +3,7 @@ import { operators, operatorCities, fiberUpdatedISO } from "../lib/operators";
 import { fivegOperators, fivegUpdatedISO } from "../lib/fiveg";
 
 // آخر تعديل حقيقي للصفحات العامة
-const siteUpdatedISO = "2026-09-27";
+const siteUpdatedISO = "2026-09-29";
 const articlesUpdatedISO = "2026-09-27";
 
 // اختيار أحدث تاريخ
@@ -48,6 +48,17 @@ export default function sitemap() {
 
     // فايبر حسب المشغل
     ...fiberOperatorUrls,
+
+    {
+      url: `${base}/jeddah/5g`,
+      lastModified: siteUpdatedISO,
+      priority: 0.9,
+    },
+    {
+      url: `${base}/jeddah/zain`,
+      lastModified: siteUpdatedISO,
+      priority: 0.9,
+    },
 
     // صفحة 5G الرئيسية
     {
