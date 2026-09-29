@@ -9,6 +9,7 @@ const riyadhUpdatedISO = "2026-09-29";
 const makkahUpdatedISO = "2026-09-29";
 const easternUpdatedISO = "2026-09-29";
 const hijazUpdatedISO = "2026-09-29";
+const regionalUpdatedISO = "2026-09-29";
 
 // اختيار أحدث تاريخ
 const latest = (...dates) => dates.sort().at(-1);
@@ -19,7 +20,7 @@ export default function sitemap() {
   // صفحات المدن
   const cityUrls = cities.map((city) => ({
     url: `${base}/${city.slug}`,
-    lastModified: city.slug === "riyadh" ? riyadhUpdatedISO : city.slug === "makkah" ? makkahUpdatedISO : ["madinah", "taif"].includes(city.slug) ? hijazUpdatedISO : ["dammam", "khobar"].includes(city.slug) ? easternUpdatedISO : fiberUpdatedISO,
+    lastModified: ["abha", "tabuk", "buraidah", "hail", "jazan"].includes(city.slug) ? regionalUpdatedISO : city.slug === "riyadh" ? riyadhUpdatedISO : city.slug === "makkah" ? makkahUpdatedISO : ["madinah", "taif"].includes(city.slug) ? hijazUpdatedISO : ["dammam", "khobar"].includes(city.slug) ? easternUpdatedISO : fiberUpdatedISO,
     priority: 0.8,
   }));
 
@@ -27,7 +28,7 @@ export default function sitemap() {
   const fiberOperatorUrls = operatorCities.flatMap((city) =>
     operators.map((operator) => ({
       url: `${base}/${city}/${operator.slug}`,
-      lastModified: city === "riyadh" ? riyadhUpdatedISO : city === "makkah" ? makkahUpdatedISO : ["madinah", "taif"].includes(city) ? hijazUpdatedISO : ["dammam", "khobar"].includes(city) ? easternUpdatedISO : operator.updatedISO,
+      lastModified: ["abha", "tabuk", "buraidah", "hail", "jazan"].includes(city) ? regionalUpdatedISO : city === "riyadh" ? riyadhUpdatedISO : city === "makkah" ? makkahUpdatedISO : ["madinah", "taif"].includes(city) ? hijazUpdatedISO : ["dammam", "khobar"].includes(city) ? easternUpdatedISO : operator.updatedISO,
       priority: 0.9,
     }))
   );

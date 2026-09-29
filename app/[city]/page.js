@@ -8,6 +8,8 @@ import { RiyadhCityPage } from "../../components/RiyadhPages";
 import { MakkahCityPage } from "../../components/MakkahPages";
 import { EasternCityPage } from "../../components/EasternPages";
 import { HijazCityPage } from "../../components/HijazPages";
+import { RegionalCityPage } from "../../components/RegionalPages";
+import { regionalSlugs } from "../../lib/regional";
 
 const PHONE_LOCAL = "0564612017";
 const PHONE_WA = "966564612017";
@@ -25,7 +27,14 @@ export async function generateMetadata({ params }) {
   if (!c) return {};
 
   const title = c.slug === "makkah" ? "مندوب فايبر مكة | تركيب الألياف البصرية" : `مندوب فايبر ${c.name} | تركيب الألياف البصرية`;
-  const description = c.slug === "madinah"
+  const regionalDescriptions = {
+    abha: "رقم مندوب فايبر أبها لفحص المنزل الدائم أو الصيفي ومقارنة الألياف براوتر 5G قبل طلب التركيب.",
+    tabuk: "رقم مندوب فايبر تبوك لفحص الشقق والفلل والمخططات الحديثة ومقارنة الفايبر و5G على عنوانك.",
+    buraidah: "رقم مندوب فايبر بريدة لفحص الفيلا أو المنزل العائلي ومراجعة الألياف و5G قبل الاشتراك.",
+    hail: "رقم مندوب فايبر حائل لفحص الفلل والمساكن العائلية ومقارنة خدمة الألياف براوتر 5G.",
+    jazan: "رقم مندوب فايبر جازان لفحص العمائر والفلل والسكن المؤقت ومقارنة الفايبر وخيارات 5G.",
+  };
+  const description = regionalDescriptions[c.slug] || (c.slug === "madinah"
     ? "رقم مندوب فايبر المدينة المنورة لفحص المبنى ومقارنة الألياف براوتر 5G للسكن الدائم أو المؤقت ومتابعة طلب التركيب."
     : c.slug === "taif"
       ? "رقم مندوب فايبر الطائف لفحص الفيلا أو الشقة أو الاستراحة ومقارنة الفايبر و5G قبل متابعة طلب التركيب."
@@ -35,7 +44,7 @@ export async function generateMetadata({ params }) {
       ? "رقم مندوب فايبر الدمام لفحص المبنى، مقارنة الألياف براوتر 5G، ومتابعة طلب التركيب في الأحياء والمخططات الجديدة."
       : c.slug === "khobar"
         ? "رقم مندوب فايبر الخبر لفحص الشقق والمجمعات، مقارنة الفايبر و5G، ومتابعة طلب التركيب عبر الاتصال أو واتساب."
-    : `رقم مندوب فايبر ${c.name} لفحص تغطية الألياف البصرية، معرفة الخيارات المتاحة، ومتابعة طلب التركيب والتفعيل.`;
+    : `رقم مندوب فايبر ${c.name} لفحص تغطية الألياف البصرية، معرفة الخيارات المتاحة، ومتابعة طلب التركيب والتفعيل.`);
   return {
     title,
     description,
@@ -54,6 +63,7 @@ export default async function CityPage({ params }) {
   if (c.slug === "makkah") return <MakkahCityPage />;
   if (["madinah", "taif"].includes(c.slug)) return <HijazCityPage city={c.slug} />;
   if (["dammam", "khobar"].includes(c.slug)) return <EasternCityPage city={c.slug} />;
+  if (regionalSlugs.includes(c.slug)) return <RegionalCityPage city={c.slug} />;
   const hasOperators = operatorCities.includes(c.slug);
   const schemas = [
     breadcrumbSchema([{ name: "الرئيسية", path: "/" }, { name: c.name, path: `/${c.slug}` }]),

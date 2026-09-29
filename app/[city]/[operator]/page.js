@@ -7,6 +7,8 @@ import { RiyadhOperatorPage } from "../../../components/RiyadhPages";
 import { MakkahOperatorPage } from "../../../components/MakkahPages";
 import { EasternOperatorPage } from "../../../components/EasternPages";
 import { HijazOperatorPage } from "../../../components/HijazPages";
+import { RegionalOperatorPage } from "../../../components/RegionalPages";
+import { regionalSlugs } from "../../../lib/regional";
 
 const PHONE_LOCAL = "0564612017";
 const PHONE_WA = "966564612017";
@@ -31,7 +33,7 @@ export async function generateMetadata({ params }) {
   const title = c.slug === "jeddah"
     ? `رقم مندوب فايبر ${o.name} جدة | أسعار باقات 2026`
     : `رقم مندوب فايبر ${o.name} ${c.name} | باقات 2026`;
-  const correctedTitle = ["riyadh", "makkah", "madinah", "taif", "dammam", "khobar"].includes(c.slug)
+  const correctedTitle = ["riyadh", "makkah", "madinah", "taif", "dammam", "khobar", ...regionalSlugs].includes(c.slug)
     ? `رقم مندوب فايبر ${o.name} ${c.slug === "makkah" ? "مكة" : c.name} | أسعار باقات 2026`
     : title;
   const hijazDescriptions = {
@@ -48,7 +50,34 @@ export async function generateMetadata({ params }) {
       zain: "رقم مندوب فايبر زين الطائف لمراجعة الخدمة على العنوان واختيار الإنترنت للفيلا أو المسكن المستخدم موسمياً.",
     },
   };
-  const description = hijazDescriptions[c.slug]?.[o.slug] || (c.slug === "makkah"
+  const regionalDescriptions = {
+    abha: {
+      stc: "رقم مندوب فايبر STC أبها لفحص السكن الدائم أو الصيفي ومقارنة الألياف بخدمة 5G على العنوان.",
+      salam: "رقم مندوب فايبر سلام أبها لمراجعة المنزل الجبلي أو الموسمي واختيار الفايبر أو 5G بعد الفحص.",
+      mobily: "رقم مندوب فايبر موبايلي أبها لفحص الفيلا أو الشقة ومقارنة هوم فايبر براوتر 5G قبل الطلب.",
+    },
+    tabuk: {
+      stc: "رقم مندوب فايبر STC تبوك لفحص منزل الموظف أو الأسرة ومراجعة الخدمة في المخططات الحديثة.",
+      salam: "رقم مندوب فايبر سلام تبوك للتحقق من الشقق والفلل الجديدة ومقارنة الألياف براوتر 5G.",
+      mobily: "رقم مندوب فايبر موبايلي تبوك لفحص العقار في الأحياء والمخططات ومراجعة هوم فايبر و5G.",
+    },
+    buraidah: {
+      stc: "رقم مندوب فايبر STC بريدة لفحص الفيلا العائلية وتحديد خيار الألياف أو 5G حسب العنوان.",
+      salam: "رقم مندوب فايبر سلام بريدة لمراجعة المنازل الواسعة والمخططات الجديدة قبل طلب التركيب.",
+      mobily: "رقم مندوب فايبر موبايلي بريدة لفحص البيت متعدد الغرف ومقارنة هوم فايبر بهوم 5G.",
+    },
+    hail: {
+      stc: "رقم مندوب فايبر STC حائل لفحص الفلل والمساكن العائلية ومقارنة الألياف بخدمة 5G.",
+      salam: "رقم مندوب فايبر سلام حائل للتحقق من المنزل الدائم ومراجعة خيار التمديد أو الراوتر المتنقل.",
+      mobily: "رقم مندوب فايبر موبايلي حائل لفحص الفيلا وتخطيط الاتصال بين الغرف قبل الاشتراك.",
+    },
+    jazan: {
+      stc: "رقم مندوب فايبر STC جازان لفحص الشقق والفلل والسكن المؤقت ومقارنة الخدمة براوتر 5G.",
+      salam: "رقم مندوب فايبر سلام جازان لمراجعة العمارة أو المنزل واختيار اتصال يناسب مدة الإقامة.",
+      mobily: "رقم مندوب فايبر موبايلي جازان لفحص الوحدة السكنية ومقارنة هوم فايبر بهوم 5G قبل الطلب.",
+    },
+  };
+  const description = regionalDescriptions[c.slug]?.[o.slug] || hijazDescriptions[c.slug]?.[o.slug] || (c.slug === "makkah"
     ? `رقم مندوب فايبر ${o.name} مكة لفحص المبنى، مراجعة الباقات، ومتابعة طلب التركيب للسكن الدائم أو المستأجر.`
     : c.slug === "riyadh"
       ? `رقم مندوب فايبر ${o.name} الرياض لفحص عنوان المبنى، مراجعة الباقات، ورفع طلب الألياف ومتابعة التركيب عبر الاتصال أو واتساب.`
@@ -74,6 +103,7 @@ export default async function OperatorPage({ params }) {
   if (c.slug === "makkah") return <MakkahOperatorPage operator={o} />;
   if (["madinah", "taif"].includes(c.slug)) return <HijazOperatorPage city={c.slug} operator={o} />;
   if (["dammam", "khobar"].includes(c.slug)) return <EasternOperatorPage city={c.slug} operator={o} />;
+  if (regionalSlugs.includes(c.slug)) return <RegionalOperatorPage city={c.slug} operator={o} />;
   const others = operators.filter((x) => x.slug !== o.slug);
 
   const faqs = [
