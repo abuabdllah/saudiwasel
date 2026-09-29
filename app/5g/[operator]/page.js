@@ -1,6 +1,7 @@
 ﻿import { notFound } from "next/navigation";
 import LeadForm from "../../../components/LeadForm";
 import { fivegOperators, fivegUpdated } from "../../../lib/fiveg";
+import JsonLd, { breadcrumbSchema, faqSchema, serviceSchema } from "../../../components/JsonLd";
 
 const PHONE_LOCAL = "0564612017";
 const PHONE_WA = "966564612017";
@@ -17,9 +18,13 @@ export async function generateMetadata({ params }) {
 
   if (!o) return {};
 
+  const title = `راوتر 5G ${o.name} | الباقات والتغطية`;
+  const description = `رقم مندوب راوتر 5G ${o.name} في السعودية لمعرفة الباقات والمميزات المتاحة والتحقق من التغطية وطلب الاشتراك.`;
   return {
-    title: `راوتر 5G ${o.name} | باقات ${o.brand} وأسعارها - سعودي واصل`,
-    description: `راوتر 5G ${o.name} في السعودية. تعرف على باقات ${o.brand} والمميزات والسرعات المتاحة، وتواصل معنا لمعرفة التغطية والاشتراك.`,
+    title,
+    description,
+    openGraph: { title, description },
+    twitter: { title, description },
     alternates: {
       canonical: `/5g/${o.slug}`,
     },
@@ -36,14 +41,10 @@ export default async function FiveGOperatorPage({ params }) {
     { q: `كيف أشترك في راوتر 5G ${o.name}؟`, a: `عبّي النموذج أو راسلنا واتساب على ${PHONE_LOCAL}، ونتأكد من تغطية ${o.name} 5G على عنوانك ونرفع لك الطلب ونتابعه حتى يوصلك الراوتر.` },
     { q: `هل راوتر ${o.name} 5G مجاني؟`, a: "نعم، الراوتر مجاني مع الاشتراك في الباقات الحالية." },
     { q: "هل الطلب عن طريق المندوب عليه رسوم إضافية؟", a: "لا، تدفع قيمة الباقة فقط حسب عرض الشركة." },
-    { q: `إيش الأحسن: ${o.name} 5G ولا فايبر؟`, a: "لو مبناك مغطى بالفايبر، الفايبر أثبت وأحياناً أرخص. ولو مش مغطى أو محتاج تركيب سريع ومرونة، 5G هو الخيار الأنسب." },
+    { q: `ما الأفضل: ${o.name} 5G أم الفايبر؟`, a: "إذا كان مبناك مغطى بالفايبر، فالفايبر أكثر ثباتاً وأحياناً أقل سعراً. وإذا كان غير مغطى أو كنت تحتاج إلى تركيب سريع ومرونة، فقد يكون 5G هو الخيار الأنسب." },
   ];
 
-  const schema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: faqs.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
-  };
+  const schemas = [breadcrumbSchema([{ name: "الرئيسية", path: "/" }, { name: "راوتر 5G", path: "/5g" }, { name: o.name, path: `/5g/${o.slug}` }]), serviceSchema({ name: `راوتر 5G ${o.name}`, serviceType: "راوتر 5G منزلي", city: "السعودية", path: `/5g/${o.slug}` }), faqSchema(faqs)];
 
   return (
     <main>
@@ -51,7 +52,7 @@ export default async function FiveGOperatorPage({ params }) {
         <div className="container hero-grid">
           <div>
             <h1>مندوب راوتر 5G {o.name}</h1>
-            <p className="hero-sub">اشتراك {o.brand} للإنترنت المنزلي: الراوتر مجاني ويشتغل من غير تمديدات، ومندوب يرفع طلبك ويتابعه حتى التفعيل.</p>
+            <p className="hero-sub">اشتراك {o.brand} للإنترنت المنزلي: الراوتر مجاني ويعمل دون تمديدات، ومندوب يرفع طلبك ويتابعه حتى التفعيل.</p>
             <ul className="hero-points">
               <li>✔ راوتر 5G مجاني</li>
               <li>✔ إنترنت منزلي لا محدود</li>
@@ -80,7 +81,7 @@ export default async function FiveGOperatorPage({ params }) {
 
         <div className="contact-box">
           <h3>أسعار باقات {o.name}</h3>
-          <p>الأسعار والعروض بتتغير كل فترة، وأحيانًا في خصومات لأول شهور. ابعتلنا واتساب ونبعتلك أحدث سعر وعرض متاح لعنوانك.</p>
+          <p>تتغير الأسعار والعروض من وقت إلى آخر، وقد تتوفر خصومات للأشهر الأولى. راسلنا عبر واتساب لنرسل لك أحدث سعر وعرض متاح لعنوانك.</p>
           <div className="header-actions">
             <a href={`https://wa.me/${PHONE_WA}`} className="btn btn-wa">راسلنا واتساب</a>
           </div>
@@ -108,7 +109,7 @@ export default async function FiveGOperatorPage({ params }) {
           <div className="card"><span>1</span><h4>أرسل طلبك</h4><p>اسمك ومدينتك وحيك عبر النموذج أو واتساب.</p></div>
           <div className="card"><span>2</span><h4>نتأكد من التغطية</h4><p>نتحقق من قوة 5G على عنوانك.</p></div>
           <div className="card"><span>3</span><h4>تختار الباقة</h4><p>نرسل لك العروض المتاحة وتقرر.</p></div>
-          <div className="card"><span>4</span><h4>يوصلك الراوتر</h4><p>نتابع الطلب لحد ما الراوتر يوصل ويشتغل.</p></div>
+          <div className="card"><span>4</span><h4>يصلك الراوتر</h4><p>نتابع الطلب حتى يصل الراوتر ويعمل.</p></div>
         </div>
 
         <h2>ماذا تحتاج للاشتراك؟</h2>
@@ -118,7 +119,7 @@ export default async function FiveGOperatorPage({ params }) {
           <li>رقم جوال للتواصل والتوصيل</li>
         </ul>
 
-        <h2>قارن مع شركات تانية</h2>
+        <h2>قارن مع شركات أخرى</h2>
         <div className="cities">
           {others.map((x) => (
             <a key={x.slug} href={`/5g/${x.slug}`}>راوتر 5G {x.name}</a>
@@ -134,7 +135,7 @@ export default async function FiveGOperatorPage({ params }) {
           ))}
         </div>
 
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
+        <JsonLd data={schemas} />
       </section>
     </main>
   );

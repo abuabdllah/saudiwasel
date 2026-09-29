@@ -9,6 +9,8 @@ export default function Footer() {
           <a href="/jeddah/stc">فايبر STC جدة</a>
           <a href="/jeddah/salam">فايبر سلام جدة</a>
           <a href="/jeddah/mobily">فايبر موبايلي جدة</a>
+          <a href="/jeddah/zain">مندوب زين جدة</a>
+          <a href="/jeddah/5g">مندوب راوتر 5G جدة</a>
           <a href="/fiber-vs-5g">فايبر ولا 5G؟</a>
           <a href="/articles">مقالات</a>
         </nav>

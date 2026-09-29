@@ -1,11 +1,15 @@
 import LeadForm from "../components/LeadForm";
 import InfoSections from "../components/InfoSections";
 import { cities } from "../lib/cities";
+import JsonLd, { breadcrumbSchema } from "../components/JsonLd";
 
+const title = "مندوب فايبر السعودية | تركيب الألياف البصرية";
+const description = "رقم مندوب فايبر في السعودية لفحص تغطية الألياف البصرية ومقارنة خيارات المشغلين، مع متابعة طلب الاشتراك والتركيب والتفعيل.";
 export const metadata = {
-  title: "مندوب فايبر في السعودية | تركيب ألياف بصرية وفحص التغطية - سعودي واصل",
-  description:
-    "مندوب فايبر في السعودية لفحص تغطية الألياف البصرية ومقارنة خيارات STC وسلام وزين وموبايلي، مع متابعة طلب الاشتراك والتركيب والتفعيل.",
+  title,
+  description,
+  openGraph: { title, description },
+  twitter: { title, description },
   alternates: { canonical: "/" },
 };
 
@@ -17,15 +21,6 @@ const siteSchema = [
     alternateName: ["Saudi Wasel", "saudiwasel.com"],
     url: "https://saudiwasel.com/",
     inLanguage: "ar",
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    name: "سعودي واصل",
-    url: "https://saudiwasel.com/",
-    logo: "https://saudiwasel.com/icon.png",
-    telephone: "+966564612017",
-    areaServed: "SA",
   },
 ];
 
@@ -71,6 +66,8 @@ export default function Home() {
           <a href="/jeddah/stc">مندوب فايبر STC جدة</a>
           <a href="/jeddah/salam">مندوب فايبر سلام جدة</a>
           <a href="/jeddah/mobily">مندوب فايبر موبايلي جدة</a>
+          <a href="/jeddah/zain">مندوب زين جدة</a>
+          <a href="/jeddah/5g">مندوب راوتر 5G جدة</a>
         </div>
 
         <h2>فحص تغطية الألياف البصرية</h2>
@@ -81,7 +78,7 @@ export default function Home() {
           قبل رفع طلب الاشتراك.
         </p>
 
-        <h2>مبناك مش مغطى بالفايبر؟</h2>
+        <h2>مبناك غير مغطى بالفايبر؟</h2>
 
         <p>
           راوتر 5G خيار آخر للإنترنت المنزلي بدون تمديدات، ويمكنك مقارنة
@@ -116,6 +113,7 @@ export default function Home() {
           __html: JSON.stringify(siteSchema),
         }}
       />
+      <JsonLd data={breadcrumbSchema([{ name: "الرئيسية", path: "/" }])} />
     </main>
   );
 }

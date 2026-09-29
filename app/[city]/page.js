@@ -3,6 +3,7 @@ import { cities } from "../../lib/cities";
 import { operators, operatorCities } from "../../lib/operators";
 import LeadForm from "../../components/LeadForm";
 import InfoSections from "../../components/InfoSections";
+import JsonLd, { breadcrumbSchema, serviceSchema } from "../../components/JsonLd";
 
 const PHONE_LOCAL = "0564612017";
 const PHONE_WA = "966564612017";
@@ -19,9 +20,13 @@ export async function generateMetadata({ params }) {
 
   if (!c) return {};
 
+  const title = `مندوب فايبر ${c.name} | تركيب الألياف البصرية`;
+  const description = `رقم مندوب فايبر ${c.name} لفحص تغطية الألياف البصرية، معرفة الخيارات المتاحة، ومتابعة طلب التركيب والتفعيل.`;
   return {
-    title: `مندوب فايبر ${c.name} | تركيب ألياف بصرية وفحص التغطية - سعودي واصل`,
-    description: `مندوب فايبر في ${c.name}. افحص تغطية الألياف البصرية لمبناك، تعرف على خيارات الفايبر والباقات المتاحة، واطلب الخدمة بسهولة.`,
+    title,
+    description,
+    openGraph: { title, description },
+    twitter: { title, description },
     alternates: {
       canonical: `/${c.slug}`,
     },
@@ -32,6 +37,10 @@ export default async function CityPage({ params }) {
   const c = cities.find((x) => x.slug === city);
   if (!c) notFound();
   const hasOperators = operatorCities.includes(c.slug);
+  const schemas = [
+    breadcrumbSchema([{ name: "الرئيسية", path: "/" }, { name: c.name, path: `/${c.slug}` }]),
+    serviceSchema({ name: `مندوب فايبر ${c.name}`, serviceType: "تركيب الألياف البصرية", city: c.name, path: `/${c.slug}` }),
+  ];
 
   return (
     <main>
@@ -76,6 +85,8 @@ export default async function CityPage({ params }) {
               {operators.map((o) => (
                 <a key={o.slug} href={`/${c.slug}/${o.slug}`}>مندوب فايبر {o.name} {c.name}</a>
               ))}
+              {c.slug === "jeddah" && <a href="/jeddah/zain">مندوب زين جدة</a>}
+              {c.slug === "jeddah" && <a href="/jeddah/5g">مندوب راوتر 5G جدة</a>}
             </div>
           </>
         )}
@@ -86,8 +97,9 @@ export default async function CityPage({ params }) {
         </div>
         <p style={{ marginTop: 12 }}>وغيرها من أحياء {c.name} و{c.region}. أرسل اسم حيك ونفحص لك التغطية فوراً.</p>
 
-        <h2>مبناك في {c.name} مش مغطى بالفايبر؟</h2>
-        <p>راوتر 5G هو البديل الأسرع: من غير تمديدات ولا موعد فني، والراوتر مجاني مع الاشتراك. <a href="/5g">شوف باقات راوتر 5G</a> أو <a href="/fiber-vs-5g">قارن بين الفايبر و5G</a>.</p>
+        <h2>مبناك في {c.name} غير مغطى بالفايبر؟</h2>
+        <p>راوتر 5G هو البديل الأسرع: دون تمديدات أو موعد فني، والراوتر مجاني مع الاشتراك. <a href="/5g">تعرّف على باقات راوتر 5G</a> أو <a href="/fiber-vs-5g">قارن بين الفايبر و5G</a>.</p>
+        <JsonLd data={schemas} />
       </section>
 
       <InfoSections place={c.name} />
