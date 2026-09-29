@@ -5,6 +5,7 @@ import LeadForm from "../../components/LeadForm";
 import InfoSections from "../../components/InfoSections";
 import JsonLd, { breadcrumbSchema, serviceSchema } from "../../components/JsonLd";
 import { RiyadhCityPage } from "../../components/RiyadhPages";
+import { MakkahCityPage } from "../../components/MakkahPages";
 
 const PHONE_LOCAL = "0564612017";
 const PHONE_WA = "966564612017";
@@ -21,8 +22,10 @@ export async function generateMetadata({ params }) {
 
   if (!c) return {};
 
-  const title = `مندوب فايبر ${c.name} | تركيب الألياف البصرية`;
-  const description = `رقم مندوب فايبر ${c.name} لفحص تغطية الألياف البصرية، معرفة الخيارات المتاحة، ومتابعة طلب التركيب والتفعيل.`;
+  const title = c.slug === "makkah" ? "مندوب فايبر مكة | تركيب الألياف البصرية" : `مندوب فايبر ${c.name} | تركيب الألياف البصرية`;
+  const description = c.slug === "makkah"
+    ? "رقم مندوب فايبر مكة لفحص عنوان السكن، مقارنة خيارات الألياف و5G، ومتابعة طلب التركيب عبر الاتصال أو واتساب."
+    : `رقم مندوب فايبر ${c.name} لفحص تغطية الألياف البصرية، معرفة الخيارات المتاحة، ومتابعة طلب التركيب والتفعيل.`;
   return {
     title,
     description,
@@ -38,6 +41,7 @@ export default async function CityPage({ params }) {
   const c = cities.find((x) => x.slug === city);
   if (!c) notFound();
   if (c.slug === "riyadh") return <RiyadhCityPage />;
+  if (c.slug === "makkah") return <MakkahCityPage />;
   const hasOperators = operatorCities.includes(c.slug);
   const schemas = [
     breadcrumbSchema([{ name: "الرئيسية", path: "/" }, { name: c.name, path: `/${c.slug}` }]),
@@ -89,6 +93,7 @@ export default async function CityPage({ params }) {
               ))}
               {c.slug === "jeddah" && <a href="/jeddah/zain">مندوب زين جدة</a>}
               {c.slug === "jeddah" && <a href="/jeddah/5g">مندوب راوتر 5G جدة</a>}
+              {c.slug === "jeddah" && <a href="/makkah">مندوب فايبر مكة</a>}
             </div>
           </>
         )}
