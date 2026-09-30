@@ -1,6 +1,7 @@
 import { cities } from "../lib/cities";
 import { operators, operatorCities, fiberUpdatedISO } from "../lib/operators";
 import { fivegOperators, fivegUpdatedISO } from "../lib/fiveg";
+import { languagePairs } from "../lib/languages";
 
 // آخر تعديل حقيقي للصفحات العامة
 const siteUpdatedISO = "2026-09-29";
@@ -41,6 +42,12 @@ export default function sitemap() {
   }));
 
   return [
+    ...languagePairs.map((pair) => ({
+      url: `${base}${pair.en}`,
+      lastModified: "2026-09-30",
+      priority: pair.en === "/en" ? 0.9 : 0.8,
+      alternates: { languages: { ar: `${base}${pair.ar}`, en: `${base}${pair.en}`, "x-default": `${base}${pair.ar}` } },
+    })),
     // الرئيسية
     {
       url: base,
