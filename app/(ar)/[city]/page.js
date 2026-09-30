@@ -79,7 +79,7 @@ export default async function CityPage({ params }) {
       <section className="hero">
         <div className="container hero-grid">
           <div>
-            <h1>مندوب فايبر {c.name} لفحص التغطية وطلب الألياف البصرية</h1>
+            <h1>مندوب فايبر {c.name} وفحص التغطية</h1>
             <p className="hero-sub">ابدأ بموقع المبنى في {c.name}، ثم قارن خيارات الفايبر و5G التي يمكن التحقق منها. نساعدك في مراجعة الباقة وطلب الخدمة ومتابعتها بعد موافقتك.</p>
             <ul className="hero-points">
               <li>✔ التحقق من عنوان المبنى قبل الاشتراك</li>

@@ -7,7 +7,7 @@ const PHONE_LOCAL = "0564612017";
 const PHONE_WA = "966564612017";
 
 export default function JeddahFiveGPage({ zainOnly = false }) {
-  const title = zainOnly ? "فايبر زين جدة و5G وفحص التغطية" : "مندوب راوتر 5G جدة";
+  const title = zainOnly ? "فايبر زين جدة وفحص التغطية" : "مندوب راوتر 5G جدة";
   const path = zainOnly ? "/jeddah/zain" : "/jeddah/5g";
   const options = zainOnly ? fivegOperators.filter((o) => o.slug === "zain") : fivegOperators;
   const faqs = zainOnly ? [

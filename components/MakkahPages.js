@@ -47,7 +47,7 @@ export function MakkahCityPage() {
   ];
   return <main>
     <section className="hero"><div className="container hero-grid"><div>
-      <h1>مندوب فايبر مكة لفحص التغطية وطلب الألياف البصرية</h1>
+      <h1>مندوب فايبر مكة وفحص التغطية</h1>
       <p className="hero-sub">افحص عنوان المبنى في مكة، وقارن بين الفايبر وراوتر 5G وفق نوع السكن ومدة إقامتك، ثم تابع طلبك عبر قناة واحدة.</p>
       <ul className="hero-points"><li>✔ فحص الموقع قبل اختيار الخدمة</li><li>✔ مقارنة مشغلي الفايبر في مكة</li><li>✔ اتصال وواتساب على الرقم نفسه</li></ul>
     </div><LeadForm defaultCity="مكة المكرمة" /></div></section>
