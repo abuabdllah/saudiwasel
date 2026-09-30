@@ -8,6 +8,7 @@ export default function Header() {
           <a href="/" className="logo">سعودي <span>واصل</span></a>
           <div className="header-actions">
             <LanguageSwitcher />
+            <a href="/coverage" className="btn btn-coverage">افحص التغطية</a>
             <a href="tel:0564612017" className="btn btn-call">📞 اتصل الآن</a>
             <a href="https://wa.me/966564612017" className="btn btn-wa">واتساب</a>
           </div>

@@ -1,38 +1,134 @@
 "use client";
-import { useState } from "react";
+
+import { useId, useRef, useState } from "react";
 import { cities } from "../lib/cities";
+import { trackEvent } from "../lib/tracking";
+import { normalizeSaudiPhone } from "../lib/phone";
 
-const PHONE = "966564612017";
+const operatorOptions = [["stc", "STC"], ["salam", "سلام"], ["mobily", "موبايلي"], ["zain", "زين"]];
 
-export default function LeadForm({ defaultCity = "", operator = "" }) {
-  const [form, setForm] = useState({ name: "", city: defaultCity, district: "", type: "منزل" });
-  const update = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+export default function LeadForm({ defaultCity = "", defaultDistrict = "", operator = "", intent = "coverage" }) {
+  const identifier = useId();
+  const initialCity = cities.find((city) => city.name === defaultCity || city.slug === defaultCity)?.slug || "";
+  const initialOperator = operatorOptions.find(([slug, name]) => operator === slug || operator.includes(name))?.[0] || "any";
+  const [form, setForm] = useState({ city: initialCity, district: defaultDistrict, operator: initialOperator, buildingType: "home", service: operator.includes("5G") ? "5g" : "fiber", name: "", phone: "", consent: false, website: "" });
+  const [step, setStep] = useState(1);
+  const [status, setStatus] = useState("idle");
+  const [error, setError] = useState("");
+  const [reference, setReference] = useState("");
+  const started = useRef(false);
+  const submissionId = useRef("");
+  const selectedCity = cities.find((city) => city.slug === form.city);
+  const context = () => ({ page_path: window.location.pathname, city: form.city, operator: form.operator, service: form.service });
 
-  const send = (e) => {
-    e.preventDefault();
-    const msg = `السلام عليكم، أرغب في فحص تغطية الفايبر${operator ? ` (${operator})` : ""}
-الاسم: ${form.name}
-المدينة: ${form.city}
-الحي: ${form.district}
-نوع المبنى: ${form.type}`;
-    window.open(`https://wa.me/${PHONE}?text=${encodeURIComponent(msg)}`, "_blank");
-  };
+  function start() {
+    if (started.current) return;
+    started.current = true;
+    trackEvent("coverage_check_start", context());
+  }
 
-  return (
-    <form className="lead-form" onSubmit={send}>
-      <h3>{operator ? `افحص تغطية ${operator} الآن` : "افحص التغطية الآن"}</h3>
-      <input name="name" placeholder="الاسم" required onChange={update} />
-      <select name="city" required value={form.city} onChange={update}>
-        <option value="" disabled>اختر المدينة</option>
-        {cities.map((c) => <option key={c.slug}>{c.name}</option>)}
-      </select>
-      <input name="district" placeholder="الحي" required onChange={update} />
-      <select name="type" onChange={update}>
-        <option>منزل</option>
-        <option>شقة</option>
-        <option>مكتب / منشأة</option>
-      </select>
-      <button type="submit" className="btn btn-wa">أرسل الطلب عبر واتساب</button>
-    </form>
-  );
+  function update(event) {
+    start();
+    const { name, value, checked, type } = event.target;
+    setForm((current) => ({ ...current, [name]: type === "checkbox" ? checked : value, ...(name === "city" && { district: "" }) }));
+    setError("");
+    if (name !== "website") submissionId.current = "";
+  }
+
+  const whatsappMessage = `السلام عليكم، أرغب في ${intent === "order" ? "طلب الفايبر بعد التحقق من التغطية" : "فحص تغطية الإنترنت"}\nالمدينة: ${selectedCity?.name || ""}\nالحي: ${form.district}\nالمشغل: ${operatorOptions.find(([slug]) => slug === form.operator)?.[1] || "مقارنة المتاح"}\nالخدمة: ${form.service === "5g" ? "5G" : form.service === "compare" ? "مقارنة Fiber و5G" : "Fiber"}${reference ? `\nمرجع الطلب: ${reference}` : ""}`;
+  const whatsappUrl = `https://wa.me/966564612017?text=${encodeURIComponent(whatsappMessage)}`;
+
+  async function send(event) {
+    event.preventDefault();
+    start();
+    if (step === 1) {
+      if (form.district.trim().length < 2) { setError("اكتب اسم الحي للتحقق من عنوانك."); return; }
+      setStep(2);
+      return;
+    }
+    if (status === "sending") return;
+    if (!/^(?:05\d{8}|\+?9665\d{8})$/.test(normalizeSaudiPhone(form.phone))) {
+      setError("أدخل رقم جوال سعودي صحيحًا، مثل 05xxxxxxxx.");
+      return;
+    }
+    setStatus("sending");
+    setError("");
+    trackEvent("coverage_check_submit", context());
+    submissionId.current = submissionId.current || crypto.randomUUID();
+    try {
+      const response = await fetch("/api/coverage-lead", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...form, sourcePath: window.location.pathname, submissionId: submissionId.current, consentVersion: "2026-09-30" }),
+      });
+      const result = await response.json();
+      if (!response.ok || !result.accepted) throw new Error("Not saved");
+      setReference(result.reference);
+      setStatus("success");
+      trackEvent("lead_submit", context());
+    } catch {
+      setStatus("error");
+      setError("تعذر حفظ الطلب الآن. جرّب مرة أخرى أو أرسل بيانات الموقع عبر واتساب؛ لم نؤكد تسجيل الطلب.");
+    }
+  }
+
+  return <form className="lead-form" onSubmit={send} onFocus={start} aria-busy={status === "sending"}>
+    <h3>{intent === "order" ? "اطلب فايبر بعد فحص عنوانك" : operator ? `افحص تغطية ${operator}` : "افحص تغطية الفايبر"}</h3>
+    <p className="coverage-note">التغطية قد تختلف حسب المبنى والعنوان، لذلك يلزم التحقق قبل تأكيد توفر الخدمة. هذا طلب تحقق، وليس نتيجة تغطية آلية.</p>
+    {status === "success" ? <div role="status" className="lead-success">
+      <h4>تم تسجيل طلب التحقق</h4>
+      <p>توفر الخدمة ما زال بانتظار المراجعة. تابع عبر واتساب وأرسل موقع المبنى عند الحاجة.</p>
+      <p className="lead-reference">مرجع طلب التحقق: <bdi>{reference}</bdi></p>
+      <p>هذا مرجع SaudiWasel للمتابعة، وليس رقم اشتراك أو موافقة من مشغل الاتصالات.</p>
+      <a className="btn btn-wa" href={whatsappUrl}>متابعة الطلب عبر واتساب</a>
+    </div> : <>
+      <p className="form-step" aria-live="polite">{step === 1 ? "١ · موقعك واحتياجك" : "٢ · بيانات التواصل"}</p>
+      {step === 1 ? <>
+        <label htmlFor={`${identifier}-city`}>المدينة</label>
+        <select id={`${identifier}-city`} name="city" required value={form.city} onChange={update}>
+          <option value="" disabled>اختر المدينة</option>
+          {cities.map((city) => <option key={city.slug} value={city.slug}>{city.name}</option>)}
+        </select>
+        <label htmlFor={`${identifier}-district`}>الحي</label>
+        <input id={`${identifier}-district`} name="district" value={form.district} placeholder="اختر من الاقتراحات أو اكتب اسم الحي" list={`${identifier}-districts`} required minLength={2} maxLength={150} onChange={update} autoComplete="address-level3" />
+        <datalist id={`${identifier}-districts`}>{selectedCity?.districts.map((district) => <option key={district} value={district} />)}</datalist>
+        <label htmlFor={`${identifier}-operator`}>المشغل المفضل (اختياري)</label>
+        <select id={`${identifier}-operator`} name="operator" value={form.operator} onChange={update}>
+          <option value="any">قارن المشغلين المتاحين على عنواني</option>
+          {operatorOptions.map(([slug, name]) => <option value={slug} key={slug}>{name}</option>)}
+        </select>
+        <label htmlFor={`${identifier}-service`}>نوع الخدمة</label>
+        <select id={`${identifier}-service`} name="service" value={form.service} onChange={update}>
+          <option value="fiber">الألياف البصرية Fiber</option><option value="5g">إنترنت منزلي 5G</option><option value="compare">قارن Fiber و5G</option>
+        </select>
+        <label htmlFor={`${identifier}-building`}>نوع المبنى</label>
+        <select id={`${identifier}-building`} name="buildingType" value={form.buildingType} onChange={update}>
+          <option value="home">منزل / فيلا</option><option value="apartment">شقة</option><option value="office">مكتب / منشأة</option>
+        </select>
+        <button type="submit" className="btn btn-coverage">متابعة فحص التغطية</button>
+      </> : <>
+        <p>طلب تحقق في {selectedCity?.name}، حي {form.district}. نحتاج رقمك للتواصل بشأن نتيجة التحقق، دون رفع هوية أو دفع في الموقع.</p>
+        <label htmlFor={`${identifier}-name`}>الاسم</label>
+        <input id={`${identifier}-name`} name="name" value={form.name} autoComplete="name" minLength={2} maxLength={100} required onChange={update} disabled={status === "sending"} />
+        <label htmlFor={`${identifier}-phone`}>رقم الجوال</label>
+        <input id={`${identifier}-phone`} name="phone" type="tel" inputMode="tel" dir="ltr" value={form.phone} autoComplete="tel" maxLength={20} placeholder="05xxxxxxxx" required onChange={update} disabled={status === "sending"} />
+        <label className="consent-label"><input name="consent" type="checkbox" checked={form.consent} required onChange={update} disabled={status === "sending"} /><span>أوافق على حفظ بيانات الطلب والتواصل معي بخصوص التغطية وفق <a href="/privacy">سياسة الخصوصية</a>.</span></label>
+        <div className="form-honeypot" aria-hidden="true"><label htmlFor={`${identifier}-website`}>Website</label><input id={`${identifier}-website`} name="website" tabIndex={-1} autoComplete="off" value={form.website} onChange={update} /></div>
+        <button type="submit" className="btn btn-coverage" disabled={status === "sending"}>{status === "sending" ? "جارٍ تسجيل الطلب…" : "أرسل طلب التحقق"}</button>
+        <button className="form-back" type="button" onClick={() => setStep(1)} disabled={status === "sending"}>تعديل الموقع</button>
+      </>}
+      {error && <p role="alert" className="form-error">{error}</p>}
+      <a href={whatsappUrl} className="btn btn-wa" onClick={(event) => {
+        start();
+        if (!form.city || form.district.trim().length < 2) {
+          event.preventDefault();
+          setError("اختر المدينة واكتب الحي قبل إرسال طلب التغطية. للتواصل العام استخدم الهاتف أو زر واتساب في أعلى الصفحة.");
+          return;
+        }
+        trackEvent("coverage_check_submit", { ...context(), channel: "whatsapp" });
+        trackEvent("coverage_check_whatsapp", context());
+      }}>أرسل الطلب عبر واتساب</a>
+      <a href="tel:0564612017" className="form-phone">أو اتصل على <bdi>0564612017</bdi></a>
+    </>}
+  </form>;
 }

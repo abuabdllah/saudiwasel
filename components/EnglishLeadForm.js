@@ -1,11 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { trackEvent } from "../lib/tracking";
 import { enquiryCities, englishEnquiryUrl } from "../lib/english-enquiry";
 
 export default function EnglishLeadForm({ city = "", service }) {
   const [form, setForm] = useState({ city, district: "", housing: "Apartment" });
   const [error, setError] = useState("");
+  const started = useRef(false);
+
+  function start() {
+    if (started.current) return;
+    started.current = true;
+    trackEvent("coverage_check_start", { page_path: window.location.pathname, language: "en-SA" });
+  }
 
   function update(event) {
     setForm({ ...form, [event.target.name]: event.target.value });
@@ -18,11 +26,13 @@ export default function EnglishLeadForm({ city = "", service }) {
       setError("Please enter your area or neighbourhood.");
       return;
     }
+    trackEvent("coverage_check_submit", { page_path: window.location.pathname, language: "en-SA", channel: "whatsapp" });
+    trackEvent("click_whatsapp", { page_path: window.location.pathname, channel: "enquiry_form" });
     window.location.assign(englishEnquiryUrl({ ...form, service }));
   }
 
   return (
-    <form className="en-enquiry" onSubmit={send}>
+    <form className="en-enquiry" onSubmit={send} onFocus={start}>
       <span className="en-kicker">Start with an address check</span>
       <h2>Tell us about your home</h2>
       <p>Send your enquiry on WhatsApp. No payment or ID upload is needed here.</p>

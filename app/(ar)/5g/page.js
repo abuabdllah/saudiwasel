@@ -1,3 +1,6 @@
+import OperatorSources from "../../../components/OperatorSources";
+import PageSchema from "../../../components/PageSchema";
+import { pageMetadata } from "../../../lib/seo";
 ﻿import LeadForm from "../../../components/LeadForm";
 import { fivegOperators, fivegUpdated } from "../../../lib/fiveg";
 
@@ -6,12 +9,12 @@ const PHONE_WA = "966564612017";
 
 const title = "راوتر 5G السعودية | STC وسلام وزين وموبايلي";
 const description = "رقم مندوب راوتر 5G في السعودية لمقارنة خيارات STC وسلام وزين وموبايلي، ومعرفة المميزات والتغطية وطلب الخدمة.";
-export const metadata = { title, description, alternates: { canonical: "/5g" }, openGraph: { title, description, images: ["/opengraph-image.png"] }, twitter: { card: "summary_large_image", title, description, images: ["/twitter-image.png"] } };
+export const metadata = pageMetadata({ title, description, alternates: { canonical: "/5g" }, openGraph: { title, description, images: ["/opengraph-image.png"] }, twitter: { card: "summary_large_image", title, description, images: ["/twitter-image.png"] } });
 
 const faqs = [
   { q: "ما راوتر 5G المنزلي؟", a: "جهاز يستقبل شبكة الجيل الخامس من أقرب برج ويحولها إلى شبكة واي فاي داخل المنزل، دون أسلاك أو تمديدات أو زيارة فني." },
   { q: "هل راوتر 5G أفضل من الفايبر؟", a: "الفايبر أكثر ثباتاً وأسرع في الرفع وأقل تأخيراً، لكن راوتر 5G أسرع في التركيب ومناسب إذا كان مبناك غير مغطى بالفايبر أو كنت تسكن في إيجار مؤقت. راجع صفحة المقارنة للتفاصيل." },
-  { q: "هل يوجد التزام أو عقد؟", a: "غالباً تتضمن الباقات المفوترة مدة التزام (زين مثلاً 24 شهراً)، وتوجد باقات مسبقة الدفع دون التزام شهري لدى STC." },
+  { q: "هل يوجد التزام أو عقد؟", a: "تُراجع مدة الالتزام وشروط الإلغاء وقيمة الجهاز في العرض الحالي للمشغل. لا نفترض مدة عقد أو وجود باقة مسبقة الدفع دون التحقق من المصدر الرسمي وقت الطلب." },
   { q: "كيف أعرف أن 5G قوي في منزلي؟", a: "أرسل لنا مدينتك وحيك، ونتحقق من تغطية 5G لدى الشركات المتاحة قبل الاشتراك." },
 ];
 
@@ -24,18 +27,19 @@ const schema = {
 export default function FiveGPage() {
   return (
     <main>
+      <PageSchema metadata={metadata} />
       <section className="hero">
         <div className="container hero-grid">
           <div>
             <h1>مندوب راوتر 5G لجميع الشركات</h1>
             <p className="hero-sub">إنترنت منزلي 5G من STC وسلام وزين وموبايلي: يصلك الراوتر ويعمل دون تمديدات، ومندوب يتابع طلبك حتى التفعيل.</p>
             <ul className="hero-points">
-              <li>✔ الراوتر مجاني مع الاشتراك</li>
+              <li>✔ تكلفة الراوتر تخضع لشروط الباقة</li>
               <li>✔ بدون تمديدات أو فني</li>
               <li>✔ نقارن لك الشركات المتاحة على عنوانك</li>
             </ul>
           </div>
-          <LeadForm />
+          <LeadForm operator="5G" />
         </div>
       </section>
 
@@ -43,16 +47,17 @@ export default function FiveGPage() {
         <p className="notice">سعودي واصل جهة مستقلة وليست الموقع الرسمي لأي مشغل. نساعدك كمندوب مبيعات في اختيار الباقة ورفع الطلب ومتابعته.</p>
 
         <h2>راوتر 5G المنزلي في السعودية</h2>
+        <OperatorSources />
         <p>راوتر 5G خيار للإنترنت المنزلي يعتمد على شبكة الجيل الخامس بدلاً من تمديدات الألياف البصرية. تختلف خيارات راوتر STC 5G وراوتر موبايلي 5G وراوتر زين 5G وراوتر سلام 5G بحسب المشغل والتغطية والباقات المتاحة؛ فلا تنطبق أسعار أو مزايا عرض واحد على الجميع.</p>
 
         <h2>كيف تختار راوتر 5G المناسب؟</h2>
         <p>ابدأ بفحص تغطية 5G في موقع المنزل، ثم قارن سرعة الباقة باحتياجك للعمل أو البث أو الألعاب وعدد الأجهزة. راجع السعر وشروط الباقة ومدة الالتزام وإمكانية نقل الخدمة، وتأكد من توفر الراوتر والعرض وقت الاشتراك قبل اتخاذ القرار.</p>
         <p>إذا أردت مقارنة الخيارات على عنوانك، راجع خدمات الإنترنت في <a href="/jeddah">جدة</a> أو <a href="/riyadh">الرياض</a> أو <a href="/khobar">الخبر</a>؛ توفر الخدمة يُفحص للموقع نفسه وليس لاسم المدينة فقط.</p>
 
-        <h2>مقارنة سريعة لأسعار 5G عند كل شركة</h2>
+        <h2>مراجعة خيارات 5G ومصادرها الرسمية</h2>
         <div className="table-wrap">
           <table className="compare">
-            <thead><tr><th>الشركة</th><th>الباقة</th><th>التحميل</th><th>الرفع</th><th>السعر</th><th>المميزات</th></tr></thead>
+            <thead><tr><th>الشركة</th><th>اسم مرجعي للباقة</th><th>التحميل</th><th>الرفع</th><th>السعر</th><th>المميزات</th></tr></thead>
             <tbody>
               {fivegOperators.map((o) => (
                 <tr key={o.slug}>
@@ -91,7 +96,7 @@ export default function FiveGPage() {
         <h2>لمن يناسب راوتر 5G؟</h2>
         <div className="steps">
           <div className="card"><h4>مبناك غير مغطى بالفايبر</h4><p>5G هو البديل الأسرع بدلاً من انتظار وصول الألياف.</p></div>
-          <div className="card"><h4>تسكن في إيجار</h4><p>دون تمديدات أو موافقة المالك، ويمكن نقل الراوتر إذا انتقلت (حسب الباقة).</p></div>
+          <div className="card"><h4>تسكن في إيجار</h4><p>دون تمديدات ألياف؛ راجع شروط السكن وإمكانية نقل الخدمة وفق الباقة.</p></div>
           <div className="card"><h4>تحتاج الإنترنت سريعاً</h4><p>يصلك الراوتر ويمكنك تشغيله بنفسك بدلاً من انتظار موعد فني.</p></div>
           <div className="card"><h4>استراحة أو مكتب مؤقت</h4><p>حل مرن للأماكن التي لا تحتاج إلى اشتراك ثابت طويل.</p></div>
         </div>

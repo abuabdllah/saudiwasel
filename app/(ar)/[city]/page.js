@@ -1,3 +1,5 @@
+import CityNextSteps from "../../../components/CityNextSteps";
+import { pageMetadata } from "../../../lib/seo";
 import { notFound } from "next/navigation";
 import { cities } from "../../../lib/cities";
 import { operators, operatorCities } from "../../../lib/operators";
@@ -27,7 +29,7 @@ export async function generateMetadata({ params }) {
 
   if (!c) return {};
 
-  const title = c.slug === "makkah" ? "مندوب فايبر مكة | تركيب الألياف البصرية" : `مندوب فايبر ${c.name} | تركيب الألياف البصرية`;
+  const title = `مندوب فايبر ${c.name} | فحص التغطية وطلب الألياف البصرية`;
   const regionalDescriptions = {
     abha: "رقم مندوب فايبر أبها لفحص المنزل الدائم أو الصيفي ومقارنة الألياف براوتر 5G قبل طلب التركيب.",
     tabuk: "رقم مندوب فايبر تبوك لفحص الشقق والفلل والمخططات الحديثة ومقارنة الفايبر و5G على عنوانك.",
@@ -46,7 +48,7 @@ export async function generateMetadata({ params }) {
       : c.slug === "khobar"
         ? "رقم مندوب فايبر الخبر لفحص الشقق والمجمعات، مقارنة الفايبر و5G، ومتابعة طلب التركيب عبر الاتصال أو واتساب."
     : `رقم مندوب فايبر ${c.name} لفحص تغطية الألياف البصرية، معرفة الخيارات المتاحة، ومتابعة طلب التركيب والتفعيل.`);
-  return {
+  return pageMetadata({
     title,
     description,
     openGraph: { title, description, images: ["/opengraph-image.png"] },
@@ -55,7 +57,7 @@ export async function generateMetadata({ params }) {
       canonical: `/${c.slug}`,
       languages: languageAlternates(`/${c.slug}`),
     },
-  };
+  });
 }
 export default async function CityPage({ params }) {
   const { city } = await params;
@@ -77,11 +79,11 @@ export default async function CityPage({ params }) {
       <section className="hero">
         <div className="container hero-grid">
           <div>
-            <h1>تركيب فايبر في {c.name} وفحص تغطية الألياف البصرية</h1>
-            <p className="hero-sub">مندوب فايبر في {c.name}: نفحص تغطية مبناك لدى كل الشبكات في طلب واحد، ونساعدك تختار الباقة الأنسب ونتابع طلبك حتى التركيب.</p>
+            <h1>مندوب فايبر {c.name} لفحص التغطية وطلب الألياف البصرية</h1>
+            <p className="hero-sub">ابدأ بموقع المبنى في {c.name}، ثم قارن خيارات الفايبر و5G التي يمكن التحقق منها. نساعدك في مراجعة الباقة وطلب الخدمة ومتابعتها بعد موافقتك.</p>
             <ul className="hero-points">
-              <li>✔ فحص تغطية مجاني في جميع أحياء {c.name}</li>
-              <li>✔ مقارنة بين جميع المشغلين</li>
+              <li>✔ التحقق من عنوان المبنى قبل الاشتراك</li>
+              <li>✔ مقارنة الخيارات التي تتوفر على العنوان</li>
               <li>✔ تواصل مباشر مع المندوب واتساب</li>
             </ul>
           </div>
@@ -122,14 +124,14 @@ export default async function CityPage({ params }) {
           </>
         )}
 
-        <h2>أحياء نغطيها في {c.name}</h2>
+        <h2>أحياء {c.name}: ابدأ بالعنوان داخل الحي</h2>
         <div className="cities">
-          {c.districts.map((d) => <span key={d}>فايبر حي {d}</span>)}
+          {c.districts.map((district) => <span key={district}>حي {district}</span>)}
         </div>
-        <p style={{ marginTop: 12 }}>وغيرها من أحياء {c.name} و{c.region}. أرسل اسم حيك ونفحص لك التغطية فوراً.</p>
+        <p style={{ marginTop: 12 }}>هذه أمثلة للأحياء وليست قائمة مناطق مغطاة. اكتب حيّك حتى إن لم يظهر هنا، ثم شارك موقع المبنى أثناء المتابعة. في الصفا أو السلامة أو أبحر الشمالية، لا تنطبق نتيجة عقار على العقار المجاور.</p>
 
         <h2>مبناك في {c.name} غير مغطى بالفايبر؟</h2>
-        <p>راوتر 5G هو البديل الأسرع: دون تمديدات أو موعد فني، والراوتر مجاني مع الاشتراك. <a href="/5g">تعرّف على باقات راوتر 5G</a> أو <a href="/fiber-vs-5g">قارن بين الفايبر و5G</a>.</p>
+        <p>راجع العنوان لدى مشغل آخر أولًا، أو قارن راوتر 5G إذا كانت الإشارة داخل المنزل مناسبة. لا يحتاج 5G تمديد ألياف، وتخضع تكلفة الجهاز وإمكانية نقله لشروط الباقة. <a href="/5g">اعرف خيارات 5G</a> أو <a href="/fiber-vs-5g">قارن بين الفايبر و5G</a>.</p>
         <JsonLd data={schemas} />
       </section>
 
@@ -143,6 +145,7 @@ export default async function CityPage({ params }) {
           ))}
         </div>
       </section>
+    <CityNextSteps city={c.slug} />
     </main>
   );
 }

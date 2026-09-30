@@ -1,10 +1,12 @@
+import { pageMetadata } from "../../../../lib/seo";
+import PageSchema from "../../../../components/PageSchema";
 import ArticleCta from "../../../../components/ArticleCta";
 
-export const metadata = {
-  title: "الفرق بين مندوب الألياف البصرية وفني التركيب - سعودي واصل",
+export const metadata = pageMetadata({
+  title: "الفرق بين مندوب الألياف البصرية وفني التركيب | SaudiWasel",
   description: "تعرف على دور مندوب الألياف البصرية ودور فني الفايبر، ومن المسؤول عن الطلب والتغطية والتمديد والتركيب وحل الأعطال.",
   alternates: { canonical: "/articles/mandoob-vs-technician" },
-};
+});
 
 const faqs = [
   ["هل المندوب يركب سلك الفايبر؟", "لا. التمديد وتركيب الأجهزة وفحص الإشارة أعمال ينفذها الفني المكلّف بالتركيب."],
@@ -15,6 +17,7 @@ const faqs = [
 
 export default function MandoobVsTechnician() {
   return <main className="container article-shell">
+    <PageSchema metadata={metadata} article faqs={faqs} />
     <header className="article-header"><p className="article-kicker">قبل التركيب</p><h1>الفرق بين مندوب الألياف البصرية وفني التركيب</h1><p>كل واحد له دور مختلف، ومعرفة الفرق تختصر عليك اتصالات كثيرة.</p></header>
     <article className="article-body">
       <p>كثير ناس يستخدمون كلمة «مندوب الفايبر» و«فني الفايبر» كأنهم نفس الشخص، لكن العمليتين مختلفتان. المندوب يساعدك قبل الطلب وأثناء متابعته، أما الفني فيحضر للموقع لتنفيذ الجانب التقني بعد قبول الطلب وتحديد الموعد. أحيانًا تتواصل مع أكثر من شخص في الرحلة نفسها، وهذا طبيعي. المهم تعرف مين تسأله عن الباقة، ومين تناقش معه مسار السلك، ومين ترجع له إذا ظهر عطل بعد التشغيل.</p>

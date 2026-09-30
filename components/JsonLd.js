@@ -7,6 +7,17 @@ export const organizationSchema = {
   url: `${BASE}/`,
   logo: `${BASE}/icon.png`,
   telephone: "+966564612017",
+  description: "منصة مستقلة تساعد في مراجعة خيارات الإنترنت المنزلي، وليست تابعة لأي مشغل اتصالات.",
+  contactPoint: { "@type": "ContactPoint", telephone: "+966564612017", contactType: "customer enquiries", availableLanguage: ["Arabic", "English"] },
+};
+
+export const websiteSchema = {
+  "@type": "WebSite",
+  "@id": `${BASE}/#website`,
+  name: "SaudiWasel | سعودي واصل",
+  url: `${BASE}/`,
+  publisher: { "@id": `${BASE}/#organization` },
+  inLanguage: ["ar-SA", "en-SA"],
 };
 
 export function breadcrumbSchema(items) {
@@ -23,12 +34,13 @@ export function breadcrumbSchema(items) {
 
 export function serviceSchema({ name, serviceType, city, path }) {
   return {
-    "@type": "Service",
+    "@type": "WebPage",
     name,
-    serviceType,
+    description: `مساعدة مستقلة في ${serviceType} حسب العنوان، وليست صفحة رسمية للمشغل.`,
     url: `${BASE}${path}`,
-    areaServed: { "@type": "City", name: city },
-    provider: { "@id": `${BASE}/#organization` },
+    inLanguage: "ar-SA",
+    about: { "@type": city === "السعودية" ? "Country" : "City", name: city },
+    isPartOf: { "@id": `${BASE}/#website` },
   };
 }
 
@@ -44,7 +56,7 @@ export function faqSchema(faqs) {
 }
 
 export default function JsonLd({ data }) {
-  const graph = Array.isArray(data) ? data : [data];
+  const graph = (Array.isArray(data) ? data : [data]).flat();
   return (
     <script
       type="application/ld+json"

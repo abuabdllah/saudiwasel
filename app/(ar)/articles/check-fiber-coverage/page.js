@@ -1,10 +1,12 @@
+import { pageMetadata } from "../../../../lib/seo";
+import PageSchema from "../../../../components/PageSchema";
 import ArticleCta from "../../../../components/ArticleCta";
 
-export const metadata = {
-  title: "كيف أعرف إن الفايبر متوفر في عنواني؟ - سعودي واصل",
+export const metadata = pageMetadata({
+  title: "كيف أعرف إن الفايبر متوفر في عنواني؟ | SaudiWasel",
   description: "خطوات فحص تغطية الفايبر في السعودية والتأكد من جاهزية المبنى ومعرفة المشغلين المتاحين قبل تقديم طلب الألياف البصرية.",
   alternates: { canonical: "/articles/check-fiber-coverage" },
-};
+});
 
 const faqs = [
   ["هل وجود بوكس ألياف على العمارة يعني أني أقدر أشترك؟", "هو مؤشر مهم، لكن القبول النهائي يعتمد على ظهور العنوان كمغطى لدى المشغل وتوفر منفذ وإمكانية تنفيذ التمديد إلى الوحدة."],
@@ -15,6 +17,7 @@ const faqs = [
 
 export default function CoverageArticle() {
   return <main className="container article-shell">
+    <PageSchema metadata={metadata} article faqs={faqs} />
     <header className="article-header"><p className="article-kicker">دليل التغطية</p><h1>كيف أعرف إن الفايبر متوفر في عنواني؟</h1><p>طريقة عملية تفرق بين تغطية الحي وجاهزية المبنى الفعلية.</p></header>
     <article className="article-body">
       <p>السؤال عن توفر الفايبر ما له جواب واحد لكل حي. ممكن شارع كامل يكون مغطى، لكن مبنى واحد ما دخل الخدمة، وممكن يظهر صندوق ألياف قريب بينما العنوان غير مسجل بعد في نظام المشغل. عشان كذا الفحص الصحيح يكون على موقع المبنى نفسه، وليس باسم الحي فقط. النتيجة المبدئية تساعدك تختار من تتواصل معه، أما التأكيد النهائي فيكون بعد تسجيل الطلب والتحقق من إمكانية التركيب.</p>

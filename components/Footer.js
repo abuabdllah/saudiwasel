@@ -1,8 +1,13 @@
+import IntentCtas from "./IntentCtas";
+
 export default function Footer() {
   return (
     <footer className="site-footer">
       <div className="container">
+        <h2>ابدأ من عنوانك، ثم اختر الخدمة</h2>
+        <IntentCtas />
         <nav className="footer-links" aria-label="روابط الفايبر">
+          <a href="/coverage">افحص تغطية الفايبر</a>
           <a href="/">تركيب فايبر</a>
           <a href="/jeddah">فايبر جدة</a>
           <a href="/riyadh">فايبر الرياض</a>
@@ -21,7 +26,7 @@ export default function Footer() {
           <a href="/5g/zain">راوتر 5G زين</a>
           <a href="/5g/mobily">راوتر 5G موبايلي</a>
         </nav>
-        <strong>سعودي واصل</strong> — مندوب فايبر وراوتر 5G لجميع الشركات في مدن المملكة
+        <strong>سعودي واصل</strong> — منصة مستقلة لفحص خيارات الفايبر و5G حسب عنوانك
         <p className="disclaimer">
           موقع مستقل وغير تابع لأي مشغل اتصالات. الأسماء والعلامات التجارية
           مملوكة لأصحابها وتُذكر لأغراض التعريف بالخدمات فقط.

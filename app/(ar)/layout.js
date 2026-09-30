@@ -1,7 +1,10 @@
 import "../globals.css";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
-import JsonLd, { organizationSchema } from "../../components/JsonLd";
+import JsonLd, { organizationSchema, websiteSchema } from "../../components/JsonLd";
+import Breadcrumbs from "../../components/Breadcrumbs";
+import ConversionTracking from "../../components/ConversionTracking";
+import RelatedGuides from "../../components/RelatedGuides";
 
 export const metadata = {
   metadataBase: new URL("https://saudiwasel.com"),
@@ -22,12 +25,15 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="ar" dir="rtl">
+    <html lang="ar-SA" dir="rtl">
       <body>
-        <JsonLd data={organizationSchema} />
+        <JsonLd data={[organizationSchema, websiteSchema]} />
         <Header />
+        <Breadcrumbs />
         {children}
+        <RelatedGuides />
         <Footer />
+        <ConversionTracking />
       </body>
     </html>
   );

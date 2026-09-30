@@ -1,3 +1,5 @@
+import CityNextSteps from "./CityNextSteps";
+import OperatorSources from "./OperatorSources";
 import LeadForm from "./LeadForm";
 import JsonLd, { breadcrumbSchema, faqSchema, serviceSchema } from "./JsonLd";
 import { operators } from "../lib/operators";
@@ -52,7 +54,7 @@ export function RegionalCityPage({ city }) {
     faqSchema(content.faqs),
   ];
   return <main>
-    <section className="hero"><div className="container hero-grid"><div><h1>مندوب فايبر {content.name} | تركيب الألياف البصرية</h1><p className="hero-sub">افحص عنوانك في {content.name}، وقارن بين مشغلي الفايبر وراوتر 5G وفق نوع السكن ومدة استخدامه.</p><ul className="hero-points"><li>✔ فحص المبنى والوحدة قبل تقديم الطلب</li><li>✔ مقارنة الفايبر بالخيار اللاسلكي</li><li>✔ اتصال وواتساب على رقم واحد</li></ul></div><LeadForm defaultCity={content.name} /></div></section>
+    <section className="hero"><div className="container hero-grid"><div><h1>مندوب فايبر {content.name} لفحص التغطية وطلب الألياف البصرية</h1><p className="hero-sub">افحص عنوانك في {content.name}، وقارن بين مشغلي الفايبر وراوتر 5G وفق نوع السكن ومدة استخدامه.</p><ul className="hero-points"><li>✔ فحص المبنى والوحدة قبل تقديم الطلب</li><li>✔ مقارنة الفايبر بالخيار اللاسلكي</li><li>✔ اتصال وواتساب على رقم واحد</li></ul></div><LeadForm defaultCity={content.name} /></div></section>
     <section className="container">
       <p className="notice">موقع مستقل وغير تابع لأي مشغل. نساعد في فحص الخيارات المتاحة ورفع طلب الاشتراك ومتابعته.</p>
       <h2>اختيار الإنترنت المنزلي في {content.name}</h2><p>{content.intro[0]}</p><p>{content.intro[1]}</p>
@@ -64,6 +66,7 @@ export function RegionalCityPage({ city }) {
       <h2>مدن مرتبطة بـ{content.name}</h2><p>راجع الصفحة القريبة التي تناسب موقعك، مع إجراء فحص مستقل لكل عقار لأن نتيجة مدينة أو مبنى لا تنطبق على غيره.</p><div className="cities">{content.nearby.map((link) => <a key={link.href} href={link.href}>{link.label}</a>)}</div>
       <JsonLd data={schemas} />
     </section>
+  <CityNextSteps city={city} />
   </main>;
 }
 
@@ -75,14 +78,14 @@ export function RegionalOperatorPage({ city, operator }) {
     faqSchema(content.faqs),
   ];
   return <main>
-    <section className="hero"><div className="container hero-grid"><div><h1>مندوب فايبر {operator.name} في {content.name}</h1><p className="hero-sub">راجع فايبر {operator.name} على عنوانك في {content.name}، وطابق الباقة مع السكن قبل متابعة طلب التركيب.</p><ul className="hero-points"><li>✔ التحقق من المبنى المحدد</li><li>✔ أسعار الباقات منشورة بوضوح</li><li>✔ متابعة عبر الاتصال وواتساب</li></ul></div><LeadForm defaultCity={content.name} operator={operator.name} /></div></section>
+    <section className="hero"><div className="container hero-grid"><div><h1>فايبر {operator.name} {content.name} وفحص التغطية</h1><p className="hero-sub">راجع فايبر {operator.name} على عنوانك في {content.name}، وطابق الباقة مع السكن قبل متابعة طلب التركيب.</p><ul className="hero-points"><li>✔ التحقق من المبنى المحدد</li><li>✔ مراجعة شروط الباقة قبل الطلب</li><li>✔ متابعة عبر الاتصال وواتساب</li></ul></div><LeadForm defaultCity={content.name} operator={operator.name} /></div></section>
     <section className="container">
       <p className="notice">موقع مستقل وغير تابع لأي مشغل. نساعدك في فحص خدمة {operator.name} ورفع طلب الاشتراك ومتابعته.</p>
       <h2>فايبر {operator.name} في {content.name}</h2><p>{content.intro[0]}</p><p>{content.intro[1]}</p>
       <h2>رقم مندوب فايبر {operator.name} {content.name}</h2><ContactBox city={content.name} operator={operator} />
-      <h2>أسعار باقات فايبر {operator.name} (آخر تحديث: {operator.updated})</h2>
-      <div className="table-wrap"><table className="compare"><thead><tr><th>الباقة</th><th>التحميل</th><th>الرفع</th><th>السعر</th><th>المزايا</th></tr></thead><tbody>{operator.packages.map((pack) => <tr key={pack.name}><td>{pack.name}</td><td>{pack.down}</td><td>{pack.up}</td><td>{pack.price}</td><td>{pack.perks}</td></tr>)}</tbody></table></div>
-      <p className="small-note">الأسعار شاملة ضريبة القيمة المضافة ومنقولة من الموقع الرسمي لـ{operator.name} وقد تتغير. تواصل معنا لتأكيد السعر الحالي في {content.name} قبل الاشتراك.</p>
+      <h2>خيارات باقات فايبر {operator.name} (أسماء مرجعية؛ أكد التفاصيل الحالية)</h2>
+      <OperatorSources operator={operator.slug} /><div className="table-wrap"><table className="compare"><thead><tr><th>اسم مرجعي للباقة</th><th>التحميل</th><th>الرفع</th><th>السعر</th><th>المزايا</th></tr></thead><tbody>{operator.packages.map((pack) => <tr key={pack.name}><td>{pack.name}</td><td>{pack.down}</td><td>{pack.up}</td><td>{pack.price}</td><td>{pack.perks}</td></tr>)}</tbody></table></div>
+      <p className="small-note">راجع المصدر الرسمي لـ{operator.name} للسعر والضريبة وشروط الباقة المتاحة لعنوانك في {content.name}.</p>
       <div className="contact-box"><h3>تأكيد تفاصيل باقة {operator.name}</h3><p>راجع سعر العرض ومدة الالتزام لعنوانك في {content.name} قبل رفع الطلب، لأن التفاصيل المنشورة قد تتبدل بمرور الوقت.</p><div className="header-actions"><a href={`tel:${PHONE_LOCAL}`} className="btn btn-call">📞 {PHONE_LOCAL}</a><a href={`https://wa.me/${PHONE_WA}`} className="btn btn-wa">راسلنا واتساب</a></div></div>
       <h2>معلومات مهمة قبل تركيب فايبر {operator.name}</h2><ul className="req-list">{operator.facts.map((fact) => <li key={fact}>{fact}</li>)}</ul>
       <h2>مندوب {operator.name} في أحياء {content.name}</h2><DistrictCards districts={content.districts} />
@@ -92,5 +95,6 @@ export function RegionalOperatorPage({ city, operator }) {
       <Faqs content={content} operator={operator} />
       <JsonLd data={schemas} />
     </section>
+  <CityNextSteps city={city} operator={operator.slug} />
   </main>;
 }

@@ -1,3 +1,4 @@
+import { operatorSources } from "../lib/operator-sources";
 import JsonLd, { breadcrumbSchema, faqSchema } from "./JsonLd";
 import EnglishLeadForm from "./EnglishLeadForm";
 import { englishPages, englishStcPlans, stcPricesUpdated, englishFivegOperators, englishFivegUpdated, priceEnquiry, connectionComparison } from "../lib/english";
@@ -37,7 +38,6 @@ export default function EnglishPage({ page }) {
     <main id="en-main">
       <section className="en-hero">
         <div className="en-container">
-          {!isHome && <nav className="en-breadcrumb" aria-label="Breadcrumb"><a href="/en">English home</a><span aria-hidden="true">/</span><span aria-current="page">{page.nav}</span></nav>}
           <div className="en-hero-grid">
             <div className="en-hero-copy">
               <p className="en-kicker">{page.eyebrow}</p>
@@ -82,12 +82,14 @@ export default function EnglishPage({ page }) {
         </section>
 
         <section className="en-section" aria-labelledby="en-plans-title">
-          <h2 id="en-plans-title">{page.path === "/en/fiber-internet-jeddah" ? "Published STC fiber plans and prices" : "Plans and prices"}</h2>
+          <h2 id="en-plans-title">Plan references and official sources</h2>
+          <p>Plan names are retained as references from earlier content, not confirmed current offers. Prices, speeds and equipment benefits have not been independently verified. Confirm all current details with the operator before ordering.</p>
+          <nav className="en-footer-links" aria-label="Official operator sources">{Object.entries(operatorSources).map(([slug, source]) => <a key={slug} href={source.url} target="_blank" rel="noopener noreferrer">{slug.toUpperCase()} official website</a>)}</nav>
           {page.path === "/en/fiber-internet-jeddah" ? (
             <>
-              <p>Explore the STC fiber packages published on our Arabic Jeddah page, updated {stcPricesUpdated}. Prices include VAT and all figures are unchanged. Ask us to explain the offer and payment period for your preferred plan.</p>
+              <p>Review STC fiber eligibility at the building level, then confirm the current plan, total price including tax, commitment and installation terms with STC.</p>
               <div className="en-table-wrap" role="region" aria-label="Published STC fiber plans" tabIndex={0}>
-                <table><caption>STC fiber packages as published on the Arabic counterpart</caption><thead><tr><th scope="col">Plan</th><th scope="col">Download</th><th scope="col">Upload</th><th scope="col">Price</th><th scope="col">Included benefits</th></tr></thead>
+                <table><caption>Earlier STC fiber plan-name references; confirm current availability</caption><thead><tr><th scope="col">Plan</th><th scope="col">Download</th><th scope="col">Upload</th><th scope="col">Price</th><th scope="col">Included benefits</th></tr></thead>
                   <tbody>{englishStcPlans.map((plan) => <tr key={plan.name}><th scope="row">{plan.name}</th><td>{plan.down}</td><td>{plan.up}</td><td>{plan.price}</td><td>{plan.perks}</td></tr>)}</tbody>
                 </table>
               </div>
@@ -100,7 +102,7 @@ export default function EnglishPage({ page }) {
                 <div key={operator.slug}>
                   <h3>{operator.name} 5G home plans</h3>
                   <div className="en-table-wrap" role="region" aria-label={`${operator.name} published 5G plans`} tabIndex={0}>
-                    <table><caption>{operator.name} packages from the Arabic /5g pages — {englishFivegUpdated}</caption><thead><tr><th scope="col">Plan</th><th scope="col">Download</th><th scope="col">Upload</th><th scope="col">Price</th><th scope="col">Included benefits</th></tr></thead>
+                    <table><caption>{operator.name} plan-name references — confirm current availability</caption><thead><tr><th scope="col">Plan</th><th scope="col">Download</th><th scope="col">Upload</th><th scope="col">Price</th><th scope="col">Included benefits</th></tr></thead>
                       <tbody>{operator.packages.map((plan) => <tr key={plan.name}><th scope="row">{plan.name}</th><td>{plan.down}</td><td>{plan.up}</td><td>{plan.price}</td><td>{plan.perks}</td></tr>)}</tbody>
                     </table>
                   </div>
