@@ -6,7 +6,7 @@ const PHONE_WA = "966564612017";
 
 const title = "راوتر 5G السعودية | STC وسلام وزين وموبايلي";
 const description = "رقم مندوب راوتر 5G في السعودية لمقارنة خيارات STC وسلام وزين وموبايلي، ومعرفة المميزات والتغطية وطلب الخدمة.";
-export const metadata = { title, description, openGraph: { title, description, images: ["/opengraph-image.png"] }, twitter: { card: "summary_large_image", title, description, images: ["/twitter-image.png"] } };
+export const metadata = { title, description, alternates: { canonical: "/5g" }, openGraph: { title, description, images: ["/opengraph-image.png"] }, twitter: { card: "summary_large_image", title, description, images: ["/twitter-image.png"] } };
 
 const faqs = [
   { q: "ما راوتر 5G المنزلي؟", a: "جهاز يستقبل شبكة الجيل الخامس من أقرب برج ويحولها إلى شبكة واي فاي داخل المنزل، دون أسلاك أو تمديدات أو زيارة فني." },
@@ -41,6 +41,13 @@ export default function FiveGPage() {
 
       <section className="container">
         <p className="notice">سعودي واصل جهة مستقلة وليست الموقع الرسمي لأي مشغل. نساعدك كمندوب مبيعات في اختيار الباقة ورفع الطلب ومتابعته.</p>
+
+        <h2>راوتر 5G المنزلي في السعودية</h2>
+        <p>راوتر 5G خيار للإنترنت المنزلي يعتمد على شبكة الجيل الخامس بدلاً من تمديدات الألياف البصرية. تختلف خيارات راوتر STC 5G وراوتر موبايلي 5G وراوتر زين 5G وراوتر سلام 5G بحسب المشغل والتغطية والباقات المتاحة؛ فلا تنطبق أسعار أو مزايا عرض واحد على الجميع.</p>
+
+        <h2>كيف تختار راوتر 5G المناسب؟</h2>
+        <p>ابدأ بفحص تغطية 5G في موقع المنزل، ثم قارن سرعة الباقة باحتياجك للعمل أو البث أو الألعاب وعدد الأجهزة. راجع السعر وشروط الباقة ومدة الالتزام وإمكانية نقل الخدمة، وتأكد من توفر الراوتر والعرض وقت الاشتراك قبل اتخاذ القرار.</p>
+        <p>إذا أردت مقارنة الخيارات على عنوانك، راجع خدمات الإنترنت في <a href="/jeddah">جدة</a> أو <a href="/riyadh">الرياض</a> أو <a href="/khobar">الخبر</a>؛ توفر الخدمة يُفحص للموقع نفسه وليس لاسم المدينة فقط.</p>
 
         <h2>مقارنة سريعة لأسعار 5G عند كل شركة</h2>
         <div className="table-wrap">
