@@ -54,7 +54,7 @@ export function RegionalCityPage({ city }) {
     faqSchema(content.faqs),
   ];
   return <main>
-    <section className="hero"><div className="container hero-grid"><div><h1>مندوب فايبر {content.name} لفحص التغطية وطلب الألياف البصرية</h1><p className="hero-sub">افحص عنوانك في {content.name}، وقارن بين مشغلي الفايبر وراوتر 5G وفق نوع السكن ومدة استخدامه.</p><ul className="hero-points"><li>✔ فحص المبنى والوحدة قبل تقديم الطلب</li><li>✔ مقارنة الفايبر بالخيار اللاسلكي</li><li>✔ اتصال وواتساب على رقم واحد</li></ul></div><LeadForm defaultCity={content.name} /></div></section>
+    <section className="hero"><div className="container hero-grid"><div><h1>مندوب فايبر {content.name} وفحص التغطية</h1><p className="hero-sub">افحص عنوانك في {content.name}، وقارن بين مشغلي الفايبر وراوتر 5G وفق نوع السكن ومدة استخدامه.</p><ul className="hero-points"><li>✔ فحص المبنى والوحدة قبل تقديم الطلب</li><li>✔ مقارنة الفايبر بالخيار اللاسلكي</li><li>✔ اتصال وواتساب على رقم واحد</li></ul></div><LeadForm defaultCity={content.name} /></div></section>
     <section className="container">
       <p className="notice">موقع مستقل وغير تابع لأي مشغل. نساعد في فحص الخيارات المتاحة ورفع طلب الاشتراك ومتابعته.</p>
       <h2>اختيار الإنترنت المنزلي في {content.name}</h2><p>{content.intro[0]}</p><p>{content.intro[1]}</p>

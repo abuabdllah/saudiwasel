@@ -28,6 +28,9 @@ for (const path of routes) {
   const tags = [...html.matchAll(/<meta\b[^>]*>/g)].map((match) => attrs(match[0]));
   const meta = (name) => tags.find((tag) => tag.name === name || tag.property === name)?.content;
   const links = [...html.matchAll(/<link\b[^>]*>/g)].map((match) => attrs(match[0]));
+  for (const tag of [...tags, ...links]) {
+    if (Object.values(tag).some((value) => /localhost|127\.0\.0\.1|[a-z0-9-]+\.netlify\.app/i.test(value))) reportError(path, "Development or preview URL in SEO tags");
+  }
   const canonical = links.find((link) => link.rel === "canonical")?.href;
   if (links.filter((link) => link.rel === "canonical").length !== 1) reportError(path, "Expected exactly one canonical link");
   const title = plain(html.match(/<title>([\s\S]*?)<\/title>/)?.[1] || "");
@@ -53,7 +56,14 @@ for (const path of routes) {
     } catch { reportError(path, "Invalid JSON-LD"); }
   }
   if (!schemas.length) reportError(path, "Missing schema");
-  if (schemas.some((schema) => schema["@type"] === "LocalBusiness")) reportError(path, "Unsupported LocalBusiness");
+  if (schemas.some((schema) => schema["@type"] === "LocalBusiness" || schema["@type"] === "Review" || schema.aggregateRating)) reportError(path, "Unsupported business or review schema");
+  for (const breadcrumb of schemas.filter((schema) => schema["@type"] === "BreadcrumbList")) {
+    for (const [index, item] of breadcrumb.itemListElement.entries()) {
+      if (item.position !== index + 1 || !item.name || !item.item?.startsWith(`${canonicalOrigin}/`)) reportError(path, "Invalid breadcrumb item");
+    }
+    const lastItem = breadcrumb.itemListElement.at(-1)?.item;
+    if (!lastItem || !canonical || new URL(lastItem).href !== new URL(canonical).href) reportError(path, "Breadcrumb does not end at canonical page");
+  }
   for (const schema of schemas.filter((entry) => entry["@type"] === "FAQPage")) {
     for (const question of schema.mainEntity) {
       if (!visible.includes(plain(question.name)) || !visible.includes(plain(question.acceptedAnswer.text))) reportError(path, "FAQ schema does not match visible content");
@@ -100,6 +110,7 @@ const robotsResponse = await fetch(`${base}/robots.txt`, { headers });
 const robots = await robotsResponse.text();
 if (robotsResponse.status !== 200 || !robots.includes(`Sitemap: ${canonicalOrigin}/sitemap.xml`)) reportError("/robots.txt", "Incorrect robots sitemap");
 if (!robots.includes("Allow: /") || /Disallow:\s*\/\s*$/m.test(robots)) reportError("/robots.txt", "Important routes blocked");
+for (const path of ["/api/", "/.netlify/functions/"]) if (!robots.includes(`Disallow: ${path}`)) reportError("/robots.txt", `Missing disallow: ${path}`);
 for (const image of ["/opengraph-image.png", "/twitter-image.png"]) {
   const response = await fetch(`${base}${image}`, { headers });
   if (response.status !== 200) reportError(image, "Unavailable social image");

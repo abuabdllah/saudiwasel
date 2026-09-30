@@ -60,7 +60,7 @@ export function EasternCityPage({ city }) {
       <section className="hero">
         <div className="container hero-grid">
           <div>
-            <h1>مندوب فايبر {data.name} لفحص التغطية وطلب الألياف البصرية</h1>
+            <h1>مندوب فايبر {data.name} وفحص التغطية</h1>
             <p className="hero-sub">افحص عنوانك وقارن خيارات الفايبر وراوتر 5G قبل تقديم طلب الإنترنت المنزلي.</p>
             <ul className="hero-points"><li>✔ فحص الخدمة حسب المبنى</li><li>✔ مقارنة مشغلي الفايبر</li><li>✔ متابعة الطلب عبر واتساب</li></ul>
           </div>

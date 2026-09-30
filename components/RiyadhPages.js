@@ -51,7 +51,7 @@ export function RiyadhCityPage() {
   ];
   return <main>
     <section className="hero"><div className="container hero-grid"><div>
-      <h1>مندوب فايبر الرياض لفحص التغطية وطلب الألياف البصرية</h1>
+      <h1>مندوب فايبر الرياض وفحص التغطية</h1>
       <p className="hero-sub">افحص عنوانك في الرياض، وقارن مشغلي الفايبر المتاحين للمبنى، ثم تابع طلب التركيب عبر قناة تواصل واحدة.</p>
       <ul className="hero-points"><li>✔ فحص العنوان قبل اختيار الباقة</li><li>✔ روابط مباشرة إلى مشغلي الرياض</li><li>✔ تواصل عبر الاتصال أو واتساب</li></ul>
     </div><LeadForm defaultCity="الرياض" /></div></section>

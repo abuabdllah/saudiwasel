@@ -18,7 +18,8 @@ export default function ConversionTracking() {
         if (url.origin !== window.location.origin && url.origin !== "https://saudiwasel.com") return;
         const segments = url.pathname.split("/").filter(Boolean);
         if (cities.some((city) => city.slug === segments[0])) {
-          trackEvent(segments.length === 1 ? "city_click" : "operator_click", { ...context, destination: url.pathname });
+          if (segments.length === 1) trackEvent("city_click", { ...context, destination: url.pathname });
+          else if (segments.length === 2 && ["stc", "salam", "mobily", "zain"].includes(segments[1])) trackEvent("operator_click", { ...context, destination: url.pathname });
         } else if (segments[0] === "5g" && segments.length === 2) {
           trackEvent("operator_click", { ...context, destination: url.pathname });
         }

@@ -4,6 +4,7 @@ import { useId, useRef, useState } from "react";
 import { cities } from "../lib/cities";
 import { trackEvent } from "../lib/tracking";
 import { normalizeSaudiPhone } from "../lib/phone";
+import { COVERAGE_FORM_NAME, COVERAGE_FORM_PATH, createReference, coverageWhatsAppUrl, saveCoverageRequest } from "../lib/coverage-request";
 
 const operatorOptions = [["stc", "STC"], ["salam", "سلام"], ["mobily", "موبايلي"], ["zain", "زين"]];
 
@@ -11,13 +12,15 @@ export default function LeadForm({ defaultCity = "", defaultDistrict = "", opera
   const identifier = useId();
   const initialCity = cities.find((city) => city.name === defaultCity || city.slug === defaultCity)?.slug || "";
   const initialOperator = operatorOptions.find(([slug, name]) => operator === slug || operator.includes(name))?.[0] || "any";
-  const [form, setForm] = useState({ city: initialCity, district: defaultDistrict, operator: initialOperator, buildingType: "home", service: operator.includes("5G") ? "5g" : "fiber", name: "", phone: "", consent: false, website: "" });
+  const [form, setForm] = useState({ city: initialCity, district: defaultDistrict, operator: initialOperator, buildingType: "home", service: operator.includes("5G") ? "5g" : "fiber", name: "", phone: "", notes: "", buildingLocation: "", consent: false, website: "" });
   const [step, setStep] = useState(1);
   const [status, setStatus] = useState("idle");
   const [error, setError] = useState("");
   const [reference, setReference] = useState("");
   const started = useRef(false);
   const submissionId = useRef("");
+  const pendingReference = useRef("");
+  const sending = useRef(false);
   const selectedCity = cities.find((city) => city.slug === form.city);
   const context = () => ({ page_path: window.location.pathname, city: form.city, operator: form.operator, service: form.service });
 
@@ -32,11 +35,13 @@ export default function LeadForm({ defaultCity = "", defaultDistrict = "", opera
     const { name, value, checked, type } = event.target;
     setForm((current) => ({ ...current, [name]: type === "checkbox" ? checked : value, ...(name === "city" && { district: "" }) }));
     setError("");
-    if (name !== "website") submissionId.current = "";
+    if (name !== "website") {
+      submissionId.current = "";
+      pendingReference.current = "";
+    }
   }
 
-  const whatsappMessage = `السلام عليكم، أرغب في ${intent === "order" ? "طلب الفايبر بعد التحقق من التغطية" : "فحص تغطية الإنترنت"}\nالمدينة: ${selectedCity?.name || ""}\nالحي: ${form.district}\nالمشغل: ${operatorOptions.find(([slug]) => slug === form.operator)?.[1] || "مقارنة المتاح"}\nالخدمة: ${form.service === "5g" ? "5G" : form.service === "compare" ? "مقارنة Fiber و5G" : "Fiber"}${reference ? `\nمرجع الطلب: ${reference}` : ""}`;
-  const whatsappUrl = `https://wa.me/966564612017?text=${encodeURIComponent(whatsappMessage)}`;
+  const whatsappUrl = reference ? coverageWhatsAppUrl(form, reference, selectedCity?.name || "") : "";
 
   async function send(event) {
     event.preventDefault();
@@ -46,41 +51,54 @@ export default function LeadForm({ defaultCity = "", defaultDistrict = "", opera
       setStep(2);
       return;
     }
-    if (status === "sending") return;
+    if (sending.current || status === "success") return;
     if (!/^(?:05\d{8}|\+?9665\d{8})$/.test(normalizeSaudiPhone(form.phone))) {
       setError("أدخل رقم جوال سعودي صحيحًا، مثل 05xxxxxxxx.");
       return;
     }
     setStatus("sending");
+    sending.current = true;
     setError("");
     trackEvent("coverage_check_submit", context());
-    submissionId.current = submissionId.current || crypto.randomUUID();
     try {
-      const response = await fetch("/api/coverage-lead", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, sourcePath: window.location.pathname, submissionId: submissionId.current, consentVersion: "2026-09-30" }),
+      if (form.website || !form.consent) throw new Error("Invalid request");
+      submissionId.current ||= crypto.randomUUID();
+      pendingReference.current ||= createReference();
+      await saveCoverageRequest(form, {
+        sourcePath: window.location.pathname,
+        cityName: selectedCity.name,
+        submissionId: submissionId.current,
+        reference: pendingReference.current,
       });
-      const result = await response.json();
-      if (!response.ok || !result.accepted) throw new Error("Not saved");
-      setReference(result.reference);
-      setStatus("success");
-      trackEvent("lead_submit", context());
     } catch {
       setStatus("error");
-      setError("تعذر حفظ الطلب الآن. جرّب مرة أخرى أو أرسل بيانات الموقع عبر واتساب؛ لم نؤكد تسجيل الطلب.");
+      setError("تعذر تسجيل الطلب حاليًا. يرجى المحاولة مرة أخرى.");
+      sending.current = false;
+      return;
+    }
+    setReference(pendingReference.current);
+    setStatus("success");
+    trackEvent("lead_submit", context());
+    trackEvent("lead_success", context());
+    sending.current = false;
+    try {
+      window.open(coverageWhatsAppUrl(form, pendingReference.current, selectedCity.name), "_blank", "noopener,noreferrer");
+    } catch {
+      return;
     }
   }
 
-  return <form className="lead-form" onSubmit={send} onFocus={start} aria-busy={status === "sending"}>
+  return <form name={COVERAGE_FORM_NAME} method="POST" action={COVERAGE_FORM_PATH} data-netlify="true" netlify-honeypot="website" className="lead-form" onSubmit={send} onFocus={start} aria-busy={status === "sending"}>
+    <input type="hidden" name="form-name" value={COVERAGE_FORM_NAME} />
     <h3>{intent === "order" ? "اطلب فايبر بعد فحص عنوانك" : operator ? `افحص تغطية ${operator}` : "افحص تغطية الفايبر"}</h3>
     <p className="coverage-note">التغطية قد تختلف حسب المبنى والعنوان، لذلك يلزم التحقق قبل تأكيد توفر الخدمة. هذا طلب تحقق، وليس نتيجة تغطية آلية.</p>
     {status === "success" ? <div role="status" className="lead-success">
-      <h4>تم تسجيل طلب التحقق</h4>
-      <p>توفر الخدمة ما زال بانتظار المراجعة. تابع عبر واتساب وأرسل موقع المبنى عند الحاجة.</p>
-      <p className="lead-reference">مرجع طلب التحقق: <bdi>{reference}</bdi></p>
-      <p>هذا مرجع SaudiWasel للمتابعة، وليس رقم اشتراك أو موافقة من مشغل الاتصالات.</p>
-      <a className="btn btn-wa" href={whatsappUrl}>متابعة الطلب عبر واتساب</a>
+      <h4>تم تسجيل طلب التحقق بنجاح ✅</h4>
+      <p>طلبك الآن بانتظار مراجعة توفر الخدمة.</p>
+      <p className="lead-reference">مرجع الطلب: <bdi>{reference}</bdi></p>
+      <p>هذا المرجع خاص بمتابعة طلبك لدى SaudiWasel، وليس رقم اشتراك أو موافقة من مشغل الاتصالات.</p>
+      <p>سيتم فتح WhatsApp لإرسال تفاصيل الطلب والمتابعة.</p>
+      <a className="btn btn-wa" href={whatsappUrl} target="_blank" rel="noopener noreferrer" onClick={() => trackEvent("coverage_check_whatsapp", context())}>إرسال الطلب عبر WhatsApp</a>
     </div> : <>
       <p className="form-step" aria-live="polite">{step === 1 ? "١ · موقعك واحتياجك" : "٢ · بيانات التواصل"}</p>
       {step === 1 ? <>
@@ -112,22 +130,17 @@ export default function LeadForm({ defaultCity = "", defaultDistrict = "", opera
         <input id={`${identifier}-name`} name="name" value={form.name} autoComplete="name" minLength={2} maxLength={100} required onChange={update} disabled={status === "sending"} />
         <label htmlFor={`${identifier}-phone`}>رقم الجوال</label>
         <input id={`${identifier}-phone`} name="phone" type="tel" inputMode="tel" dir="ltr" value={form.phone} autoComplete="tel" maxLength={20} placeholder="05xxxxxxxx" required onChange={update} disabled={status === "sending"} />
+        <label htmlFor={`${identifier}-notes`}>الملاحظات (اختياري)</label>
+        <textarea id={`${identifier}-notes`} name="notes" value={form.notes} maxLength={2000} onChange={update} disabled={status === "sending"} />
+        <label htmlFor={`${identifier}-location`}>موقع المبنى أو العنوان الوطني (اختياري)</label>
+        <input id={`${identifier}-location`} name="buildingLocation" value={form.buildingLocation} maxLength={500} placeholder="رابط موقع المبنى أو وصف العنوان" onChange={update} disabled={status === "sending"} />
         <label className="consent-label"><input name="consent" type="checkbox" checked={form.consent} required onChange={update} disabled={status === "sending"} /><span>أوافق على حفظ بيانات الطلب والتواصل معي بخصوص التغطية وفق <a href="/privacy">سياسة الخصوصية</a>.</span></label>
         <div className="form-honeypot" aria-hidden="true"><label htmlFor={`${identifier}-website`}>Website</label><input id={`${identifier}-website`} name="website" tabIndex={-1} autoComplete="off" value={form.website} onChange={update} /></div>
-        <button type="submit" className="btn btn-coverage" disabled={status === "sending"}>{status === "sending" ? "جارٍ تسجيل الطلب…" : "أرسل طلب التحقق"}</button>
+        <button type="submit" className="btn btn-coverage" disabled={status === "sending"}>{status === "sending" ? "جاري تسجيل طلبك…" : "أرسل طلب التحقق"}</button>
         <button className="form-back" type="button" onClick={() => setStep(1)} disabled={status === "sending"}>تعديل الموقع</button>
       </>}
       {error && <p role="alert" className="form-error">{error}</p>}
-      <a href={whatsappUrl} className="btn btn-wa" onClick={(event) => {
-        start();
-        if (!form.city || form.district.trim().length < 2) {
-          event.preventDefault();
-          setError("اختر المدينة واكتب الحي قبل إرسال طلب التغطية. للتواصل العام استخدم الهاتف أو زر واتساب في أعلى الصفحة.");
-          return;
-        }
-        trackEvent("coverage_check_submit", { ...context(), channel: "whatsapp" });
-        trackEvent("coverage_check_whatsapp", context());
-      }}>أرسل الطلب عبر واتساب</a>
+      <p className="coverage-note">طلب التحقق بانتظار مراجعة توفر الخدمة. يُتاح إرسال تفاصيل الطلب عبر WhatsApp بعد نجاح تسجيله.</p>
       <a href="tel:0564612017" className="form-phone">أو اتصل على <bdi>0564612017</bdi></a>
     </>}
   </form>;

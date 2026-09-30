@@ -8,8 +8,8 @@ import RelatedGuides from "../../components/RelatedGuides";
 
 export const metadata = {
   metadataBase: new URL("https://saudiwasel.com"),
-  title: "سعودي واصل | مندوب فايبر وراوتر 5G لجميع الشركات في السعودية",
-  description: "سعودي واصل: مندوب فايبر وراوتر 5G لـ STC وسلام وزين وموبايلي في جميع مدن المملكة. نفحص التغطية، نقارن الباقات، ونتابع طلبك حتى التفعيل.",
+  title: "مندوب فايبر السعودية | فحص التغطية وطلب الألياف البصرية",
+  description: "فحص تغطية الفايبر في السعودية حسب المدينة والحي والمشغل، والتعرف على خيارات الألياف البصرية و5G وطلب الخدمة بسهولة.",
   applicationName: "سعودي واصل",
   openGraph: {
     siteName: "سعودي واصل",
