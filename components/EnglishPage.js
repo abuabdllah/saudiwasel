@@ -1,6 +1,6 @@
 import JsonLd, { breadcrumbSchema, faqSchema } from "./JsonLd";
 import EnglishLeadForm from "./EnglishLeadForm";
-import { englishPages, englishStcPlans, stcPricesUpdated, priceEnquiry, connectionComparison } from "../lib/english";
+import { englishPages, englishStcPlans, stcPricesUpdated, englishFivegOperators, englishFivegUpdated, priceEnquiry, connectionComparison } from "../lib/english";
 
 const BASE = "https://saudiwasel.com";
 
@@ -58,6 +58,13 @@ export default function EnglishPage({ page }) {
           <p>{page.context}</p>
         </section>
 
+        {page.areas && (
+          <section className="en-section" aria-labelledby="en-areas-title">
+            <h2 id="en-areas-title">Popular areas for expats</h2>
+            {page.areas.map(([name, detail]) => <div key={name}><h3>{name}</h3><p>{detail}</p></div>)}
+          </section>
+        )}
+
         {page.path === "/en/fiber-vs-5g" && (
           <section className="en-section" aria-labelledby="en-compare-title">
             <h2 id="en-compare-title">Fiber vs 5G: the practical differences</h2>
@@ -78,15 +85,30 @@ export default function EnglishPage({ page }) {
           <h2 id="en-plans-title">{page.path === "/en/fiber-internet-jeddah" ? "Published STC fiber plans and prices" : "Plans and prices"}</h2>
           {page.path === "/en/fiber-internet-jeddah" ? (
             <>
-              <p>These entries are translated from the Arabic STC Jeddah page, last updated {stcPricesUpdated}. The figures are unchanged and are not a new quotation. Published prices include VAT; confirm the current offer and its conditions before subscribing.</p>
+              <p>Explore the STC fiber packages published on our Arabic Jeddah page, updated {stcPricesUpdated}. Prices include VAT and all figures are unchanged. Ask us to explain the offer and payment period for your preferred plan.</p>
               <div className="en-table-wrap" role="region" aria-label="Published STC fiber plans" tabIndex={0}>
                 <table><caption>STC fiber packages as published on the Arabic counterpart</caption><thead><tr><th scope="col">Plan</th><th scope="col">Download</th><th scope="col">Upload</th><th scope="col">Price</th><th scope="col">Included benefits</th></tr></thead>
                   <tbody>{englishStcPlans.map((plan) => <tr key={plan.name}><th scope="row">{plan.name}</th><td>{plan.down}</td><td>{plan.up}</td><td>{plan.price}</td><td>{plan.perks}</td></tr>)}</tbody>
                 </table>
               </div>
-              <p className="en-price-note">For other operators and confirmation of the published STC offers: <a href="https://wa.me/966564612017">{priceEnquiry}</a></p>
+              <p className="en-price-note">Want to compare another provider? <a href="https://wa.me/966564612017">{priceEnquiry}</a></p>
             </>
-          ) : <p className="en-price-note"><a href="https://wa.me/966564612017">{priceEnquiry}</a></p>}
+          ) : (
+            <>
+              <p>{page.plansIntro}</p>
+              {englishFivegOperators.map((operator) => (
+                <div key={operator.slug}>
+                  <h3>{operator.name} 5G home plans</h3>
+                  <div className="en-table-wrap" role="region" aria-label={`${operator.name} published 5G plans`} tabIndex={0}>
+                    <table><caption>{operator.name} packages from the Arabic /5g pages — {englishFivegUpdated}</caption><thead><tr><th scope="col">Plan</th><th scope="col">Download</th><th scope="col">Upload</th><th scope="col">Price</th><th scope="col">Included benefits</th></tr></thead>
+                      <tbody>{operator.packages.map((plan) => <tr key={plan.name}><th scope="row">{plan.name}</th><td>{plan.down}</td><td>{plan.up}</td><td>{plan.price}</td><td>{plan.perks}</td></tr>)}</tbody>
+                    </table>
+                  </div>
+                </div>
+              ))}
+              <p className="en-price-note"><a href="https://wa.me/966564612017">{priceEnquiry}</a></p>
+            </>
+          )}
         </section>
 
         <section className="en-section en-apply" aria-labelledby="en-apply-title">

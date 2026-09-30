@@ -42,7 +42,7 @@ export default function EnglishLeadForm({ city = "", service }) {
       <input id="en-district" name="district" value={form.district} onChange={update} placeholder="Enter your area" autoComplete="address-level3" maxLength={150} required aria-invalid={Boolean(error)} aria-describedby={error ? "en-form-error" : undefined} />
       {error && <p id="en-form-error" className="en-error" role="alert">{error}</p>}
       <button type="submit" className="en-button en-button-wa">Send on WhatsApp <span aria-hidden="true">↗</span></button>
-      <span className="en-form-note">You can share a building map pin in the conversation. Availability is checked, not assumed.</span>
+      <span className="en-form-note">Share a building map pin in the conversation to help us get your enquiry started.</span>
     </form>
   );
 }
