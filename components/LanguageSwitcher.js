@@ -10,7 +10,7 @@ export default function LanguageSwitcher({ language = "en" }) {
   if (!pair) return null;
 
   return (
-    <a href={pair[language]} lang={language} dir={language === "en" ? "ltr" : "rtl"} hrefLang={language} style={language === "en" ? { fontSize: "0.85rem", alignSelf: "center" } : undefined}>
+    <a href={pair[language]} lang={`${language}-SA`} dir={language === "en" ? "ltr" : "rtl"} hrefLang={`${language}-SA`} style={language === "en" ? { fontSize: "0.85rem", alignSelf: "center" } : undefined}>
       {language === "en" ? "English" : "العربية"}
     </a>
   );

@@ -1,3 +1,5 @@
+import CityNextSteps from "./CityNextSteps";
+import OperatorSources from "./OperatorSources";
 import LeadForm from "./LeadForm";
 import JsonLd, { breadcrumbSchema, faqSchema, serviceSchema } from "./JsonLd";
 import { cities } from "../lib/cities";
@@ -58,7 +60,7 @@ export function EasternCityPage({ city }) {
       <section className="hero">
         <div className="container hero-grid">
           <div>
-            <h1>مندوب فايبر {data.name} وتركيب الألياف البصرية</h1>
+            <h1>مندوب فايبر {data.name} لفحص التغطية وطلب الألياف البصرية</h1>
             <p className="hero-sub">افحص عنوانك وقارن خيارات الفايبر وراوتر 5G قبل تقديم طلب الإنترنت المنزلي.</p>
             <ul className="hero-points"><li>✔ فحص الخدمة حسب المبنى</li><li>✔ مقارنة مشغلي الفايبر</li><li>✔ متابعة الطلب عبر واتساب</li></ul>
           </div>
@@ -86,7 +88,8 @@ export function EasternCityPage({ city }) {
         <h2>صفحات قريبة</h2>
         <div className="cities">{cities.filter((item) => ![city, data.other.slug].includes(item.slug)).map((item) => <a key={item.slug} href={`/${item.slug}`}>مندوب فايبر {item.name}</a>)}</div>
       </section>
-    </main>
+    <CityNextSteps city={city} />
+  </main>
   );
 }
 
@@ -105,7 +108,7 @@ export function EasternOperatorPage({ city, operator }) {
       <section className="hero">
         <div className="container hero-grid">
           <div>
-            <h1>مندوب فايبر {operator.name} في {data.name}</h1>
+            <h1>فايبر {operator.name} {data.name} وفحص التغطية</h1>
             <p className="hero-sub">تحقق من جاهزية عنوانك لخدمة {operator.name}، راجع الباقات، وتابع طلب التركيب من مكان واحد.</p>
             <ul className="hero-points"><li>✔ فحص العنوان قبل الطلب</li><li>✔ توضيح الباقات المتاحة</li><li>✔ تواصل مباشر عبر واتساب</li></ul>
           </div>
@@ -119,14 +122,14 @@ export function EasternOperatorPage({ city, operator }) {
         <h2>رقم مندوب فايبر {operator.name} {data.name}</h2>
         <ContactBox text={`لفحص عنوانك ومراجعة باقات فايبر ${operator.name} في ${data.name}، اتصل أو أرسل موقع المبنى عبر واتساب.`} />
 
-        <h2>أسعار باقات فايبر {operator.name} (آخر تحديث: {operator.updated})</h2>
-        <div className="table-wrap">
+        <h2>خيارات باقات فايبر {operator.name} (أسماء مرجعية؛ أكد التفاصيل الحالية)</h2>
+        <OperatorSources operator={operator.slug} /><div className="table-wrap">
           <table className="compare">
-            <thead><tr><th>الباقة</th><th>التحميل</th><th>الرفع</th><th>السعر</th><th>المزايا</th></tr></thead>
+            <thead><tr><th>اسم مرجعي للباقة</th><th>التحميل</th><th>الرفع</th><th>السعر</th><th>المزايا</th></tr></thead>
             <tbody>{operator.packages.map((p) => <tr key={p.name}><td>{p.name}</td><td>{p.down}</td><td>{p.up}</td><td>{p.price}</td><td>{p.perks}</td></tr>)}</tbody>
           </table>
         </div>
-        <p className="small-note">الأسعار شاملة ضريبة القيمة المضافة ومنقولة من الموقع الرسمي لـ{operator.name} وقد تتغير. تواصل معنا لتأكيد السعر الحالي قبل الاشتراك.</p>
+        <p className="small-note">لا ننشر سعرًا أو عرضًا حاليًا غير متحقق. راجع المصدر الرسمي لـ{operator.name} للتكلفة والضريبة وشروط الباقة قبل الاشتراك.</p>
         <ContactBox text={`قد تتغير عروض ${operator.name} من وقت إلى آخر. تواصل لتأكيد السعر وشروط الباقة قبل تقديم الطلب.`} />
 
         <h2>معلومات مهمة قبل تركيب فايبر {operator.name}</h2>
@@ -150,6 +153,7 @@ export function EasternOperatorPage({ city, operator }) {
         <div className="card faq">{faqs.map((faq) => <div key={faq.q}><h3>{faq.q}</h3><p>{faq.a}</p></div>)}</div>
         <JsonLd data={schemas} />
       </section>
-    </main>
+    <CityNextSteps city={city} operator={operator.slug} />
+  </main>
   );
 }

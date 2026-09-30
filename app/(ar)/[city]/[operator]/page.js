@@ -1,3 +1,6 @@
+import CityNextSteps from "../../../../components/CityNextSteps";
+import OperatorSources from "../../../../components/OperatorSources";
+import { pageMetadata } from "../../../../lib/seo";
 import { notFound } from "next/navigation";
 import { cities } from "../../../../lib/cities";
 import { operators, operatorCities } from "../../../../lib/operators";
@@ -10,6 +13,9 @@ import { HijazOperatorPage } from "../../../../components/HijazPages";
 import { RegionalOperatorPage } from "../../../../components/RegionalPages";
 import { regionalSlugs } from "../../../../lib/regional";
 import { languageAlternates } from "../../../../lib/languages";
+import { getNeighborhood, publishedNeighborhoods } from "../../../../lib/neighborhoods";
+import NeighborhoodPage from "../../../../components/NeighborhoodPage";
+import { jeddahOperatorAdvice } from "../../../../lib/jeddah";
 
 const PHONE_LOCAL = "0564612017";
 const PHONE_WA = "966564612017";
@@ -17,7 +23,7 @@ const PHONE_WA = "966564612017";
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return operatorCities.flatMap((city) => operators.map((o) => ({ city, operator: o.slug })));
+  return [...operatorCities.flatMap((city) => operators.map((o) => ({ city, operator: o.slug }))), ...publishedNeighborhoods().map((page) => ({ city: page.city, operator: page.slug }))];
 }
 
 function getData(city, operator) {
@@ -29,14 +35,15 @@ function getData(city, operator) {
 
 export async function generateMetadata({ params }) {
   const { city, operator } = await params;
+  const neighborhood = getNeighborhood(city, operator);
+  if (neighborhood) {
+    const cityName = cities.find((entry) => entry.slug === city)?.name;
+    return pageMetadata({ title: `فايبر حي ${neighborhood.name} ${cityName} | فحص تغطية الألياف البصرية`, description: neighborhood.description }, `/${city}/${operator}`);
+  }
   const { c, o } = getData(city, operator);
   if (!c || !o) return {};
-  const title = c.slug === "jeddah"
-    ? `رقم مندوب فايبر ${o.name} جدة | أسعار باقات 2026`
-    : `رقم مندوب فايبر ${o.name} ${c.name} | باقات 2026`;
-  const correctedTitle = ["riyadh", "makkah", "madinah", "taif", "dammam", "khobar", ...regionalSlugs].includes(c.slug)
-    ? `رقم مندوب فايبر ${o.name} ${c.slug === "makkah" ? "مكة" : c.name} | أسعار باقات 2026`
-    : title;
+  const title = `فايبر ${o.name} ${c.name} | فحص التغطية وطلب الألياف البصرية`;
+  const correctedTitle = title;
   const hijazDescriptions = {
     madinah: {
       stc: "رقم مندوب فايبر STC المدينة المنورة لفحص الشقق والمنازل، مراجعة أسعار الباقات، ومقارنة الألياف بخيار 5G.",
@@ -87,17 +94,19 @@ export async function generateMetadata({ params }) {
         : c.slug === "khobar"
           ? `رقم مندوب فايبر ${o.name} الخبر للتحقق من الشقة أو المجمع، مقارنة الباقات، ومتابعة طلب التركيب عبر واتساب.`
           : `رقم مندوب فايبر ${o.name} في ${c.name} لفحص التغطية، معرفة الباقات المتاحة، ورفع طلب التركيب ومتابعته حتى التفعيل عبر واتساب.`);
-  return {
+  return pageMetadata({
     title: correctedTitle,
     description,
     openGraph: { title: correctedTitle, description, images: ["/opengraph-image.png"] },
     twitter: { card: "summary_large_image", title: correctedTitle, description, images: ["/twitter-image.png"] },
     alternates: { canonical: `/${c.slug}/${o.slug}`, languages: languageAlternates(`/${c.slug}/${o.slug}`) },
-  };
+  });
 }
 
 export default async function OperatorPage({ params }) {
   const { city, operator } = await params;
+  const neighborhood = getNeighborhood(city, operator);
+  if (neighborhood) return <NeighborhoodPage page={neighborhood} />;
   const { c, o } = getData(city, operator);
   if (!c || !o) notFound();
   if (c.slug === "riyadh") return <RiyadhOperatorPage operator={o} />;
@@ -106,12 +115,13 @@ export default async function OperatorPage({ params }) {
   if (["dammam", "khobar"].includes(c.slug)) return <EasternOperatorPage city={c.slug} operator={o} />;
   if (regionalSlugs.includes(c.slug)) return <RegionalOperatorPage city={c.slug} operator={o} />;
   const others = operators.filter((x) => x.slug !== o.slug);
+  const addressAdvice = c.slug === "jeddah" ? jeddahOperatorAdvice[o.slug] : null;
 
   const faqs = [
     { q: `كيف أتواصل مع مندوب فايبر ${o.name} في ${c.name}؟`, a: `تواصل معنا عبر واتساب أو اتصل على ${PHONE_LOCAL}، أو عبّي النموذج في أعلى الصفحة وسنرد عليك بأسرع وقت.` },
     { q: "هل الطلب عن طريق المندوب عليه رسوم إضافية؟", a: "لا، خدمتنا بدون أي رسوم إضافية عليك." },
     { q: c.slug === "jeddah" && ["stc", "mobily"].includes(o.slug) ? `كيف أعرف إذا كان عنواني مغطى بفايبر ${o.name}؟` : `هل فايبر ${o.name} متوفر في حيي في ${c.name}؟`, a: `تختلف التغطية من حي إلى آخر ومن مبنى إلى آخر. أرسل اسم حيك وموقع مبناك لنتحقق من توفر فايبر ${o.name} تحديداً.` },
-    { q: "هل يوجد رسوم تركيب؟", a: `التركيب والراوتر مجاناً في أغلب باقات ${o.name} الحالية، ونوضح لك أي تفاصيل قبل رفع الطلب.` },
+    { q: "هل يوجد رسوم تركيب؟", a: `تُراجع رسوم التركيب والجهاز لدى ${o.name} حسب الباقة والعنوان قبل الموافقة على الطلب.` },
     { q: `هل أقدر أنتقل من مشغل آخر إلى ${o.name}؟`, a: `نعم إذا كان مبناك مغطى من ${o.name}. ننصحك تتأكد من أي التزام أو مدة عقد على اشتراكك الحالي قبل الانتقال.` },
     { q: "كم يستغرق التركيب؟", a: "يختلف حسب جاهزية المبنى ومواعيد الفنيين، ونتابع معك الطلب خطوة بخطوة حتى التفعيل." },
   ];
@@ -134,7 +144,7 @@ export default async function OperatorPage({ params }) {
       <section className="hero">
         <div className="container hero-grid">
           <div>
-            <h1>{o.slug === "salam" && c.slug === "jeddah" ? "مندوب فايبر سلام جدة" : `مندوب فايبر ${o.name} في ${c.name}`}</h1>
+            <h1>فايبر {o.name} {c.name} وفحص التغطية</h1>
             <p className="hero-sub">تركيب ألياف {o.name} البصرية في {c.name}: نفحص تغطية مبناك مجاناً، نشرح لك الباقات، ونرفع طلبك ونتابعه حتى التفعيل.</p>
             <ul className="hero-points">
               <li>✔ تواصل مباشر مع المندوب واتساب</li>
@@ -162,10 +172,11 @@ export default async function OperatorPage({ params }) {
           </div>
         </div>
 
-        <h2>أسعار باقات فايبر {o.name} (آخر تحديث: {o.updated})</h2>
+        <h2>خيارات باقات فايبر {o.name} (أسماء مرجعية؛ أكد التفاصيل الحالية)</h2>
+        <OperatorSources operator={o.slug} />
         <div className="table-wrap">
           <table className="compare">
-            <thead><tr><th>الباقة</th><th>التحميل</th><th>الرفع</th><th>السعر</th><th>المزايا</th></tr></thead>
+            <thead><tr><th>اسم مرجعي للباقة</th><th>التحميل</th><th>الرفع</th><th>السعر</th><th>المزايا</th></tr></thead>
             <tbody>
               {o.packages.map((p) => (
                 <tr key={p.name}><td>{p.name}</td><td>{p.down}</td><td>{p.up}</td><td>{p.price}</td><td>{p.perks}</td></tr>
@@ -173,7 +184,7 @@ export default async function OperatorPage({ params }) {
             </tbody>
           </table>
         </div>
-        <p className="small-note">الأسعار شاملة ضريبة القيمة المضافة ومنقولة من الموقع الرسمي لـ{o.name} وقد تتغير. تواصل معنا لتأكيد السعر الحالي قبل الاشتراك.</p>
+        <p className="small-note">راجع المصدر الرسمي لـ{o.name} للسعر والضريبة والالتزام. أسماء الباقات مرجعية وليست قائمة عروض مؤكدة حاليًا.</p>
 
         <div className="contact-box">
           <h3>تأكيد أسعار باقات {o.name}</h3>
@@ -200,8 +211,9 @@ export default async function OperatorPage({ params }) {
         <p>{o.about}</p>
 
         <h2>فايبر {o.name} في {c.name}</h2>
-        <p>{c.intro}</p>
-        <p>تغطية {o.name} بالألياف البصرية في {c.name} ممتدة في أحياء كثيرة لكنها تختلف من مبنى لآخر، لذلك أول خطوة دائماً هي فحص عنوانك. أرسل اسم حيك وموقع مبناك ونرد عليك بالنتيجة والخيارات المتاحة.</p>
+        <p>{addressAdvice ? addressAdvice.introduction : c.intro}</p>
+        {addressAdvice && <><h3>{addressAdvice.title}</h3><p>{addressAdvice.advice}</p></>}
+        <p>يتطلب توفر {o.name} بالألياف البصرية في {c.name} التحقق من المبنى المحدد ولا يمكن تعميم النتيجة على الحي، لذلك أول خطوة دائماً هي فحص عنوانك. أرسل اسم حيك وموقع مبناك ونرد عليك بالنتيجة والخيارات المتاحة.</p>
 
         {c.slug !== "jeddah" && <>
           <h2>مندوب فايبر {o.name} في أحياء {c.name}</h2>
@@ -250,7 +262,7 @@ export default async function OperatorPage({ params }) {
         </div>
 
         <h2>مبناك غير مغطى بفايبر {o.name}؟</h2>
-        <p>جرّب راوتر 5G: يصلك دون تمديدات، والراوتر مجاني مع الاشتراك. <a href={`/5g/${o.slug}`}>راوتر 5G {o.name}</a> أو <a href="/fiber-vs-5g">قارن بين الفايبر و5G</a>.</p>
+        <p>جرّب راوتر 5G: يصلك دون تمديدات، وتكلفة الراوتر تخضع لشروط الباقة. <a href={`/5g/${o.slug}`}>راوتر 5G {o.name}</a> أو <a href="/fiber-vs-5g">قارن بين الفايبر و5G</a>.</p>
 
         <h2>أسئلة شائعة عن مندوب فايبر {o.name} في {c.name}</h2>
         <div className="card faq">
@@ -261,6 +273,7 @@ export default async function OperatorPage({ params }) {
 
         <JsonLd data={schemas} />
       </section>
+    <CityNextSteps city={c.slug} operator={o.slug} />
     </main>
   );
 }

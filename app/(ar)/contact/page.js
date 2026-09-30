@@ -1,13 +1,15 @@
+import { pageMetadata } from "../../../lib/seo";
+import PageSchema from "../../../components/PageSchema";
 import LeadForm from "../../../components/LeadForm";
 
 const PHONE_LOCAL = "0564612017";
 const PHONE_WA = "966564612017";
 
-export const metadata = {
+export const metadata = pageMetadata({
   title: "تواصل معنا | رقم مندوب فايبر وراوتر 5G - سعودي واصل",
   description: "رقم وواتساب سعودي واصل: مندوب فايبر وراوتر 5G لجميع الشركات في مدن المملكة. تواصل معنا للاستفسار أو طلب الاشتراك.",
   alternates: { canonical: "/contact" },
-};
+});
 
 const schema = {
   "@context": "https://schema.org",
@@ -31,6 +33,7 @@ const schema = {
 export default function ContactPage() {
   return (
     <main>
+      <PageSchema metadata={metadata} />
       <section className="hero">
         <div className="container hero-grid">
           <div>
@@ -55,6 +58,8 @@ export default function ContactPage() {
 
         <h2>قبل أن تراسلنا</h2>
         <p>لنخدمك بصورة أسرع، أرسل المدينة والحي، ونوع السكن (فيلا، شقة، مكتب)، والشركة التي تفضلها إن وجدت.</p>
+        <h2>متابعة طلب التحقق أو الاشتراك</h2>
+        <p>إذا سجلت طلبًا في الموقع، احتفظ بمرجع SaudiWasel وأرسله في المحادثة. هذا المرجع يخص طلب التحقق فقط؛ عند تقديم الاشتراك لدى المشغل، احتفظ أيضًا برقمه الرسمي لمتابعة قبول الطلب وموعد الفني. لا نؤكد تركيبًا أو تفعيلًا من مجرد إرسال النموذج.</p>
 
         <p className="notice">سعودي واصل جهة مستقلة. إذا كان لديك عطل أو مشكلة في خدمة قائمة أو فاتورة، فتواصل مع خدمة عملاء شركتك مباشرة، لأننا نخدم طلبات الاشتراك الجديدة فقط.</p>
 

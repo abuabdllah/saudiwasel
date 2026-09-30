@@ -1,27 +1,30 @@
+import { pageMetadata } from "../../lib/seo";
 import LeadForm from "../../components/LeadForm";
 import InfoSections from "../../components/InfoSections";
 import { cities } from "../../lib/cities";
 import JsonLd, { breadcrumbSchema } from "../../components/JsonLd";
 import { languageAlternates } from "../../lib/languages";
+import IntentCtas from "../../components/IntentCtas";
 
-const title = "مندوب فايبر السعودية | تركيب الألياف البصرية";
-const description = "رقم مندوب فايبر في السعودية لفحص تغطية الألياف البصرية ومقارنة خيارات المشغلين، مع متابعة طلب الاشتراك والتركيب والتفعيل.";
-export const metadata = {
+const title = "مندوب فايبر السعودية | فحص التغطية وطلب الألياف البصرية";
+const description = "فحص تغطية الفايبر في السعودية حسب المدينة والحي والمشغل، والتعرف على خيارات الألياف البصرية و5G وطلب الخدمة بسهولة.";
+export const metadata = pageMetadata({
   title,
   description,
   openGraph: { title, description, images: ["/opengraph-image.png"] },
   twitter: { card: "summary_large_image", title, description, images: ["/twitter-image.png"] },
   alternates: { canonical: "/", languages: languageAlternates("/") },
-};
+});
 
 const siteSchema = [
   {
     "@context": "https://schema.org",
     "@type": "WebSite",
+    "@id": "https://saudiwasel.com/#website",
     name: "سعودي واصل",
     alternateName: ["Saudi Wasel", "saudiwasel.com"],
     url: "https://saudiwasel.com/",
-    inLanguage: "ar",
+    inLanguage: "ar-SA",
   },
 ];
 
@@ -31,7 +34,7 @@ export default function Home() {
       <section className="hero">
         <div className="container hero-grid">
           <div>
-            <h1>مندوب فايبر وتركيب ألياف بصرية في جميع مدن السعودية</h1>
+            <h1>مندوب فايبر في السعودية لفحص التغطية وطلب الألياف البصرية</h1>
 
             <p className="hero-sub">
               مندوب فايبر يساعدك في فحص تغطية الألياف البصرية على عنوانك،
@@ -44,6 +47,7 @@ export default function Home() {
               <li>✔ STC وسلام وزين وموبايلي</li>
               <li>✔ متابعة طلب الاشتراك حتى التفعيل</li>
             </ul>
+            <IntentCtas />
           </div>
 
           <LeadForm />
@@ -51,7 +55,7 @@ export default function Home() {
       </section>
 
       <section className="container">
-        <h2>مندوب الياف بصرية في السعودية</h2>
+        <h2>من موقعك إلى اختيار الإنترنت المناسب</h2>
 
         <p>
           سعودي واصل منصة مستقلة تساعدك في طلب خدمات الإنترنت المنزلي بسهولة.
@@ -75,6 +79,7 @@ export default function Home() {
         </div>
 
         <h2>فحص تغطية الألياف البصرية</h2>
+        <IntentCtas />
 
         <p>
           تختلف تغطية الفايبر من حي إلى آخر ومن مبنى إلى آخر. أرسل عنوانك أو
@@ -98,7 +103,7 @@ export default function Home() {
           <a href="/fiber-vs-5g">فايبر ولا راوتر 5G؟</a>
         </div>
 
-        <h2>نغطي مدن المملكة</h2>
+        <h2>اختر مدينتك لفحص خيارات الإنترنت</h2>
 
         <div className="cities">
           {cities.map((c) => (

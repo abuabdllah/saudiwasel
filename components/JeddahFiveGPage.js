@@ -1,3 +1,4 @@
+import OperatorSources from "./OperatorSources";
 import LeadForm from "./LeadForm";
 import JsonLd, { breadcrumbSchema, faqSchema, serviceSchema } from "./JsonLd";
 import { fivegOperators } from "../lib/fiveg";
@@ -6,7 +7,7 @@ const PHONE_LOCAL = "0564612017";
 const PHONE_WA = "966564612017";
 
 export default function JeddahFiveGPage({ zainOnly = false }) {
-  const title = zainOnly ? "مندوب زين جدة (فايبر وراوتر 5G)" : "مندوب راوتر 5G جدة";
+  const title = zainOnly ? "فايبر زين جدة و5G وفحص التغطية" : "مندوب راوتر 5G جدة";
   const path = zainOnly ? "/jeddah/zain" : "/jeddah/5g";
   const options = zainOnly ? fivegOperators.filter((o) => o.slug === "zain") : fivegOperators;
   const faqs = zainOnly ? [
@@ -38,6 +39,7 @@ export default function JeddahFiveGPage({ zainOnly = false }) {
     </div><LeadForm defaultCity="جدة" operator={zainOnly ? "زين" : "راوتر 5G"} /></div></section>
 
     <section className="container">
+      <OperatorSources operator={zainOnly ? "zain" : ""} />
       <p className="notice">سعودي واصل جهة مستقلة وليست الموقع الرسمي لأي مشغل. نساعدك في اختيار الخدمة ورفع الطلب ومتابعته.</p>
       <h2>رقم مندوب {zainOnly ? "زين" : "راوتر 5G"} جدة</h2>
       <div className="contact-box"><p>للاستفسار عن الخيارات المتاحة لعنوانك في جدة، تواصل مع المندوب مباشرة:</p><div className="header-actions"><a href={`tel:${PHONE_LOCAL}`} className="btn btn-call">📞 {PHONE_LOCAL}</a><a href={`https://wa.me/${PHONE_WA}`} className="btn btn-wa">راسلنا واتساب</a></div></div>

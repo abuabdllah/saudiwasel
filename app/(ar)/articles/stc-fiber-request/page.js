@@ -1,10 +1,12 @@
+import { pageMetadata } from "../../../../lib/seo";
+import PageSchema from "../../../../components/PageSchema";
 import ArticleCta from "../../../../components/ArticleCta";
 
-export const metadata = {
-  title: "طريقة طلب الياف بصرية STC خطوة بخطوة - سعودي واصل",
+export const metadata = pageMetadata({
+  title: "طريقة طلب الياف بصرية STC خطوة بخطوة | SaudiWasel",
   description: "دليل مبسط لطلب الياف بصرية STC: فحص التغطية، تجهيز بيانات العنوان، اختيار الخدمة، ومتابعة التركيب والتفعيل.",
   alternates: { canonical: "/articles/stc-fiber-request" },
-};
+});
 
 const faqs = [
   ["هل أقدر أطلب فايبر STC إذا ما فيه بوكس في المبنى؟", "وجود تغطية في الحي لا يعني أن المبنى جاهز. افحص العنوان أولًا؛ وإذا لم تظهر التغطية، استخدم قناة STC الرسمية لمعرفة إمكانية طلب توصيل الألياف للموقع."],
@@ -15,6 +17,7 @@ const faqs = [
 
 export default function StcFiberRequest() {
   return <main className="container article-shell">
+    <PageSchema metadata={metadata} article faqs={faqs} />
     <header className="article-header"><p className="article-kicker">دليل الطلب</p><h1>طريقة طلب الياف بصرية STC خطوة بخطوة</h1><p>خطوات واضحة من أول فحص العنوان إلى تشغيل الخدمة، بدون أسعار أو وعود غير مؤكدة.</p></header>
     <article className="article-body">
       <p>إذا ناوي تطلب فايبر STC للبيت، لا تبدأ باختيار اسم الباقة مباشرة. البداية الصحيحة هي التأكد أن الألياف واصلة إلى المبنى نفسه. التغطية ممكن تكون موجودة في الحي، لكن عمارتك أو الفيلا ما زالت غير جاهزة، أو يكون العنوان مسجل بطريقة مختلفة. لذلك جهّز موقع المبنى بدقة، وامشِ على الخطوات التالية بهدوء. وتذكّر أن توفر الخدمة والموعد النهائي للتركيب تحددهما STC بحسب العنوان وجاهزية الشبكة.</p>

@@ -1,3 +1,5 @@
+import CityNextSteps from "./CityNextSteps";
+import OperatorSources from "./OperatorSources";
 import LeadForm from "./LeadForm";
 import JsonLd, { breadcrumbSchema, faqSchema, serviceSchema } from "./JsonLd";
 import { operators } from "../lib/operators";
@@ -45,7 +47,7 @@ export function MakkahCityPage() {
   ];
   return <main>
     <section className="hero"><div className="container hero-grid"><div>
-      <h1>مندوب فايبر مكة وتركيب الألياف البصرية</h1>
+      <h1>مندوب فايبر مكة لفحص التغطية وطلب الألياف البصرية</h1>
       <p className="hero-sub">افحص عنوان المبنى في مكة، وقارن بين الفايبر وراوتر 5G وفق نوع السكن ومدة إقامتك، ثم تابع طلبك عبر قناة واحدة.</p>
       <ul className="hero-points"><li>✔ فحص الموقع قبل اختيار الخدمة</li><li>✔ مقارنة مشغلي الفايبر في مكة</li><li>✔ اتصال وواتساب على الرقم نفسه</li></ul>
     </div><LeadForm defaultCity="مكة المكرمة" /></div></section>
@@ -62,6 +64,7 @@ export function MakkahCityPage() {
       <h2>مدن قريبة من مكة</h2><p>للعناوين خارج مكة، راجع <a href="/jeddah">مندوب فايبر جدة</a> أو <a href="/taif">مندوب فايبر الطائف</a>.</p>
       <JsonLd data={schemas} />
     </section>
+  <CityNextSteps city="makkah" />
   </main>;
 }
 
@@ -74,7 +77,7 @@ export function MakkahOperatorPage({ operator }) {
   ];
   return <main>
     <section className="hero"><div className="container hero-grid"><div>
-      <h1>مندوب فايبر {operator.name} في مكة</h1>
+      <h1>فايبر {operator.name} مكة وفحص التغطية</h1>
       <p className="hero-sub">افحص فايبر {operator.name} على عنوانك في مكة، وراجع الباقات المنشورة ثم تابع طلب التركيب للسكن الدائم أو المستأجر.</p>
       <ul className="hero-points"><li>✔ فحص المبنى قبل رفع الطلب</li><li>✔ عرض الباقات دون تغيير الأسعار</li><li>✔ تواصل بالاتصال أو واتساب</li></ul>
     </div><LeadForm defaultCity="مكة المكرمة" operator={operator.name} /></div></section>
@@ -82,9 +85,9 @@ export function MakkahOperatorPage({ operator }) {
       <p className="notice">موقع مستقل وغير تابع لأي مشغل. نساعدك في فحص تغطية {operator.name} ورفع طلب الاشتراك ومتابعته.</p>
       <h2>فايبر {operator.name} في مكة المكرمة</h2><p>{content.intro[0]}</p><p>{content.intro[1]}</p>
       <h2>رقم مندوب فايبر {operator.name} مكة</h2><ContactBox operator={operator} />
-      <h2>أسعار باقات فايبر {operator.name} (آخر تحديث: {operator.updated})</h2>
-      <div className="table-wrap"><table className="compare"><thead><tr><th>الباقة</th><th>التحميل</th><th>الرفع</th><th>السعر</th><th>المزايا</th></tr></thead><tbody>{operator.packages.map((pack) => <tr key={pack.name}><td>{pack.name}</td><td>{pack.down}</td><td>{pack.up}</td><td>{pack.price}</td><td>{pack.perks}</td></tr>)}</tbody></table></div>
-      <p className="small-note">الأسعار شاملة ضريبة القيمة المضافة ومنقولة من الموقع الرسمي لـ{operator.name} وقد تتغير. تواصل معنا لتأكيد السعر الحالي قبل الاشتراك.</p>
+      <h2>خيارات باقات فايبر {operator.name} (أسماء مرجعية؛ أكد التفاصيل الحالية)</h2>
+      <OperatorSources operator={operator.slug} /><div className="table-wrap"><table className="compare"><thead><tr><th>اسم مرجعي للباقة</th><th>التحميل</th><th>الرفع</th><th>السعر</th><th>المزايا</th></tr></thead><tbody>{operator.packages.map((pack) => <tr key={pack.name}><td>{pack.name}</td><td>{pack.down}</td><td>{pack.up}</td><td>{pack.price}</td><td>{pack.perks}</td></tr>)}</tbody></table></div>
+      <p className="small-note">لا ننشر سعرًا أو عرضًا حاليًا غير متحقق. راجع المصدر الرسمي لـ{operator.name} للتكلفة والضريبة وشروط الباقة قبل الاشتراك.</p>
       <div className="contact-box"><h3>تأكيد الباقة قبل الطلب</h3><p>قد تتغير العروض أو شروطها، لذلك نراجع السعر المنشور وبيانات العنوان معك قبل بدء الإجراءات.</p><div className="header-actions"><a href={`tel:${PHONE_LOCAL}`} className="btn btn-call">📞 {PHONE_LOCAL}</a><a href={`https://wa.me/${PHONE_WA}`} className="btn btn-wa">راسلنا واتساب</a></div></div>
       <h2>معلومات قبل تركيب فايبر {operator.name}</h2><ul className="req-list">{operator.facts.map((fact) => <li key={fact}>{fact}</li>)}</ul>
       <h2>مندوب {operator.name} في أحياء مكة</h2><DistrictCards operator={operator} />
@@ -94,5 +97,6 @@ export function MakkahOperatorPage({ operator }) {
       <h2>أسئلة شائعة عن فايبر {operator.name} في مكة</h2><div className="card faq">{content.faqs.map((faq) => <div key={faq.q}><h4>{faq.q}</h4><p>{faq.a}</p></div>)}</div>
       <JsonLd data={schemas} />
     </section>
+  <CityNextSteps city="makkah" operator={operator.slug} />
   </main>;
 }
