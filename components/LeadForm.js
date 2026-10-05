@@ -12,7 +12,7 @@ export default function LeadForm({ defaultCity = "", defaultDistrict = "", opera
   const identifier = useId();
   const initialCity = cities.find((city) => city.name === defaultCity || city.slug === defaultCity)?.slug || "";
   const initialOperator = operatorOptions.find(([slug, name]) => operator === slug || operator.includes(name))?.[0] || "any";
-  const [form, setForm] = useState({ city: initialCity, district: defaultDistrict, operator: initialOperator, buildingType: "home", service: operator.includes("5G") ? "5g" : "fiber", name: "", phone: "", notes: "", buildingLocation: "", consent: false, website: "" });
+  const [form, setForm] = useState({ city: initialCity, otherCity: "", district: defaultDistrict, operator: initialOperator, buildingType: "home", service: operator.includes("5G") ? "5g" : "fiber", name: "", phone: "", notes: "", buildingLocation: "", consent: false, website: "" });
   const [step, setStep] = useState(1);
   const [status, setStatus] = useState("idle");
   const [error, setError] = useState("");
@@ -22,6 +22,7 @@ export default function LeadForm({ defaultCity = "", defaultDistrict = "", opera
   const pendingReference = useRef("");
   const sending = useRef(false);
   const selectedCity = cities.find((city) => city.slug === form.city);
+  const cityName = form.city === "other" ? form.otherCity.trim() : selectedCity?.name || "";
   const context = () => ({ page_path: window.location.pathname, city: form.city, operator: form.operator, service: form.service });
 
   function start() {
@@ -33,7 +34,7 @@ export default function LeadForm({ defaultCity = "", defaultDistrict = "", opera
   function update(event) {
     start();
     const { name, value, checked, type } = event.target;
-    setForm((current) => ({ ...current, [name]: type === "checkbox" ? checked : value, ...(name === "city" && { district: "" }) }));
+    setForm((current) => ({ ...current, [name]: type === "checkbox" ? checked : value, ...(name === "city" && { district: "", otherCity: "" }) }));
     setError("");
     if (name !== "website") {
       submissionId.current = "";
@@ -41,11 +42,15 @@ export default function LeadForm({ defaultCity = "", defaultDistrict = "", opera
     }
   }
 
-  const whatsappUrl = reference ? coverageWhatsAppUrl(form, reference, selectedCity?.name || "") : "";
+  const whatsappUrl = reference ? coverageWhatsAppUrl(form, reference, cityName) : "";
 
   async function send(event) {
     event.preventDefault();
     start();
+    if (!cityName || (form.city === "other" && (cityName.length < 2 || cityName.length > 100))) {
+      setError("اكتب اسم المدينة أو المحافظة (من حرفين إلى ١٠٠ حرف).");
+      return;
+    }
     if (step === 1) {
       if (form.district.trim().length < 2) { setError("اكتب اسم الحي للتحقق من عنوانك."); return; }
       setStep(2);
@@ -66,7 +71,7 @@ export default function LeadForm({ defaultCity = "", defaultDistrict = "", opera
       pendingReference.current ||= createReference();
       await saveCoverageRequest(form, {
         sourcePath: window.location.pathname,
-        cityName: selectedCity.name,
+        cityName,
         submissionId: submissionId.current,
         reference: pendingReference.current,
       });
@@ -82,7 +87,7 @@ export default function LeadForm({ defaultCity = "", defaultDistrict = "", opera
     trackEvent("lead_success", context());
     sending.current = false;
     try {
-      window.open(coverageWhatsAppUrl(form, pendingReference.current, selectedCity.name), "_blank", "noopener,noreferrer");
+      window.open(coverageWhatsAppUrl(form, pendingReference.current, cityName), "_blank", "noopener,noreferrer");
     } catch {
       return;
     }
@@ -106,7 +111,12 @@ export default function LeadForm({ defaultCity = "", defaultDistrict = "", opera
         <select id={`${identifier}-city`} name="city" required value={form.city} onChange={update}>
           <option value="" disabled>اختر المدينة</option>
           {cities.map((city) => <option key={city.slug} value={city.slug}>{city.name}</option>)}
+          <option value="other">مدينة أو محافظة أخرى</option>
         </select>
+        {form.city === "other" && <>
+          <label htmlFor={`${identifier}-other-city`}>اسم المدينة أو المحافظة</label>
+          <input id={`${identifier}-other-city`} name="otherCity" value={form.otherCity} onChange={update} autoComplete="address-level2" required minLength={2} maxLength={100} />
+        </>}
         <label htmlFor={`${identifier}-district`}>الحي</label>
         <input id={`${identifier}-district`} name="district" value={form.district} placeholder="اختر من الاقتراحات أو اكتب اسم الحي" list={`${identifier}-districts`} required minLength={2} maxLength={150} onChange={update} autoComplete="address-level3" />
         <datalist id={`${identifier}-districts`}>{selectedCity?.districts.map((district) => <option key={district} value={district} />)}</datalist>
@@ -125,7 +135,7 @@ export default function LeadForm({ defaultCity = "", defaultDistrict = "", opera
         </select>
         <button type="submit" className="btn btn-coverage">متابعة فحص التغطية</button>
       </> : <>
-        <p>طلب تحقق في {selectedCity?.name}، حي {form.district}. نحتاج رقمك للتواصل بشأن نتيجة التحقق، دون رفع هوية أو دفع في الموقع.</p>
+        <p>طلب تحقق في {cityName}، حي {form.district}. نحتاج رقمك للتواصل بشأن نتيجة التحقق، دون رفع هوية أو دفع في الموقع.</p>
         <label htmlFor={`${identifier}-name`}>الاسم</label>
         <input id={`${identifier}-name`} name="name" value={form.name} autoComplete="name" minLength={2} maxLength={100} required onChange={update} disabled={status === "sending"} />
         <label htmlFor={`${identifier}-phone`}>رقم الجوال</label>

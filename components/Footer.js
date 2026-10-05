@@ -11,6 +11,7 @@ export default function Footer() {
           <a href="/">تركيب فايبر</a>
           <a href="/jeddah">فايبر جدة</a>
           <a href="/riyadh">فايبر الرياض</a>
+          <a href="/riyadh">مندوب فايبر الرياض</a>
           <a href="/jeddah/stc">فايبر STC جدة</a>
           <a href="/jeddah/salam">فايبر سلام جدة</a>
           <a href="/jeddah/mobily">فايبر موبايلي جدة</a>

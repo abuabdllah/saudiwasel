@@ -43,7 +43,10 @@ export async function generateMetadata({ params }) {
   const { c, o } = getData(city, operator);
   if (!c || !o) return {};
   const title = `فايبر ${o.name} ${c.name} | فحص التغطية وطلب الألياف البصرية`;
-  const correctedTitle = title;
+  const titleTestPaths = ["jeddah/mobily", "jeddah/salam", "makkah/stc", "makkah/salam", "dammam/stc"];
+  const correctedTitle = titleTestPaths.includes(`${city}/${operator}`)
+    ? `رقم مندوب فايبر ${o.name} ${c.name} ${PHONE_LOCAL}`
+    : title;
   const hijazDescriptions = {
     madinah: {
       stc: "رقم مندوب فايبر STC المدينة المنورة لفحص الشقق والمنازل، مراجعة أسعار الباقات، ومقارنة الألياف بخيار 5G.",
