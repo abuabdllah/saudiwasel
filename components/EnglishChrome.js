@@ -29,6 +29,7 @@ export function EnglishFooter() {
         </div>
         <nav className="en-footer-links" aria-label="English internet guides">
           {englishPages.map((page) => <a key={page.path} href={page.path}>{page.nav}</a>)}
+          <a href="/riyadh" lang="ar-SA" dir="rtl">مندوب فايبر الرياض</a>
         </nav>
         <p className="en-disclaimer">{englishDisclaimer}</p>
         <nav className="en-footer-links" aria-label="About and privacy"><a href="/about">About us (Arabic)</a><a href="/contact">Contact</a><a href="/privacy">Privacy policy (Arabic)</a><a href="/coverage">Address coverage check (Arabic)</a></nav>

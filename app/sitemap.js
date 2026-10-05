@@ -7,7 +7,7 @@ import { publishedNeighborhoods } from "../lib/neighborhoods";
 // آخر تعديل حقيقي للصفحات العامة
 const siteUpdatedISO = "2026-09-30";
 const articlesUpdatedISO = "2026-09-30";
-const riyadhUpdatedISO = "2026-09-30";
+const riyadhUpdatedISO = "2026-10-05";
 const makkahUpdatedISO = "2026-09-30";
 const easternUpdatedISO = "2026-09-30";
 const hijazUpdatedISO = "2026-09-30";
@@ -123,5 +123,8 @@ export default function sitemap() {
       lastModified: siteUpdatedISO,
       priority: 0.2,
     },
-  ];
+  ].filter((entry) => {
+    const url = new URL(entry.url);
+    return !url.search && !url.hash;
+  });
 }

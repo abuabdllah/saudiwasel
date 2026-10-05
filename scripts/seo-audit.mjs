@@ -78,8 +78,29 @@ for (const path of routes) {
   }
   const anchors = [...html.matchAll(/<a\b[^>]*href="([^"]*)"[^>]*>/g)].map((match) => decode(match[1]));
   const ids = new Set([...html.matchAll(/\bid="([^"]*)"/g)].map((match) => decode(match[1])));
-  pages.set(path, { title, h1, description: meta("description"), canonical, anchors, ids, alternateLinks, schemas: schemas.map((schema) => schema["@type"]) });
+  pages.set(path, { title, ogTitle: meta("og:title"), h1, description: meta("description"), canonical, anchors, ids, alternateLinks, schemas: schemas.map((schema) => schema["@type"]) });
   console.log(`Checked ${path}`);
+}
+
+for (const query of ["?city=riyadh", "?intent=order", "?city=jeddah&operator=mobily&intent=order", "?city=other&utm_source=test"]) {
+  const path = `/coverage${query}`;
+  const response = await fetch(`${base}${path}`, { headers });
+  const html = await response.text();
+  const canonicals = [...html.matchAll(/<link\b[^>]*>/g)].map((match) => attrs(match[0])).filter((link) => link.rel === "canonical");
+  if (response.status !== 200) reportError(path, `HTTP ${response.status}`);
+  if (canonicals.length !== 1 || canonicals[0].href !== `${canonicalOrigin}/coverage`) reportError(path, "Coverage query must use the fixed canonical");
+}
+
+const titleTests = {
+  "/jeddah/mobily": "رقم مندوب فايبر موبايلي جدة 0564612017",
+  "/jeddah/salam": "رقم مندوب فايبر سلام جدة 0564612017",
+  "/makkah/stc": "رقم مندوب فايبر STC مكة المكرمة 0564612017",
+  "/makkah/salam": "رقم مندوب فايبر سلام مكة المكرمة 0564612017",
+  "/dammam/stc": "رقم مندوب فايبر STC الدمام 0564612017",
+};
+for (const [path, expected] of Object.entries(titleTests)) {
+  if (pages.get(path)?.title !== expected) reportError(path, "Unexpected experimental title");
+  if (pages.get(path)?.ogTitle !== expected) reportError(path, "Open Graph title differs from experimental title");
 }
 
 for (const field of ["title", "h1", "description"]) {
