@@ -3,6 +3,7 @@ import { operators, operatorCities, fiberUpdatedISO } from "../lib/operators";
 import { fivegOperators, fivegUpdatedISO } from "../lib/fiveg";
 import { languagePairs } from "../lib/languages";
 import { publishedNeighborhoods } from "../lib/neighborhoods";
+import { cityFivegPages, cityFivegUpdatedISO } from "../lib/city-fiveg";
 
 // آخر تعديل حقيقي للصفحات العامة
 const siteUpdatedISO = "2026-09-30";
@@ -24,7 +25,7 @@ export default function sitemap() {
   // صفحات المدن
   const cityUrls = cities.map((city) => ({
     url: `${base}/${city.slug}`,
-    lastModified: ["abha", "tabuk", "buraidah", "hail", "jazan"].includes(city.slug) ? regionalUpdatedISO : city.slug === "riyadh" ? riyadhUpdatedISO : city.slug === "makkah" ? makkahUpdatedISO : ["madinah", "taif"].includes(city.slug) ? hijazUpdatedISO : ["dammam", "khobar"].includes(city.slug) ? easternUpdatedISO : fiberUpdatedISO,
+    lastModified: cityFivegPages[city.slug] ? cityFivegUpdatedISO : ["abha", "tabuk", "buraidah", "hail", "jazan"].includes(city.slug) ? regionalUpdatedISO : city.slug === "riyadh" ? riyadhUpdatedISO : city.slug === "makkah" ? makkahUpdatedISO : ["madinah", "taif"].includes(city.slug) ? hijazUpdatedISO : ["dammam", "khobar"].includes(city.slug) ? easternUpdatedISO : fiberUpdatedISO,
     priority: 0.8,
   }));
 
@@ -32,7 +33,7 @@ export default function sitemap() {
   const fiberOperatorUrls = operatorCities.flatMap((city) =>
     operators.map((operator) => ({
       url: `${base}/${city}/${operator.slug}`,
-      lastModified: ["abha", "tabuk", "buraidah", "hail", "jazan"].includes(city) ? regionalUpdatedISO : city === "riyadh" ? riyadhUpdatedISO : city === "makkah" ? makkahUpdatedISO : ["madinah", "taif"].includes(city) ? hijazUpdatedISO : ["dammam", "khobar"].includes(city) ? easternUpdatedISO : operator.updatedISO,
+      lastModified: cityFivegPages[city] ? cityFivegUpdatedISO : ["abha", "tabuk", "buraidah", "hail", "jazan"].includes(city) ? regionalUpdatedISO : city === "riyadh" ? riyadhUpdatedISO : city === "makkah" ? makkahUpdatedISO : ["madinah", "taif"].includes(city) ? hijazUpdatedISO : ["dammam", "khobar"].includes(city) ? easternUpdatedISO : operator.updatedISO,
       priority: 0.9,
     }))
   );
@@ -77,6 +78,12 @@ export default function sitemap() {
       lastModified: siteUpdatedISO,
       priority: 0.9,
     },
+
+    ...Object.values(cityFivegPages).map((city) => ({
+      url: `${base}/${city.slug}/5g`,
+      lastModified: cityFivegUpdatedISO,
+      priority: 0.9,
+    })),
 
     // صفحة 5G الرئيسية
     {
