@@ -89,6 +89,7 @@ export default function FiberVs5GPage() {
         <p>أرسل مدينتك وحيك، ونتحقق من خدمات الفايبر و5G المتاحة على عنوانك لدى الشركات، ونرشح لك الأنسب لاستخدامك وميزانيتك.</p>
         <div className="cities">
           <a href="/">اطلب فايبر</a>
+          <a href="/riyadh">مندوب فايبر الرياض</a>
           <a href="/5g">اطلب راوتر 5G</a>
           <a href="/jeddah/stc">فايبر STC جدة</a>
           <a href="/jeddah/salam">فايبر سلام جدة</a>

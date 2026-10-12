@@ -7,6 +7,8 @@ import { publishedNeighborhoods } from "../lib/neighborhoods";
 // آخر تعديل حقيقي للصفحات العامة
 const siteUpdatedISO = "2026-09-30";
 const articlesUpdatedISO = "2026-09-30";
+const coverageArticlesUpdatedISO = "2026-10-12";
+const internetGuidesUpdatedISO = "2026-10-12";
 const riyadhUpdatedISO = "2026-10-05";
 const makkahUpdatedISO = "2026-09-30";
 const easternUpdatedISO = "2026-09-30";
@@ -38,7 +40,7 @@ export default function sitemap() {
   // صفحات 5G
   const fivegUrls = fivegOperators.map((operator) => ({
     url: `${base}/5g/${operator.slug}`,
-    lastModified: fivegUpdatedISO,
+    lastModified: operator.slug === "zain" ? internetGuidesUpdatedISO : fivegUpdatedISO,
     priority: 0.8,
   }));
 
@@ -79,7 +81,7 @@ export default function sitemap() {
     // صفحة 5G الرئيسية
     {
       url: `${base}/5g`,
-      lastModified: fivegUpdatedISO,
+      lastModified: internetGuidesUpdatedISO,
       priority: 0.9,
     },
 
@@ -89,7 +91,7 @@ export default function sitemap() {
     // مقارنة الفايبر و5G
     {
       url: `${base}/fiber-vs-5g`,
-      lastModified: latest(fiberUpdatedISO, fivegUpdatedISO),
+      lastModified: latest(fiberUpdatedISO, fivegUpdatedISO, internetGuidesUpdatedISO),
       priority: 0.8,
       alternates: { languages: { "ar-SA": `${base}/fiber-vs-5g`, "en-SA": `${base}/en/fiber-vs-5g`, "x-default": `${base}/fiber-vs-5g` } },
     },
@@ -97,12 +99,17 @@ export default function sitemap() {
     // المقالات
     {
       url: `${base}/articles`,
-      lastModified: articlesUpdatedISO,
+      lastModified: coverageArticlesUpdatedISO,
       priority: 0.7,
     },
     ...["stc-fiber-request", "check-fiber-coverage", "mandoob-vs-technician"].map((slug) => ({
       url: `${base}/articles/${slug}`,
       lastModified: articlesUpdatedISO,
+      priority: 0.7,
+    })),
+    ...["salam-fiber-coverage", "stc-fiber-coverage", "mobily-fiber-coverage"].map((slug) => ({
+      url: `${base}/articles/${slug}`,
+      lastModified: coverageArticlesUpdatedISO,
       priority: 0.7,
     })),
 
