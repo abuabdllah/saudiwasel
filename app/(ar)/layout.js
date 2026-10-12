@@ -1,10 +1,18 @@
 import "../globals.css";
+import { Tajawal } from "next/font/google";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import JsonLd, { organizationSchema, websiteSchema } from "../../components/JsonLd";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import ConversionTracking from "../../components/ConversionTracking";
 import RelatedGuides from "../../components/RelatedGuides";
+
+const tajawal = Tajawal({
+  subsets: ["arabic", "latin"],
+  weight: ["400", "700", "800"],
+  display: "swap",
+  variable: "--font-tajawal",
+});
 
 export const metadata = {
   metadataBase: new URL("https://saudiwasel.com"),
@@ -26,7 +34,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="ar-SA" dir="rtl">
-      <body>
+      <body className={tajawal.variable}>
         <JsonLd data={[organizationSchema, websiteSchema]} />
         <Header />
         <Breadcrumbs />

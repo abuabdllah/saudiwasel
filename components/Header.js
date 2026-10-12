@@ -1,4 +1,5 @@
 ﻿import LanguageSwitcher from "./LanguageSwitcher";
+import FloatingWhatsApp from "./FloatingWhatsApp";
 
 export default function Header() {
   return (
@@ -14,7 +15,7 @@ export default function Header() {
           </div>
         </div>
       </header>
-      <a href="https://wa.me/966564612017" className="wa-float" aria-label="واتساب">💬</a>
+      <FloatingWhatsApp />
     </>
   );
 }
