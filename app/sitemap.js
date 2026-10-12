@@ -119,6 +119,11 @@ export default function sitemap() {
       lastModified: coverageArticlesUpdatedISO,
       priority: 0.7,
     })),
+    ...["fiber-in-apartments", "building-not-covered"].map((slug) => ({
+      url: `${base}/articles/${slug}`,
+      lastModified: coverageArticlesUpdatedISO,
+      priority: 0.7,
+    })),
 
     // صفحات الموقع
     { url: `${base}/coverage`, lastModified: siteUpdatedISO, priority: 0.9 },
