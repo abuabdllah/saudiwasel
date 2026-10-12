@@ -3,6 +3,7 @@ import PageSchema from "../../../components/PageSchema";
 import { pageMetadata } from "../../../lib/seo";
 ﻿import LeadForm from "../../../components/LeadForm";
 import { fivegOperators, fivegUpdated } from "../../../lib/fiveg";
+import { cityFivegPages } from "../../../lib/city-fiveg";
 
 const PHONE_LOCAL = "0564612017";
 const PHONE_WA = "966564612017";
@@ -79,6 +80,11 @@ export default function FiveGPage() {
           {fivegOperators.map((o) => (
             <a key={o.slug} href={`/5g/${o.slug}`}>راوتر 5G {o.name}</a>
           ))}
+        </div>
+
+        <h2>مندوب راوتر 5G حسب المدينة</h2>
+        <div className="cities">
+          {Object.values(cityFivegPages).map((city) => <a key={city.slug} href={`/${city.slug}/5g`}>مندوب راوتر 5G {city.name}</a>)}
         </div>
 
         <h2>بديل الفايبر: إنترنت منزلي بدون تمديدات</h2>

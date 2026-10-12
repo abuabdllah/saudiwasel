@@ -2,6 +2,7 @@ import IntentCtas from "./IntentCtas";
 import { publishedNeighborhoods } from "../lib/neighborhoods";
 import { operators } from "../lib/operators";
 import { cities } from "../lib/cities";
+import { cityFivegPages } from "../lib/city-fiveg";
 
 export default function CityNextSteps({ city, operator = "" }) {
   const cityData = cities.find((entry) => entry.slug === city);
@@ -12,6 +13,7 @@ export default function CityNextSteps({ city, operator = "" }) {
     <IntentCtas city={city} operator={operator} />
     <div className="cities"><a href="/">الرئيسية</a><a href={`/${city}`}>خيارات {cityData.name}</a>{operators.map((entry) => <a key={entry.slug} href={`/${city}/${entry.slug}`}>{entry.name} في {cityData.name}</a>)}
       {city === "jeddah" && <a href="/jeddah/zain">زين في جدة</a>}
+      {cityFivegPages[city] && <a href={`/${city}/5g`}>مندوب راوتر 5G {cityFivegPages[city].name}</a>}
       {neighborhoods.map((page) => <a key={page.slug} href={`/${city}/${page.slug}`}>حي {page.name}</a>)}
     </div>
   </section>;
