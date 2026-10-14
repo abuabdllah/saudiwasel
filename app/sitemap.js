@@ -98,7 +98,7 @@ export default function sitemap() {
     // مقارنة الفايبر و5G
     {
       url: `${base}/fiber-vs-5g`,
-      lastModified: latest(fiberUpdatedISO, fivegUpdatedISO, internetGuidesUpdatedISO),
+      lastModified: internetGuidesUpdatedISO,
       priority: 0.8,
       alternates: { languages: { "ar-SA": `${base}/fiber-vs-5g`, "en-SA": `${base}/en/fiber-vs-5g`, "x-default": `${base}/fiber-vs-5g` } },
     },
@@ -142,7 +142,13 @@ export default function sitemap() {
       lastModified: siteUpdatedISO,
       priority: 0.2,
     },
-  ].filter((entry) => {
+  ].map((entry) => {
+    const path = new URL(entry.url).pathname;
+    const modified = path === "/" || path === "/5g" || path.startsWith("/5g/")
+      || cities.some(city => path === `/${city.slug}` || path.startsWith(`/${city.slug}/`))
+      || languagePairs.some(pair => pair.en === path);
+    return modified ? { ...entry, lastModified: latest("2026-10-14", entry.lastModified) } : entry;
+  }).filter((entry) => {
     const url = new URL(entry.url);
     return !url.search && !url.hash;
   });

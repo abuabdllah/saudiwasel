@@ -1,3 +1,4 @@
+import PricesTable from "./PricesTable";
 import CityNextSteps from "./CityNextSteps";
 import OperatorSources from "./OperatorSources";
 import LeadForm from "./LeadForm";
@@ -123,13 +124,7 @@ export function EasternOperatorPage({ city, operator }) {
         <ContactBox text={`لفحص عنوانك ومراجعة باقات فايبر ${operator.name} في ${data.name}، اتصل أو أرسل موقع المبنى عبر واتساب.`} />
 
         <h2>خيارات باقات فايبر {operator.name} (أسماء مرجعية؛ أكد التفاصيل الحالية)</h2>
-        <OperatorSources operator={operator.slug} /><div className="table-wrap">
-          <table className="compare">
-            <thead><tr><th>اسم مرجعي للباقة</th><th>التحميل</th><th>الرفع</th><th>السعر</th><th>المزايا</th></tr></thead>
-            <tbody>{operator.packages.map((p) => <tr key={p.name}><td>{p.name}</td><td>{p.down}</td><td>{p.up}</td><td>{p.price}</td><td>{p.perks}</td></tr>)}</tbody>
-          </table>
-        </div>
-        <p className="small-note">لا ننشر سعرًا أو عرضًا حاليًا غير متحقق. راجع المصدر الرسمي لـ{operator.name} للتكلفة والضريبة وشروط الباقة قبل الاشتراك.</p>
+        <OperatorSources operator={operator.slug} /><PricesTable operator={operator.slug} service="fiber" />
         <ContactBox text={`قد تتغير عروض ${operator.name} من وقت إلى آخر. تواصل لتأكيد السعر وشروط الباقة قبل تقديم الطلب.`} />
 
         <h2>معلومات مهمة قبل تركيب فايبر {operator.name}</h2>

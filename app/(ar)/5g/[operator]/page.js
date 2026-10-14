@@ -1,3 +1,4 @@
+import PricesTable from "../../../../components/PricesTable";
 import OperatorSources from "../../../../components/OperatorSources";
 import { pageMetadata } from "../../../../lib/seo";
 ﻿import { notFound } from "next/navigation";
@@ -89,17 +90,7 @@ export default async function FiveGOperatorPage({ params }) {
         <OperatorSources operator={o.slug} />
         {o.slug === "mobily" && <p>يعرض الجدول باقات موبايلي 5G المنزلية بحسب المعلومات المتاحة في الموقع، وآخر تحديث لها: {fivegUpdated}. عند مقارنة سعر راوتر 5G موبايلي، ميّز بين اشتراك الباقة وتكلفة الجهاز وشروط الحصول عليه؛ لا تفترض أن السعر الشهري هو سعر شراء الراوتر منفرداً.</p>}
         {o.slug === "salam" && <p>تختلف أسعار باقات سلام والعروض بحسب الباقة المتاحة وقت الاشتراك. يعرض الجدول خيارات إنترنت سلام 5G الواردة في بيانات الموقع، وآخر تحديث لها: {fivegUpdated}؛ تواصل معنا لمعرفة السعر الحالي وتفاصيل راوتر سلام 5G قبل الطلب.</p>}
-        <div className="table-wrap">
-          <table className="compare">
-            <thead><tr><th>اسم مرجعي للباقة</th><th>التحميل</th><th>الرفع</th><th>السعر</th><th>المزايا</th></tr></thead>
-            <tbody>
-              {o.packages.map((p) => (
-                <tr key={p.name}><td>{p.name}</td><td>{p.down}</td><td>{p.up}</td><td>{p.price}</td><td>{p.perks}</td></tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <p className="small-note">راجع المصدر الرسمي لـ{o.name} لتأكيد السعر والضريبة وتكلفة الجهاز والالتزام قبل الاشتراك.</p>
+        <PricesTable operator={o.slug} service="fiveg" />
         {o.slug === "zain" && <>
           <h2>سعر راوتر زين وزين نت منزلي</h2>
           <p>إذا كنت تبحث عن راوتر زين للبيت، فافصل بين سعر الجهاز وقيمة خدمة زين نت منزلي. أسماء الباقات في الجدول مراجع من المحتوى السابق وليست عروضاً مؤكدة. لا توجد أسعار زين مؤكدة في الموقع؛ الأسعار تتغير، لذلك <a href={`https://wa.me/${PHONE_WA}`}>تواصل معنا عبر واتساب</a> لتأكيد السعر الحالي والضريبة وتكلفة الراوتر قبل الطلب.</p>
