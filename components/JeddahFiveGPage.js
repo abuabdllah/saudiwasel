@@ -1,7 +1,7 @@
+import { fivegRouterFaq } from "../lib/fiveg-router";
 import { localDistricts } from "../lib/local-content";
 import CityOperatorLinks from "./CityOperatorLinks";
 import IntentCtas from "./IntentCtas";
-import OperatorSources from "./OperatorSources";
 import LeadForm from "./LeadForm";
 import JsonLd, { breadcrumbSchema, faqSchema, serviceSchema } from "./JsonLd";
 import { fivegOperators } from "../lib/fiveg";
@@ -26,6 +26,7 @@ export default function JeddahFiveGPage({ zainOnly = false }) {
     { q: "كيف أتأكد من تغطية 5G في منزلي؟", a: "أرسل الحي وموقع المبنى لنتحقق من الخيارات المتاحة على عنوانك قبل تقديم الطلب." },
     { q: "هل 5G بديل مناسب للفايبر؟", a: "قد يكون مناسباً عندما لا يتوفر الفايبر أو عند الحاجة إلى حل دون تمديدات، وتختلف الجودة حسب الإشارة والاستخدام." },
     { q: "كيف أعرف الباقات والأسعار المتاحة؟", a: "تواصل معنا لتأكيد الباقات والأسعار المتاحة لعنوانك." },
+    fivegRouterFaq,
   ];
   const schemas = [
     breadcrumbSchema([{ name: "الرئيسية", path: "/" }, { name: "جدة", path: "/jeddah" }, { name: zainOnly ? "زين" : "5G", path }]),
@@ -42,13 +43,13 @@ export default function JeddahFiveGPage({ zainOnly = false }) {
 
     <section className="container">
       {!zainOnly && <><p>في عمائر وسط جدة القديمة، قد لا يرغب المستأجر في تمديد جديد أو يكون الوصول إلى مرافق المبنى بحاجة لتنسيق؛ راوتر 5G لا يتطلب كابل ألياف داخل الشقة، لكن ملاءمته تنتظر التحقق من عنوانها والإشارة في مكان الجلوس والعمل.</p><p>وفي مخططات شمال جدة الأحدث، لا تعني حداثة الفيلا أن أي شبكة جاهزة للاشتراك؛ تختلف احتياجات البيت الدائم عن شقة مفروشة لأشهر قليلة. راجع مدة العقد وتكلفة الجهاز وشروط تغيير الموقع، وقارن الألياف إذا كانت قابلة للتوصيل بدلاً من الاعتماد على قابلية حمل الراوتر وحدها.</p></>}
-      <OperatorSources operator={zainOnly ? "zain" : ""} />
+
       <p className="notice">موقع مستقل وغير تابع لأي مشغل. {zainOnly ? "نساعد في مراجعة خيارات زين لعقار جدة، وترتيب الطلب بعد التأكد من متطلباته لدى الشركة." : "لهذه المقارنة بين راوترات جدة، نرتب الاستفسار عن العنوان ونساعد في رفع الخدمة المختارة ومتابعتها."}</p>
 
       <h2>{zainOnly ? "راوتر 5G زين وفايبر زين في جدة" : "خيارات راوتر 5G في جدة"}</h2>
       {zainOnly && <p>نركّز على راوتر 5G زين المنزلي، أما توفر فايبر زين فيعتمد على تغطية المبنى. أرسل عنوانك للتحقق من الخيارات المتاحة.</p>}
       <div className="cities">{options.map((o) => <a key={o.slug} href={`/5g/${o.slug}`}>راوتر 5G {o.name}</a>)}</div>
-      <p className="notice">تواصل معنا لتأكيد الباقات والأسعار المتاحة لعنوانك.</p>
+      {!zainOnly && <p className="notice">تواصل معنا لتأكيد الباقات والأسعار المتاحة لعنوانك.</p>}
 
       {zainOnly && <>
         <h2>معلومات مهمة قبل الاشتراك في راوتر 5G</h2>

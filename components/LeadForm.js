@@ -126,7 +126,7 @@ export default function LeadForm({ defaultCity = "", defaultDistrict = "", opera
         </select>
         <label htmlFor={`${identifier}-service`}>نوع الخدمة</label>
         <select id={`${identifier}-service`} name="service" value={form.service} onChange={update}>
-          <option value="fiber">الألياف البصرية Fiber</option><option value="5g">إنترنت منزلي 5G</option><option value="compare">قارن Fiber و5G</option>
+          <option value="fiber">الألياف البصرية Fiber</option><option value="5g">{operator.includes("5G") ? "راوتر 5G" : "إنترنت منزلي 5G"}</option><option value="compare">قارن Fiber و5G</option>
         </select>
         <label htmlFor={`${identifier}-building`}>نوع المبنى</label>
         <select id={`${identifier}-building`} name="buildingType" value={form.buildingType} onChange={update}>

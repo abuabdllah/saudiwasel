@@ -1,3 +1,4 @@
+import { fivegRouterFaq } from "../lib/fiveg-router";
 import { localDistricts } from "../lib/local-content";
 import IntentCtas from "./IntentCtas";
 import LeadForm from "./LeadForm";
@@ -9,6 +10,7 @@ const PHONE_WA = "966564612017";
 
 export default function CityFiveGPage({ city }) {
   const content = cityFivegPages[city];
+  const faqs = [...content.faqs, fivegRouterFaq];
   const title = `مندوب راوتر 5G ${content.name}`;
   const path = `/${content.slug}/5g`;
   const schemas = [
@@ -23,7 +25,7 @@ export default function CityFiveGPage({ city }) {
       areaServed: { "@type": "City", name: content.name },
       provider: { "@id": "https://saudiwasel.com/#organization" },
     },
-    faqSchema(content.faqs),
+    faqSchema(faqs),
   ];
 
   return <main>
@@ -70,7 +72,7 @@ export default function CityFiveGPage({ city }) {
       </div>)}</div>
 
       <h2>أسئلة شائعة عن راوتر 5G في {content.name}</h2>
-      <div className="card faq">{content.faqs.map((faq) => <div key={faq.q}>
+      <div className="card faq">{faqs.map((faq) => <div key={faq.q}>
         <h3>{faq.q}</h3><p>{faq.a}</p>
       </div>)}</div>
       <JsonLd data={schemas} />

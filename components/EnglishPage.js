@@ -1,5 +1,4 @@
 import PricesTable from "./PricesTable";
-import { operatorSources } from "../lib/operator-sources";
 import JsonLd, { breadcrumbSchema, faqSchema } from "./JsonLd";
 import EnglishLeadForm from "./EnglishLeadForm";
 import { englishPages, englishStcPlans, englishFivegOperators, connectionComparison } from "../lib/english";
@@ -83,8 +82,7 @@ export default function EnglishPage({ page }) {
         </section>
 
         <section className="en-section" aria-labelledby="en-plans-title">
-          <h2 id="en-plans-title">Plans and official sources</h2>
-          <nav className="en-footer-links" aria-label="Official operator sources">{Object.entries(operatorSources).map(([slug, source]) => <span key={slug}>{slug.toUpperCase()} official website</span>)}</nav>
+          <h2 id="en-plans-title">Plans</h2>
           {page.path === "/en/fiber-internet-jeddah" ? (
             <>
               <p>Review STC fiber eligibility at the building level, then confirm the current plan, total price including tax, commitment and installation terms with STC.</p>
@@ -96,11 +94,12 @@ export default function EnglishPage({ page }) {
               {englishFivegOperators.map((operator) => (
                 <div key={operator.slug}>
                   <h3>{operator.name} 5G home plans</h3>
-                  <PricesTable operator={operator.slug} service="fiveg" english plans={operator.packages} caption={`${operator.name} 5G home plans`} />
+                  <PricesTable operator={operator.slug} service="fiveg" english showOfferNote={false} plans={operator.packages} caption={`${operator.name} 5G home plans`} />
                 </div>
               ))}
             </>
           )}
+          {page.path !== "/en/fiber-internet-jeddah" && <p className="en-price-note">Offers change frequently; contact us on WhatsApp to confirm the current price for your address.</p>}
         </section>
 
         <section className="en-section en-apply" aria-labelledby="en-apply-title">

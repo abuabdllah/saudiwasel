@@ -1,6 +1,6 @@
+import { fivegRouterFaq } from "../../../../lib/fiveg-router";
 import IntentCtas from "../../../../components/IntentCtas";
 import PricesTable from "../../../../components/PricesTable";
-import OperatorSources from "../../../../components/OperatorSources";
 import { pageMetadata } from "../../../../lib/seo";
 ﻿import { notFound } from "next/navigation";
 import LeadForm from "../../../../components/LeadForm";
@@ -43,12 +43,13 @@ export default async function FiveGOperatorPage({ params }) {
 
   const faqs = [
     { q: o.slug === "mobily" ? "كيف أطلب راوتر موبايلي 5G؟" : `كيف أشترك في راوتر 5G ${o.name}؟`, a: `عبّي النموذج أو راسلنا واتساب على ${PHONE_LOCAL}، ونتأكد من تغطية ${o.name} 5G على عنوانك ونرفع لك الطلب ونتابعه حتى يوصلك الراوتر.` },
-    { q: o.slug === "mobily" ? "كم سعر راوتر موبايلي 5G؟" : o.slug === "salam" ? "ما أسعار باقات سلام 5G؟" : `هل راوتر ${o.name} 5G مجاني؟`, a: ["mobily", "salam"].includes(o.slug) ? `لراوتر ${o.name}، طابق بيانات الجدول مع العرض الحالي وتأكد من الاشتراك والجهاز والالتزام عبر واتساب؛ السعر المنشور لا يغني عن مراجعة شروط عنوانك وقت الطلب.` : `لا تفترض مجانية راوتر ${o.name}؛ استفسر عن سعر الجهاز وملكيته وشروط إعادته أو سداد قيمته قبل الموافقة على العرض الحالي.` },
+    { q: o.slug === "mobily" ? "كم سعر راوتر موبايلي 5G؟" : o.slug === "salam" ? "ما أسعار باقات سلام 5G؟" : `هل راوتر ${o.name} 5G مجاني؟`, a: ["mobily", "salam"].includes(o.slug) ? `لراوتر ${o.name}، طابق بيانات الجدول مع العرض الحالي وتأكد من الاشتراك والجهاز والالتزام عبر واتساب؛ السعر المنشور لا يغني عن مراجعة شروط عنوانك وقت الطلب.` : fivegRouterFaq.a },
     { q: `هل توجد رسوم للمندوب عند طلب راوتر ${o.name}؟`, a: `لا نضيف رسوم خدمة المندوب على طلب راوتر ${o.name}؛ راجع ما يفرضه عرض الشركة للاشتراك والجهاز وأي تكاليف أخرى قبل اعتماده.` },
     { q: `ما الأفضل: ${o.name} 5G أم الفايبر؟`, a: `قارن راوتر ${o.name} بنتيجة فحص الألياف ومدة بقائك في المنزل؛ الاتصال السلكي يستحق النظر للاستخدام المستقر، بينما يحتاج 5G تقييم الإشارة والالتزام دون وعد بثبات أو سرعة موحدين.` },
   ];
 
   if (["mobily", "salam"].includes(o.slug)) {
+    faqs.push(fivegRouterFaq);
     faqs.push({ q: `كيف أعرف تغطية ${o.name} 5G في موقعي؟`, a: `لفحص ${o.name} 5G، حدد المبنى على الخريطة واذكر المدينة والحي والدور، ثم أرسل التفاصيل بالنموذج أو واتساب لترتيب مراجعة العقار قبل الاشتراك.` });
   }
   if (o.slug === "mobily") {
@@ -95,10 +96,11 @@ export default async function FiveGOperatorPage({ params }) {
         <p className="notice">موقع مستقل وغير تابع لأي مشغل. نساعدك في مراجعة راوتر {o.name} وخيارات الاشتراك به، مع تأكيد العنوان وشروط الشركة قبل رفع الطلب.</p>
 
         <h2>{o.slug === "mobily" ? "سعر راوتر موبايلي 5G والباقات" : o.slug === "salam" ? "أسعار باقات سلام 5G" : `أسعار باقات ${o.brand} (آخر تحديث: ${fivegUpdated})`}</h2>
-        <OperatorSources operator={o.slug} />
+
         {o.slug === "mobily" && <p>يعرض الجدول باقات موبايلي 5G المنزلية بحسب المعلومات المتاحة في الموقع، وآخر تحديث لها: {fivegUpdated}. عند مقارنة سعر راوتر 5G موبايلي، ميّز بين اشتراك الباقة وتكلفة الجهاز وشروط الحصول عليه؛ لا تفترض أن السعر الشهري هو سعر شراء الراوتر منفرداً.</p>}
         {o.slug === "salam" && <p>تختلف أسعار باقات سلام والعروض بحسب الباقة المتاحة وقت الاشتراك. يعرض الجدول خيارات إنترنت سلام 5G الواردة في بيانات الموقع، وآخر تحديث لها: {fivegUpdated}؛ تواصل معنا لمعرفة السعر الحالي وتفاصيل راوتر سلام 5G قبل الطلب.</p>}
         <PricesTable operator={o.slug} service="fiveg" context={`دليل راوتر ${o.name} 5G المنزلي`} />
+        {o.slug === "zain" && <p className="notice">تواصل معنا لتأكيد الباقات والأسعار المتاحة لعنوانك.</p>}
         <h2>رقم مندوب راوتر 5G {o.name}</h2>
         <IntentCtas operator={o.slug} />
         {o.slug === "zain" && <>
