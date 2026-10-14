@@ -1,6 +1,6 @@
+import { fivegRouterFaq } from "../../../lib/fiveg-router";
 import IntentCtas from "../../../components/IntentCtas";
 import FivegSummaryTable from "../../../components/FivegSummaryTable";
-import OperatorSources from "../../../components/OperatorSources";
 import PageSchema from "../../../components/PageSchema";
 import { pageMetadata } from "../../../lib/seo";
 ﻿import LeadForm from "../../../components/LeadForm";
@@ -12,6 +12,7 @@ const description = "رقم مندوب راوتر 5G في السعودية لم�
 export const metadata = pageMetadata({ title, description, alternates: { canonical: "/5g" }, openGraph: { title, description, images: ["/opengraph-image.png"] }, twitter: { card: "summary_large_image", title, description, images: ["/twitter-image.png"] } });
 
 const faqs = [
+  fivegRouterFaq,
   { q: "ما راوتر 5G المنزلي؟", a: "جهاز يستقبل شبكة الجيل الخامس من أقرب برج ويحولها إلى شبكة واي فاي داخل المنزل، دون أسلاك أو تمديدات أو زيارة فني." },
   { q: "هل راوتر 5G أفضل من الفايبر؟", a: "الفايبر أكثر ثباتاً وأسرع في الرفع وأقل تأخيراً، لكن راوتر 5G أسرع في التركيب ومناسب إذا كان مبناك غير مغطى بالفايبر أو كنت تسكن في إيجار مؤقت. راجع صفحة المقارنة للتفاصيل." },
   { q: "هل يوجد التزام أو عقد؟", a: "تُراجع مدة الالتزام وشروط الإلغاء وقيمة الجهاز في العرض الحالي للمشغل. لا نفترض مدة عقد أو وجود باقة مسبقة الدفع دون التحقق من المصدر الرسمي وقت الطلب." },
@@ -47,7 +48,7 @@ export default function FiveGPage() {
         <p className="notice">موقع مستقل وغير تابع لأي مشغل. يجمع هذا الدليل خيارات الراوتر للمقارنة، ونساعد في مراجعة عنوانك قبل رفع الاشتراك الذي تختاره.</p>
 
         <h2>راوتر 5G المنزلي في السعودية</h2>
-        <OperatorSources />
+
         <p>راوتر 5G خيار للإنترنت المنزلي يعتمد على شبكة الجيل الخامس بدلاً من تمديدات الألياف البصرية. تختلف خيارات راوتر STC 5G وراوتر موبايلي 5G وراوتر زين 5G وراوتر سلام 5G بحسب المشغل والتغطية والباقات المتاحة؛ فلا تنطبق أسعار أو مزايا عرض واحد على الجميع.</p>
 
         <h2>كيف تختار راوتر 5G المناسب؟</h2>

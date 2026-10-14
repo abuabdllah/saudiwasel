@@ -44,7 +44,7 @@ export default function EnglishLeadForm({ city = "", service }) {
       <select id="en-city" name="city" value={form.city} onChange={update} required>
         <option value="" disabled>Select your city</option>
         {enquiryCities.map((name) => <option key={name}>{name}</option>)}
-        <option value="other">Other city or governorate / مدينة أو محافظة أخرى</option>
+        <option value="other">Other city or governorate</option>
       </select>
       {form.city === "other" && <>
         <label htmlFor="en-other-city">City or governorate name</label>

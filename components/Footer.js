@@ -1,14 +1,18 @@
+"use client";
+
+import { usePathname } from "next/navigation";
 import IntentCtas from "./IntentCtas";
 
 export default function Footer() {
+  const isFiveg = /^(?:\/5g(?:\/|$)|\/(?:jeddah|taif|abha|tabuk|madinah)\/5g$)/.test(usePathname() || "");
   return (
     <footer className="site-footer">
       <div className="container">
         <h2>ابدأ من عنوانك، ثم اختر الخدمة</h2>
         <IntentCtas />
         <nav className="footer-links" aria-label="روابط الفايبر">
-          <a href="/coverage">افحص تغطية الفايبر</a>
-          <a href="/">تركيب فايبر</a>
+          <a href="/coverage">{isFiveg ? "افحص تغطية 5G" : "افحص تغطية الفايبر"}</a>
+          <a href="/">{isFiveg ? "اطلب راوتر 5G" : "تركيب فايبر"}</a>
           <a href="/jeddah">فايبر جدة</a>
           <a href="/riyadh">فايبر الرياض</a>
           <a href="/riyadh">مندوب فايبر الرياض</a>
