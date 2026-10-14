@@ -1,18 +1,16 @@
 import PricesTable from "./PricesTable";
+import CityOperatorLinks from "./CityOperatorLinks";
+import IntentCtas from "./IntentCtas";
 import CityNextSteps from "./CityNextSteps";
 import OperatorSources from "./OperatorSources";
 import LeadForm from "./LeadForm";
 import JsonLd, { breadcrumbSchema, faqSchema, serviceSchema } from "./JsonLd";
-import { operators } from "../lib/operators";
 import { getHijazContent, getHijazDistricts, hijazCities } from "../lib/hijaz";
 
-const PHONE_LOCAL = "0564612017";
-const PHONE_WA = "966564612017";
-
-function ContactBox({ operator }) {
+function ContactBox({ city, operator }) {
   return <div className="contact-box">
     <p>أرسل موقع العقار لفحص الخيارات على العنوان{operator ? ` لدى ${operator.name}` : " لدى المشغلين"}، أو تواصل مباشرة لمراجعة طلبك.</p>
-    <div className="header-actions"><a href={`tel:${PHONE_LOCAL}`} className="btn btn-call">📞 {PHONE_LOCAL}</a><a href={`https://wa.me/${PHONE_WA}`} className="btn btn-wa">راسلنا واتساب</a></div>
+    <IntentCtas city={city} />
   </div>;
 }
 
@@ -21,12 +19,7 @@ function DistrictCards({ districts }) {
 }
 
 function LocalLinks({ city, current }) {
-  const content = hijazCities[city];
-  return <div className="cities">
-    {operators.filter((operator) => operator.slug !== current).map((operator) => <a key={operator.slug} href={`/${city}/${operator.slug}`}>مندوب فايبر {operator.name} {content.short}</a>)}
-    <a href={`/${city}`}>مندوب فايبر {content.short}</a>
-    {content.nearby.map((link) => <a key={link.href} href={link.href}>{link.label}</a>)}
-  </div>;
+  return <CityOperatorLinks city={city} current={current} />;
 }
 
 function ChoiceSection({ city, operator }) {
@@ -54,12 +47,12 @@ export function HijazCityPage({ city }) {
     <section className="container">
       <p className="notice">موقع مستقل وغير تابع لأي مشغل. نساعد في فحص الخيارات المتاحة ورفع طلب الاشتراك ومتابعته.</p>
       <h2>اختيار الإنترنت المنزلي في {content.short}</h2><p>{content.intro[0]}</p><p>{content.intro[1]}</p>
-      <h2>رقم مندوب فايبر {content.short}</h2><ContactBox />
       <h2>مشغلو الفايبر في {content.short}</h2><LocalLinks city={city} />
       <h2>مندوب الفايبر في أحياء {content.short}</h2><DistrictCards districts={getHijazDistricts(city)} />
+      <h2>رقم مندوب فايبر {content.short}</h2><ContactBox city={city} />
       <ChoiceSection city={city} />
       <Faqs faqs={content.faqs} heading={`أسئلة شائعة عن الإنترنت المنزلي في ${content.short}`} />
-      <h2>صفحات مدن مرتبطة</h2><p>يمكنك الانتقال من هنا إلى الصفحات القريبة ومراجعة خيارات كل عنوان على حدة.</p><div className="cities">{content.nearby.map((link) => <a key={link.href} href={link.href}>{link.label}</a>)}</div>
+      <h2>مدن قريبة</h2><p>يمكنك الانتقال من هنا إلى الصفحات القريبة ومراجعة خيارات كل عنوان على حدة.</p><div className="cities">{content.nearby.map((link) => <a key={link.href} href={link.href}>{link.label}</a>)}</div>
       <JsonLd data={schemas} />
     </section>
   <CityNextSteps city={city} />
@@ -78,15 +71,15 @@ export function HijazOperatorPage({ city, operator }) {
     <section className="container">
       <p className="notice">موقع مستقل وغير تابع لأي مشغل. نساعدك في فحص تغطية {operator.name} ورفع طلب الاشتراك ومتابعته.</p>
       <h2>فايبر {operator.name} في {content.short}</h2><p>{content.intro[0]}</p><p>{content.intro[1]}</p>
-      <h2>رقم مندوب فايبر {operator.name} {content.short}</h2><ContactBox operator={operator} />
-      <h2>خيارات باقات فايبر {operator.name} (أسماء مرجعية؛ أكد التفاصيل الحالية)</h2>
+      <h2>خيارات باقات فايبر {operator.name}</h2>
       <OperatorSources operator={operator.slug} /><PricesTable operator={operator.slug} service="fiber" />
-      <div className="contact-box"><h3>مراجعة السعر قبل الاشتراك</h3><p>قد تتغير العروض وشروطها، لذلك نؤكد تفاصيل الباقة المنشورة معك قبل رفع الطلب.</p><div className="header-actions"><a href={`tel:${PHONE_LOCAL}`} className="btn btn-call">📞 {PHONE_LOCAL}</a><a href={`https://wa.me/${PHONE_WA}`} className="btn btn-wa">راسلنا واتساب</a></div></div>
+      <h2>رقم مندوب فايبر {operator.name} {content.short}</h2>
+      <IntentCtas city={city} operator={operator.slug} />
       <h2>معلومات مهمة قبل تركيب فايبر {operator.name}</h2><ul className="req-list">{operator.facts.map((fact) => <li key={fact}>{fact}</li>)}</ul>
       <h2>مندوب {operator.name} في أحياء {content.short}</h2><DistrictCards districts={content.districts} />
       <ChoiceSection city={city} operator={operator} />
       <h2>خطوات طلب فايبر {operator.name}</h2><div className="steps"><div className="card"><span>1</span><h4>تحديد العقار</h4><p>أرسل الحي ورابط المبنى وبيانات الوحدة.</p></div><div className="card"><span>2</span><h4>قراءة النتيجة</h4><p>تُراجع الخدمة المتاحة على العنوان المحدد.</p></div><div className="card"><span>3</span><h4>اختيار الباقة</h4><p>طابق السعر والتفاصيل مع احتياج السكن.</p></div><div className="card"><span>4</span><h4>متابعة التركيب</h4><p>نسّق الموعد وتابع الطلب حتى التفعيل.</p></div></div>
-      <h2>مشغلو {content.short} والصفحة الرئيسية</h2><LocalLinks city={city} current={operator.slug} />
+      <h2>مشغلو الفايبر في {content.short}</h2><LocalLinks city={city} current={operator.slug} />
       <Faqs faqs={content.faqs} heading={`أسئلة شائعة عن فايبر ${operator.name} في ${content.short}`} />
       <JsonLd data={schemas} />
     </section>

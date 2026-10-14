@@ -83,13 +83,12 @@ export default function EnglishPage({ page }) {
         </section>
 
         <section className="en-section" aria-labelledby="en-plans-title">
-          <h2 id="en-plans-title">Plan references and official sources</h2>
-          <p>Plan names are retained as references from earlier content, not confirmed current offers. Prices, speeds and equipment benefits have not been independently verified. Confirm all current details with the operator before ordering.</p>
+          <h2 id="en-plans-title">Plans and official sources</h2>
           <nav className="en-footer-links" aria-label="Official operator sources">{Object.entries(operatorSources).map(([slug, source]) => <span key={slug}>{slug.toUpperCase()} official website</span>)}</nav>
           {page.path === "/en/fiber-internet-jeddah" ? (
             <>
               <p>Review STC fiber eligibility at the building level, then confirm the current plan, total price including tax, commitment and installation terms with STC.</p>
-              <PricesTable operator="stc" english plans={englishStcPlans} caption="Earlier STC fiber plan-name references; confirm current availability" />
+              <PricesTable operator="stc" english plans={englishStcPlans} caption="STC fiber plans" />
             </>
           ) : (
             <>
@@ -97,7 +96,7 @@ export default function EnglishPage({ page }) {
               {englishFivegOperators.map((operator) => (
                 <div key={operator.slug}>
                   <h3>{operator.name} 5G home plans</h3>
-                  <PricesTable operator={operator.slug} service="fiveg" english plans={operator.packages} caption={`${operator.name} plan-name references — confirm current availability`} />
+                  <PricesTable operator={operator.slug} service="fiveg" english plans={operator.packages} caption={`${operator.name} 5G home plans`} />
                 </div>
               ))}
             </>

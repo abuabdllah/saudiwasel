@@ -3,7 +3,6 @@ import PageSchema from "../../../components/PageSchema";
 import LeadForm from "../../../components/LeadForm";
 
 const PHONE_LOCAL = "0564612017";
-const PHONE_WA = "966564612017";
 
 export const metadata = pageMetadata({
   title: "تواصل معنا | رقم مندوب فايبر وراوتر 5G - سعودي واصل",
@@ -39,10 +38,6 @@ export default function ContactPage() {
           <div>
             <h1>تواصل معنا</h1>
             <p className="hero-sub">عندك استفسار عن الفايبر أو راوتر 5G، أو تبغى تشترك؟ راسلنا واتساب أو اتصل مباشرة، أو عبّي النموذج.</p>
-            <div className="header-actions" style={{ marginTop: 16, flexWrap: "wrap" }}>
-              <a href={`tel:${PHONE_LOCAL}`} className="btn btn-call">📞 {PHONE_LOCAL}</a>
-              <a href={`https://wa.me/${PHONE_WA}`} className="btn btn-wa">واتساب</a>
-            </div>
           </div>
           <LeadForm />
         </div>

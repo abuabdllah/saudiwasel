@@ -1,3 +1,4 @@
+import IntentCtas from "../../../../components/IntentCtas";
 import PricesTable from "../../../../components/PricesTable";
 import CityNextSteps from "../../../../components/CityNextSteps";
 import OperatorSources from "../../../../components/OperatorSources";
@@ -19,7 +20,6 @@ import NeighborhoodPage from "../../../../components/NeighborhoodPage";
 import { jeddahOperatorAdvice } from "../../../../lib/jeddah";
 
 const PHONE_LOCAL = "0564612017";
-const PHONE_WA = "966564612017";
 
 export const dynamicParams = false;
 
@@ -170,23 +170,13 @@ export default async function OperatorPage({ params }) {
             : c.slug === "jeddah" && o.slug === "mobily"
               ? "للتواصل مع مندوب فايبر موبايلي في جدة والاستفسار عن توفر الألياف البصرية، يمكنك التواصل معنا عبر الهاتف أو واتساب. نساعدك في التحقق من التغطية على عنوانك ومعرفة إمكانية الاشتراك والتركيب حسب توفر الخدمة."
               : `للاستفسار عن تغطية وباقات فايبر ${o.name} في ${c.name}، تواصل مع المندوب مباشرة:`}</p>
-          <div className="header-actions">
-            <a href={`tel:${PHONE_LOCAL}`} className="btn btn-call">📞 {PHONE_LOCAL}</a>
-            <a href={`https://wa.me/${PHONE_WA}`} className="btn btn-wa">راسلنا واتساب</a>
-          </div>
         </div>
 
-        <h2>خيارات باقات فايبر {o.name} (أسماء مرجعية؛ أكد التفاصيل الحالية)</h2>
+        <h2>خيارات باقات فايبر {o.name}</h2>
         <OperatorSources operator={o.slug} />
         <PricesTable operator={o.slug} service="fiber" />
 
-        <div className="contact-box">
-          <h3>تأكيد أسعار باقات {o.name}</h3>
-          <p>تتغير الأسعار والعروض من وقت إلى آخر، وقد تتوفر خصومات للأشهر الأولى. راسلنا عبر واتساب لتأكيد أحدث سعر وعرض متاح لعنوانك.</p>
-          <div className="header-actions">
-            <a href={`https://wa.me/${PHONE_WA}`} className="btn btn-wa">راسلنا واتساب</a>
-          </div>
-        </div>
+        <IntentCtas city={c.slug} operator={o.slug} />
 
         <h2>معلومات مهمة قبل تركيب فايبر {o.name}</h2>
         <ul className="req-list">

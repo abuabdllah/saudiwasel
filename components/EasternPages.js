@@ -1,23 +1,18 @@
 import PricesTable from "./PricesTable";
+import CityOperatorLinks from "./CityOperatorLinks";
+import IntentCtas from "./IntentCtas";
 import CityNextSteps from "./CityNextSteps";
 import OperatorSources from "./OperatorSources";
 import LeadForm from "./LeadForm";
 import JsonLd, { breadcrumbSchema, faqSchema, serviceSchema } from "./JsonLd";
 import { cities } from "../lib/cities";
-import { operators } from "../lib/operators";
 import { easternCities, getEasternDistricts, getEasternFaqs } from "../lib/eastern";
 
-const PHONE_LOCAL = "0564612017";
-const PHONE_WA = "966564612017";
-
-function ContactBox({ text }) {
+function ContactBox({ city, text }) {
   return (
     <div className="contact-box">
       <p>{text}</p>
-      <div className="header-actions">
-        <a href={`tel:${PHONE_LOCAL}`} className="btn btn-call">📞 {PHONE_LOCAL}</a>
-        <a href={`https://wa.me/${PHONE_WA}`} className="btn btn-wa">راسلنا واتساب</a>
-      </div>
+      <IntentCtas city={city} />
     </div>
   );
 }
@@ -36,16 +31,7 @@ function Choice({ data, operator }) {
 }
 
 function InternalLinks({ city, currentOperator }) {
-  const data = easternCities[city];
-  return (
-    <div className="cities">
-      {operators.filter((operator) => operator.slug !== currentOperator?.slug).map((operator) => (
-        <a key={operator.slug} href={`/${city}/${operator.slug}`}>مندوب فايبر {operator.name} {data.name}</a>
-      ))}
-      <a href={`/${city}`}>مندوب فايبر {data.name}</a>
-      <a href={`/${data.other.slug}`}>مندوب فايبر {data.other.name}</a>
-    </div>
-  );
+  return <CityOperatorLinks city={city} current={currentOperator?.slug} />;
 }
 
 export function EasternCityPage({ city }) {
@@ -72,22 +58,22 @@ export function EasternCityPage({ city }) {
         <p className="notice">موقع مستقل وغير تابع لأي مشغل. نساعد في فحص الخيارات ورفع طلب الاشتراك ومتابعته.</p>
         <h2>الإنترنت المنزلي في {data.name}</h2>
         <Intro data={data} />
-        <h2>رقم مندوب فايبر {data.name}</h2>
-        <ContactBox text={`لإرسال موقع المبنى وفحص خيارات الفايبر في ${data.name}، تواصل على الرقم أو عبر واتساب.`} />
         <h2>مشغلو الفايبر في {data.name}</h2>
         <InternalLinks city={city} />
         <h2>السكن والاتصال في أحياء {data.name}</h2>
         <div className="card faq">
           {data.districts.map(([name, description]) => <div key={name}><h3>{name}</h3><p>{description} {data.districtCta}</p></div>)}
         </div>
+        <h2>رقم مندوب فايبر {data.name}</h2>
+        <ContactBox city={city} text={`لإرسال موقع المبنى وفحص خيارات الفايبر في ${data.name}، تواصل على الرقم أو عبر واتساب.`} />
         <Choice data={data} />
         <h2>أسئلة شائعة عن الفايبر في {data.name}</h2>
         <div className="card faq">{data.faqs.map((faq) => <div key={faq.q}><h3>{faq.q}</h3><p>{faq.a}</p></div>)}</div>
         <JsonLd data={schemas} />
       </section>
       <section className="container">
-        <h2>صفحات قريبة</h2>
-        <div className="cities">{cities.filter((item) => ![city, data.other.slug].includes(item.slug)).map((item) => <a key={item.slug} href={`/${item.slug}`}>مندوب فايبر {item.name}</a>)}</div>
+        <h2>مدن قريبة</h2>
+        <div className="cities">{cities.filter((item) => item.slug !== city).map((item) => <a key={item.slug} href={`/${item.slug}`}>مندوب فايبر {item.name}</a>)}</div>
       </section>
     <CityNextSteps city={city} />
   </main>
@@ -120,12 +106,11 @@ export function EasternOperatorPage({ city, operator }) {
         <p className="notice">موقع مستقل وغير تابع لأي مشغل. نساعد كمندوب مبيعات في فحص الخدمة ورفع طلب الاشتراك ومتابعته.</p>
         <h2>فايبر {operator.name} في {data.name}</h2>
         <Intro data={data} />
-        <h2>رقم مندوب فايبر {operator.name} {data.name}</h2>
-        <ContactBox text={`لفحص عنوانك ومراجعة باقات فايبر ${operator.name} في ${data.name}، اتصل أو أرسل موقع المبنى عبر واتساب.`} />
 
-        <h2>خيارات باقات فايبر {operator.name} (أسماء مرجعية؛ أكد التفاصيل الحالية)</h2>
+        <h2>خيارات باقات فايبر {operator.name}</h2>
         <OperatorSources operator={operator.slug} /><PricesTable operator={operator.slug} service="fiber" />
-        <ContactBox text={`قد تتغير عروض ${operator.name} من وقت إلى آخر. تواصل لتأكيد السعر وشروط الباقة قبل تقديم الطلب.`} />
+        <h2>رقم مندوب فايبر {operator.name} {data.name}</h2>
+        <IntentCtas city={city} operator={operator.slug} />
 
         <h2>معلومات مهمة قبل تركيب فايبر {operator.name}</h2>
         <ul className="req-list">{operator.facts.map((fact) => <li key={fact}>{fact}</li>)}</ul>

@@ -46,5 +46,5 @@ export default function FloatingWhatsApp() {
     };
   }, []);
 
-  return <a ref={linkRef} href="https://wa.me/966564612017" className="wa-float" data-clear={clear} aria-label="تواصل مع سعودي واصل عبر واتساب">💬</a>;
+  return <a ref={linkRef} href="https://wa.me/966564612017" className="wa-float" data-clear={clear} aria-label="تواصل مع سعودي واصل عبر واتساب"><span aria-hidden="true">💬</span></a>;
 }

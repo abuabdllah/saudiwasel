@@ -1,3 +1,4 @@
+import IntentCtas from "./IntentCtas";
 import LeadForm from "./LeadForm";
 import JsonLd, { breadcrumbSchema, faqSchema } from "./JsonLd";
 import { cityFivegPages } from "../lib/city-fiveg";
@@ -33,14 +34,6 @@ export default function CityFiveGPage({ city }) {
 
     <section className="container">
       <p className="notice">موقع مستقل وغير تابع لأي مشغل</p>
-      <h2>رقم مندوب راوتر 5G {content.name}</h2>
-      <div className="contact-box">
-        <p>{content.contact}</p>
-        <div className="header-actions">
-          <a href={`tel:${PHONE_LOCAL}`} className="btn btn-call">اتصل: {PHONE_LOCAL}</a>
-          <a href={`https://wa.me/${PHONE_WA}`} className="btn btn-wa">واتساب</a>
-        </div>
-      </div>
 
       <h2>خيارات المشغلين لراوتر 5G في {content.name}</h2>
       <p>{content.operatorIntroduction}</p>
@@ -62,6 +55,9 @@ export default function CityFiveGPage({ city }) {
           <h3>{province.name}</h3><p>{province.text}</p>
         </div>)}</div>
       </>}
+
+      <h2>رقم مندوب راوتر 5G {content.name}</h2>
+      <IntentCtas city={city} />
 
       <h2>ماذا تحتاج للطلب</h2>
       <ul className="req-list">{content.requirements.map((requirement) => <li key={requirement}>{requirement}</li>)}</ul>

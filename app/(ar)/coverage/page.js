@@ -1,5 +1,4 @@
 import LeadForm from "../../../components/LeadForm";
-import IntentCtas from "../../../components/IntentCtas";
 import JsonLd, { breadcrumbSchema, faqSchema } from "../../../components/JsonLd";
 import { pageMetadata } from "../../../lib/seo";
 import { cities } from "../../../lib/cities";
@@ -34,7 +33,7 @@ export default async function CoveragePage({ searchParams }) {
       <div className="card"><h3>تابع طلبك</h3><p>احتفظ بمرجع الطلب وتواصل عبر واتساب. موعد التركيب والتفعيل يحدده المشغل بعد قبول الطلب.</p></div>
     </div><h2>اختر صفحة مدينتك</h2><div className="cities">{cities.map((entry) => <a key={entry.slug} href={`/${entry.slug}`}>{entry.name}</a>)}</div>
       <h2>إذا لم يتوفر الفايبر</h2><p>تأكد أولًا من دقة العنوان، ثم راجع <a href="/5g">خيارات 5G</a> و<a href="/fiber-vs-5g">مقارنة Fiber و5G</a>. جودة الاتصال اللاسلكي تعتمد على الإشارة داخل المنزل وليست على اسم الحي وحده.</p>
-      <h2>أسئلة عن فحص العنوان</h2><div className="card faq">{faqs.map((faq) => <div key={faq.q}><h3>{faq.q}</h3><p>{faq.a}</p></div>)}</div><IntentCtas />
+      <h2>أسئلة عن فحص العنوان</h2><div className="card faq">{faqs.map((faq) => <div key={faq.q}><h3>{faq.q}</h3><p>{faq.a}</p></div>)}</div>
       <JsonLd data={[breadcrumbSchema([{ name: "الرئيسية", path: "/" }, { name: "فحص التغطية", path: "/coverage" }]), faqSchema(faqs), { "@type": "WebPage", name: "فحص تغطية الفايبر و5G", url: "https://saudiwasel.com/coverage", inLanguage: "ar-SA" }]} />
     </section>
   </main>;

@@ -8,11 +8,11 @@ export default function NeighborhoodPage({ page }) {
   return <main>
     <section className="hero"><div className="container hero-grid"><div>
       <h1>فايبر حي {page.name} {city.name} وفحص التغطية</h1><p className="hero-sub">{page.introduction}</p>
-      <IntentCtas city={city.slug} />
     </div><LeadForm defaultCity={city.slug} defaultDistrict={page.name} /></div></section>
     <section className="container"><h2>التحقق من عنوانك في حي {page.name}</h2>
       <p className="notice">التغطية تختلف حسب المبنى والعنوان؛ وجود الخدمة لدى جار أو في جزء من الحي لا يثبت توفرها في منزلك.</p>
       <p>{page.addressAdvice}</p><a href={`/coverage?city=${city.slug}`}>اطلب فحص عنوان المبنى</a>
+      <IntentCtas city={city.slug} />
       {page.operatorLinks?.length > 0 && <><h2>خيارات موثقة للمراجعة</h2><div className="cities">{page.operatorLinks.map((link) => <a key={link.href} href={link.href}>{link.label}</a>)}</div></>}
       <h2>طريقة الطلب</h2><p>أرسل موقع المبنى، وانتظر التحقق من المشغل قبل مراجعة الباقة وتكاليفها. جهز بيانات الاشتراك فقط في قناة موثوقة، واحتفظ بمرجع الطلب للمتابعة.</p>
       <h2>إذا لم تتوفر الألياف</h2><p>راجع <a href="/5g">خيارات 5G</a> حسب الإشارة داخل المنزل، واقرأ <a href="/fiber-vs-5g">مقارنة الفايبر و5G</a> قبل اختيار البديل.</p>
