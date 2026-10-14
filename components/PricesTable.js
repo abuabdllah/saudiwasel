@@ -4,7 +4,7 @@ import { englishPriceText, isEmptyPlan, isEmptyPriceCell, pricingNote } from "..
 export default function PricesTable({ operator, service = "fiber", english = false, showOfferNote = true, plans, caption, context }) {
   const data = prices[operator];
   const packages = (plans || data[service]).filter(plan => !isEmptyPlan(plan) && !isEmptyPriceCell(plan.price));
-  const hasUpload = packages.some(plan => !isEmptyPriceCell(plan.up));
+  const hasUpload = service === "fiveg" || packages.some(plan => !isEmptyPriceCell(plan.up));
   const hasPrices = packages.some(plan => !isEmptyPriceCell(plan.price));
   const labels = english ? ["Plan", "Download", "Upload", "Price", "Included benefits"] : ["الباقة", "التحميل", "الرفع", "السعر", "المزايا"];
   const display = value => (english ? englishPriceText(value) : value) ?? "—";
@@ -20,6 +20,6 @@ export default function PricesTable({ operator, service = "fiber", english = fal
         </tr>)}</tbody>
       </table>
     </div>
-    <p className={english ? "en-price-note" : "small-note"} lang={english ? "en" : "ar"} dir={english ? "ltr" : "rtl"}>{context && !english ? (hasPrices ? `أسعار ${context} تشمل الضريبة وهي من المصدر الرسمي للمشغل؛ لأن العروض تتغير، أكّد السعر المتاح لعنوانك وتفاصيل الباقة عبر واتساب قبل الطلب.` : `لأسعار ${context} وباقاته الحالية، شارك عنوان الوحدة عبر واتساب حتى تُراجع التفاصيل المتاحة قبل الاشتراك.`) : pricingNote(hasPrices, english, showOfferNote)}</p>
+    <p className={english ? "en-price-note" : "small-note"} lang={english ? "en" : "ar"} dir={english ? "ltr" : "rtl"}>{english && service === "fiveg" && operator === "salam" && !hasPrices ? "Message us on WhatsApp for current Salam 5G prices at your address." : context && !english ? (hasPrices ? `أسعار ${context} تشمل الضريبة وهي من المصدر الرسمي للمشغل؛ لأن العروض تتغير، أكّد السعر المتاح لعنوانك وتفاصيل الباقة عبر واتساب قبل الطلب.` : `لأسعار ${context} وباقاته الحالية، شارك عنوان الوحدة عبر واتساب حتى تُراجع التفاصيل المتاحة قبل الاشتراك.`) : pricingNote(hasPrices, english, showOfferNote)}</p>
   </>;
 }
