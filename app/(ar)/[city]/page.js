@@ -113,9 +113,8 @@ export default async function CityPage({ params }) {
         <div className="cities">
           {c.districts.map((district) => <span key={district}>حي {district}</span>)}
         </div>
-        <p style={{ marginTop: 12 }}>هذه أمثلة للأحياء وليست قائمة مناطق مغطاة. اكتب حيّك حتى إن لم يظهر هنا، ثم شارك موقع المبنى أثناء المتابعة. في الصفا أو السلامة أو أبحر الشمالية، لا تنطبق نتيجة عقار على العقار المجاور.</p>
-
         <div className="card faq">{localDistricts(c.slug).map((district) => <div key={district.name}><h3>حي {district.name}</h3><p>{district.text}</p></div>)}</div>
+        <p>أرسل اسم حيك وموقع المبنى، ونتحقق لك من الخيارات المتاحة على عنوانك.</p>
 
         <h2>مندوب الياف بصرية في {c.name}</h2>
         <div className="contact-box">

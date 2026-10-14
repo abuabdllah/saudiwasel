@@ -45,10 +45,11 @@ export default function CityFiveGPage({ city }) {
       <p className="notice">لمراجعة باقات راوتر {content.name} وأسعارها الحالية، أرسل موقع الوحدة عبر واتساب قبل اعتماد الاشتراك. <a href={`https://wa.me/${PHONE_WA}`}>واتساب {PHONE_LOCAL}</a></p>
 
       <h2>مندوب راوتر 5G في أحياء {content.name}</h2>
-      <p>{content.neighborhoodIntroduction}</p>
       <div className="card faq">{localDistricts(city, "5g").filter((district) => content.neighborhoods.some((neighborhood) => neighborhood.name === district.name)).map((neighborhood) => <div key={neighborhood.name}>
         <h3>{neighborhood.name}</h3><p>{neighborhood.text}</p>
       </div>)}</div>
+
+      <p>أرسل اسم حيك وموقع المبنى، ونتحقق لك من الخيارات المتاحة على عنوانك.</p>
 
       {content.provinces && <>
         <h2>راوتر 5G في محافظات منطقة تبوك</h2>

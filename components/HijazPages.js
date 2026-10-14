@@ -16,7 +16,7 @@ function ContactBox({ city, operator }) {
 }
 
 function DistrictCards({ districts }) {
-  return <div className="card faq">{districts.map((district) => <div key={district.name}><h3>حي {district.name}</h3><p>{district.text}</p></div>)}</div>;
+  return <><div className="card faq">{districts.map((district) => <div key={district.name}><h3>حي {district.name}</h3><p>{district.text}</p></div>)}</div><p>أرسل اسم حيك وموقع المبنى، ونتحقق لك من الخيارات المتاحة على عنوانك.</p></>;
 }
 
 function LocalLinks({ city, current }) {

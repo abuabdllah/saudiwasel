@@ -65,6 +65,7 @@ export function EasternCityPage({ city }) {
         <div className="card faq">
           {localDistricts(city).map((district) => <div key={district.name}><h3>{district.name}</h3><p>{district.text}</p></div>)}
         </div>
+        <p>أرسل اسم حيك وموقع المبنى، ونتحقق لك من الخيارات المتاحة على عنوانك.</p>
         <h2>رقم مندوب فايبر {data.name}</h2>
         <ContactBox city={city} text={`لإرسال موقع المبنى وفحص خيارات الفايبر في ${data.name}، تواصل على الرقم أو عبر واتساب.`} />
         <Choice city={city} data={data} />
@@ -119,6 +120,7 @@ export function EasternOperatorPage({ city, operator }) {
 
         <h2>مندوب {operator.name} في أحياء {data.name}</h2>
         <div className="card faq">{districts.map((district) => <div key={district.name}><h3>{district.name}</h3><p>{district.text}</p></div>)}</div>
+        <p>أرسل اسم حيك وموقع المبنى، ونتحقق لك من الخيارات المتاحة على عنوانك.</p>
 
         <Choice city={city} data={data} operator={operator} />
 

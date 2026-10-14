@@ -16,11 +16,11 @@ function ContactBox({ city, citySlug, operator }) {
 }
 
 function DistrictCards({ districts }) {
-  return <div className="card faq">{districts.map((district) => {
+  return <><div className="card faq">{districts.map((district) => {
     const name = Array.isArray(district) ? district[0] : district.name;
     const text = Array.isArray(district) ? district[1] : district.text;
     return <div key={name}><h3>حي {name}</h3><p>{text}</p></div>;
-  })}</div>;
+  })}</div><p>أرسل اسم حيك وموقع المبنى، ونتحقق لك من الخيارات المتاحة على عنوانك.</p></>;
 }
 
 function Links({ content, current }) {
