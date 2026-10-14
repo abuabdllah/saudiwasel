@@ -1,8 +1,10 @@
+import CityOperatorLinks from "../../../components/CityOperatorLinks";
+import IntentCtas from "../../../components/IntentCtas";
 import CityNextSteps from "../../../components/CityNextSteps";
 import { pageMetadata } from "../../../lib/seo";
 import { notFound } from "next/navigation";
 import { cities } from "../../../lib/cities";
-import { operators, operatorCities } from "../../../lib/operators";
+import { operatorCities } from "../../../lib/operators";
 import LeadForm from "../../../components/LeadForm";
 import InfoSections from "../../../components/InfoSections";
 import JsonLd, { breadcrumbSchema, serviceSchema } from "../../../components/JsonLd";
@@ -13,9 +15,6 @@ import { HijazCityPage } from "../../../components/HijazPages";
 import { RegionalCityPage } from "../../../components/RegionalPages";
 import { regionalSlugs } from "../../../lib/regional";
 import { languageAlternates } from "../../../lib/languages";
-
-const PHONE_LOCAL = "0564612017";
-const PHONE_WA = "966564612017";
 
 export const dynamicParams = false;
 
@@ -101,26 +100,11 @@ export default async function CityPage({ params }) {
     <p>{c.localSeo}</p>
   </>
 )}
-<h2>مندوب الياف بصرية في {c.name}</h2>
-        <div className="contact-box">
-          <p>للاستفسار عن تغطية وباقات الفايبر في {c.name} لدى جميع المشغلين، تواصل مع مندوب الياف بصرية مستقل يساعدك في فحص الخيارات ومتابعة الطلب:</p>
-          <div className="header-actions">
-            <a href={`tel:${PHONE_LOCAL}`} className="btn btn-call">📞 {PHONE_LOCAL}</a>
-            <a href={`https://wa.me/${PHONE_WA}`} className="btn btn-wa">راسلنا واتساب</a>
-          </div>
-        </div>
 
         {hasOperators && (
           <>
             <h2>فايبر حسب المشغل في {c.name}</h2>
-            <div className="cities">
-              {operators.map((o) => (
-                <a key={o.slug} href={`/${c.slug}/${o.slug}`}>مندوب فايبر {o.name} {c.name}</a>
-              ))}
-              {c.slug === "jeddah" && <a href="/jeddah/zain">مندوب زين جدة</a>}
-              {c.slug === "jeddah" && <a href="/jeddah/5g">مندوب راوتر 5G جدة</a>}
-              {c.slug === "jeddah" && <a href="/makkah">مندوب فايبر مكة</a>}
-            </div>
+            <CityOperatorLinks city={c.slug} />
           </>
         )}
 
@@ -130,6 +114,12 @@ export default async function CityPage({ params }) {
         </div>
         <p style={{ marginTop: 12 }}>هذه أمثلة للأحياء وليست قائمة مناطق مغطاة. اكتب حيّك حتى إن لم يظهر هنا، ثم شارك موقع المبنى أثناء المتابعة. في الصفا أو السلامة أو أبحر الشمالية، لا تنطبق نتيجة عقار على العقار المجاور.</p>
 
+        <h2>مندوب الياف بصرية في {c.name}</h2>
+        <div className="contact-box">
+          <p>للاستفسار عن تغطية وباقات الفايبر في {c.name} لدى جميع المشغلين، تواصل مع مندوب الياف بصرية مستقل يساعدك في فحص الخيارات ومتابعة الطلب:</p>
+          <IntentCtas city={c.slug} />
+        </div>
+
         <h2>مبناك في {c.name} غير مغطى بالفايبر؟</h2>
         <p>راجع العنوان لدى مشغل آخر أولًا، أو قارن راوتر 5G إذا كانت الإشارة داخل المنزل مناسبة. لا يحتاج 5G تمديد ألياف، وتخضع تكلفة الجهاز وإمكانية نقله لشروط الباقة. <a href="/5g">اعرف خيارات 5G</a> أو <a href="/fiber-vs-5g">قارن بين الفايبر و5G</a>.</p>
         <JsonLd data={schemas} />
@@ -138,7 +128,7 @@ export default async function CityPage({ params }) {
       <InfoSections place={c.name} />
 
       <section className="container">
-        <h2>مدن أخرى</h2>
+        <h2>مدن قريبة</h2>
         <div className="cities">
           {cities.filter((x) => x.slug !== c.slug).map((x) => (
             <a key={x.slug} href={`/${x.slug}`}>تركيب فايبر {x.name}</a>

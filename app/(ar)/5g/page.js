@@ -1,3 +1,4 @@
+import IntentCtas from "../../../components/IntentCtas";
 import FivegSummaryTable from "../../../components/FivegSummaryTable";
 import OperatorSources from "../../../components/OperatorSources";
 import PageSchema from "../../../components/PageSchema";
@@ -5,9 +6,6 @@ import { pageMetadata } from "../../../lib/seo";
 ﻿import LeadForm from "../../../components/LeadForm";
 import { fivegOperators } from "../../../lib/fiveg";
 import { cityFivegPages } from "../../../lib/city-fiveg";
-
-const PHONE_LOCAL = "0564612017";
-const PHONE_WA = "966564612017";
 
 const title = "راوتر 5G السعودية | STC وسلام وزين وموبايلي";
 const description = "رقم مندوب راوتر 5G في السعودية لمقارنة خيارات STC وسلام وزين وموبايلي، ومعرفة المميزات والتغطية وطلب الخدمة.";
@@ -59,6 +57,9 @@ export default function FiveGPage() {
         <h2>مراجعة خيارات 5G ومصادرها الرسمية</h2>
         <FivegSummaryTable />
 
+        <h2>رقم مندوب راوتر 5G</h2>
+        <IntentCtas />
+
         <h2>باقات راوتر 5G حسب الشركة</h2>
         <div className="cities">
           {fivegOperators.map((o) => (
@@ -74,14 +75,6 @@ export default function FiveGPage() {
         <h2>بديل الفايبر: إنترنت منزلي بدون تمديدات</h2>
         <p>إذا كانت عمارتك غير مغطاة بالفايبر، يمكنك اختيار راوتر 5G منزلي دون تمديدات من <a href="/5g/stc">STC</a> أو <a href="/5g/salam">سلام</a> أو <a href="/5g/zain">زين</a> أو <a href="/5g/mobily">موبايلي</a> حسب التغطية على عنوانك.</p>
 
-        <h2>رقم مندوب راوتر 5G</h2>
-        <div className="contact-box">
-          <p>للاستفسار عن باقات 5G المنزلية المتاحة على عنوانك، تواصل مع المندوب مباشرة:</p>
-          <div className="header-actions">
-            <a href={`tel:${PHONE_LOCAL}`} className="btn btn-call">📞 {PHONE_LOCAL}</a>
-            <a href={`https://wa.me/${PHONE_WA}`} className="btn btn-wa">راسلنا واتساب</a>
-          </div>
-        </div>
 
         <h2>لمن يناسب راوتر 5G؟</h2>
         <div className="steps">

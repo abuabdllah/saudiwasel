@@ -118,8 +118,7 @@ export default function LeadForm({ defaultCity = "", defaultDistrict = "", opera
           <input id={`${identifier}-other-city`} name="otherCity" value={form.otherCity} onChange={update} autoComplete="address-level2" required minLength={2} maxLength={100} />
         </>}
         <label htmlFor={`${identifier}-district`}>الحي</label>
-        <input id={`${identifier}-district`} name="district" value={form.district} placeholder="اختر من الاقتراحات أو اكتب اسم الحي" list={`${identifier}-districts`} required minLength={2} maxLength={150} onChange={update} autoComplete="address-level3" />
-        <datalist id={`${identifier}-districts`}>{selectedCity?.districts.map((district) => <option key={district} value={district} />)}</datalist>
+        <input id={`${identifier}-district`} name="district" type="text" value={form.district} placeholder="اكتب اسم الحي" required minLength={2} maxLength={150} onChange={update} autoComplete="address-level3" />
         <label htmlFor={`${identifier}-operator`}>المشغل المفضل (اختياري)</label>
         <select id={`${identifier}-operator`} name="operator" value={form.operator} onChange={update}>
           <option value="any">قارن المشغلين المتاحين على عنواني</option>

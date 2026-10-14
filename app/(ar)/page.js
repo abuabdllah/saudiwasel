@@ -47,7 +47,6 @@ export default function Home() {
               <li>✔ STC وسلام وزين وموبايلي</li>
               <li>✔ متابعة طلب الاشتراك حتى التفعيل</li>
             </ul>
-            <IntentCtas />
           </div>
 
           <LeadForm />

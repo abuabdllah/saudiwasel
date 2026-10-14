@@ -1,10 +1,11 @@
+import CityOperatorLinks from "./CityOperatorLinks";
+import IntentCtas from "./IntentCtas";
 import OperatorSources from "./OperatorSources";
 import LeadForm from "./LeadForm";
 import JsonLd, { breadcrumbSchema, faqSchema, serviceSchema } from "./JsonLd";
 import { fivegOperators } from "../lib/fiveg";
 
 const PHONE_LOCAL = "0564612017";
-const PHONE_WA = "966564612017";
 
 export default function JeddahFiveGPage({ zainOnly = false }) {
   const title = zainOnly ? "فايبر زين جدة وفحص التغطية" : "مندوب راوتر 5G جدة";
@@ -41,8 +42,6 @@ export default function JeddahFiveGPage({ zainOnly = false }) {
     <section className="container">
       <OperatorSources operator={zainOnly ? "zain" : ""} />
       <p className="notice">سعودي واصل جهة مستقلة وليست الموقع الرسمي لأي مشغل. نساعدك في اختيار الخدمة ورفع الطلب ومتابعته.</p>
-      <h2>رقم مندوب {zainOnly ? "زين" : "راوتر 5G"} جدة</h2>
-      <div className="contact-box"><p>للاستفسار عن الخيارات المتاحة لعنوانك في جدة، تواصل مع المندوب مباشرة:</p><div className="header-actions"><a href={`tel:${PHONE_LOCAL}`} className="btn btn-call">📞 {PHONE_LOCAL}</a><a href={`https://wa.me/${PHONE_WA}`} className="btn btn-wa">راسلنا واتساب</a></div></div>
 
       <h2>{zainOnly ? "راوتر 5G زين وفايبر زين في جدة" : "خيارات راوتر 5G في جدة"}</h2>
       {zainOnly && <p>نركّز على راوتر 5G زين المنزلي، أما توفر فايبر زين فيعتمد على تغطية المبنى. أرسل عنوانك للتحقق من الخيارات المتاحة.</p>}
@@ -86,13 +85,16 @@ export default function JeddahFiveGPage({ zainOnly = false }) {
         </div>
       </>}
 
+      <h2>رقم مندوب {zainOnly ? "زين" : "راوتر 5G"} جدة</h2>
+      <IntentCtas city="jeddah" operator={zainOnly ? "zain" : ""} />
+
       <h2>خطوات الطلب</h2><div className="steps">
         <div className="card"><span>1</span><h4>أرسل عنوانك</h4><p>عبّي النموذج أو أرسل الحي وموقع المبنى عبر واتساب.</p></div>
         <div className="card"><span>2</span><h4>التحقق من التغطية</h4><p>نتحقق من الخيارات المتاحة على عنوانك في جدة.</p></div>
         <div className="card"><span>3</span><h4>اختيار الخدمة</h4><p>نوضح لك الباقات المتاحة لتختار ما يناسب استخدامك.</p></div>
         <div className="card"><span>4</span><h4>متابعة الطلب</h4><p>نرفع الطلب ونتابعه معك حتى التفعيل.</p></div>
       </div>
-      <h2>صفحات خدمات جدة</h2><div className="cities"><a href="/jeddah/stc">مندوب فايبر STC جدة</a><a href="/jeddah/salam">مندوب فايبر سلام جدة</a><a href="/jeddah/mobily">مندوب فايبر موبايلي جدة</a><a href="/jeddah/zain">مندوب زين جدة</a><a href="/jeddah/5g">مندوب راوتر 5G جدة</a></div>
+      <h2>صفحات خدمات جدة</h2><CityOperatorLinks city="jeddah" current={zainOnly ? "zain" : "5g"} />
       <h2>أسئلة شائعة عن {title}</h2><div className="card faq">{faqs.map((f) => <div key={f.q}><h4>{f.q}</h4><p>{f.a}</p></div>)}</div>
       <JsonLd data={schemas} />
     </section>

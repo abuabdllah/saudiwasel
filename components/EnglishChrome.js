@@ -8,8 +8,6 @@ export function EnglishHeader() {
         <a href="/en" className="en-logo" aria-label="Saudi Wasel English home">Saudi <span>Wasel</span><small>Independent home internet advice</small></a>
         <div className="en-header-actions">
           <span className="en-language"><LanguageSwitcher language="ar" /></span>
-          <a href="tel:0564612017" className="en-call">Call <bdi>0564612017</bdi></a>
-          <a href="https://wa.me/966564612017" className="en-button en-button-wa">WhatsApp</a>
         </div>
       </div>
       <nav className="en-container en-nav" aria-label="English pages">
