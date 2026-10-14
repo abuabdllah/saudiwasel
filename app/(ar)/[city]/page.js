@@ -1,3 +1,4 @@
+import { cityIntroductions, localDistricts } from "../../../lib/local-content";
 import CityOperatorLinks from "../../../components/CityOperatorLinks";
 import IntentCtas from "../../../components/IntentCtas";
 import CityNextSteps from "../../../components/CityNextSteps";
@@ -79,7 +80,7 @@ export default async function CityPage({ params }) {
         <div className="container hero-grid">
           <div>
             <h1>مندوب فايبر {c.name} وفحص التغطية</h1>
-            <p className="hero-sub">ابدأ بموقع المبنى في {c.name}، ثم قارن خيارات الفايبر و5G التي يمكن التحقق منها. نساعدك في مراجعة الباقة وطلب الخدمة ومتابعتها بعد موافقتك.</p>
+            <p className="hero-sub">{cityIntroductions[c.slug]}</p>
             <ul className="hero-points">
               <li>✔ التحقق من عنوان المبنى قبل الاشتراك</li>
               <li>✔ مقارنة الخيارات التي تتوفر على العنوان</li>
@@ -113,6 +114,8 @@ export default async function CityPage({ params }) {
           {c.districts.map((district) => <span key={district}>حي {district}</span>)}
         </div>
         <p style={{ marginTop: 12 }}>هذه أمثلة للأحياء وليست قائمة مناطق مغطاة. اكتب حيّك حتى إن لم يظهر هنا، ثم شارك موقع المبنى أثناء المتابعة. في الصفا أو السلامة أو أبحر الشمالية، لا تنطبق نتيجة عقار على العقار المجاور.</p>
+
+        <div className="card faq">{localDistricts(c.slug).map((district) => <div key={district.name}><h3>حي {district.name}</h3><p>{district.text}</p></div>)}</div>
 
         <h2>مندوب الياف بصرية في {c.name}</h2>
         <div className="contact-box">

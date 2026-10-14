@@ -1,3 +1,4 @@
+import { operatorBody, operatorFaqs, choiceCopy, operatorFacts, operatorAbout, cityIntroductions, operatorIntroduction, localDistricts } from "../lib/local-content";
 import PricesTable from "./PricesTable";
 import CityOperatorLinks from "./CityOperatorLinks";
 import IntentCtas from "./IntentCtas";
@@ -5,7 +6,7 @@ import CityNextSteps from "./CityNextSteps";
 import OperatorSources from "./OperatorSources";
 import LeadForm from "./LeadForm";
 import JsonLd, { breadcrumbSchema, faqSchema, serviceSchema } from "./JsonLd";
-import { getRiyadhOperatorContent, riyadhDistricts, riyadhGeneralFaqs } from "../lib/riyadh";
+import { riyadhGeneralFaqs } from "../lib/riyadh";
 
 function ContactBox({ operator }) {
   return <div className="contact-box">
@@ -15,19 +16,7 @@ function ContactBox({ operator }) {
 }
 
 function DistrictCards({ operator }) {
-  const content = operator ? getRiyadhOperatorContent(operator).districts : riyadhDistricts.map((name) => ({
-    name,
-    text: ({
-      "الملقا": "الملقا شمال الرياض ويميل طابعه إلى الفلل والمجمعات والمباني الحديثة. أرسل موقع العقار لفحص التغطية.",
-      "النرجس": "النرجس ضمن التوسع الشمالي، ويضم مخططات جديدة وفللاً وعمائر سكنية. شارك العنوان للتحقق من التغطية.",
-      "الياسمين": "الياسمين من أحياء شمال العاصمة، وتتنوع مساكنه بين الفلل والعمائر. اطلب فحص التغطية لمبناك.",
-      "حطين": "حطين شمال غرب الرياض، وفيه فلل ومشروعات سكنية حديثة. زودنا بالموقع لفحص التغطية.",
-      "العارض": "العارض في الامتداد الشمالي وتنتشر فيه المخططات والفلل الجديدة. أرسل العنوان للتأكد من التغطية.",
-      "الروضة": "الروضة شرق الرياض، ويجمع نسيجها السكني بين الفلل والعمائر. شارك موقع المبنى لفحص التغطية.",
-      "النسيم": "النسيم في شرق المدينة، ويضم عمائر وفللاً في نطاق سكني واسع. اطلب التحقق من التغطية على عنوانك.",
-      "السويدي": "السويدي جنوب غرب الرياض، وهو من الأحياء القائمة ذات الفلل والعمائر المتنوعة. أرسل الموقع لفحص التغطية.",
-    })[name],
-  }));
+  const content = localDistricts("riyadh", operator?.slug || "city");
   return <div className="card faq">{content.map((district) => <div key={district.name}><h3>حي {district.name}</h3><p>{district.text}</p></div>)}</div>;
 }
 
@@ -44,11 +33,11 @@ export function RiyadhCityPage() {
   return <main>
     <section className="hero"><div className="container hero-grid"><div>
       <h1>مندوب فايبر الرياض وفحص التغطية</h1>
-      <p className="hero-sub">افحص عنوانك في الرياض، وقارن مشغلي الفايبر المتاحين للمبنى، ثم تابع طلب التركيب عبر قناة تواصل واحدة.</p>
+      <p className="hero-sub">{cityIntroductions.riyadh}</p>
       <ul className="hero-points"><li>✔ فحص العنوان قبل اختيار الباقة</li><li>✔ روابط مباشرة إلى مشغلي الرياض</li><li>✔ تواصل عبر الاتصال أو واتساب</li></ul>
     </div><LeadForm defaultCity="الرياض" /></div></section>
     <section className="container">
-      <p className="notice">موقع مستقل وغير تابع لأي مشغل. نساعد في فحص الخيارات المتاحة ورفع طلب الاشتراك ومتابعته.</p>
+      <p className="notice">موقع مستقل وغير تابع لأي مشغل. نساعد سكان الرياض على تحديد العقار ومراجعة خيارات الإنترنت قبل رفع الطلب ومتابعة التنفيذ.</p>
       <h2>اختيار الإنترنت المنزلي في مدينة الرياض</h2>
       <p>الرياض مدينة كبيرة ومترامية؛ تتسارع فيها المخططات السكنية الحديثة شمالاً، بينما تضم مناطق الوسط والجنوب أحياء أقدم تتجاور فيها الفلل والعمائر. لذلك يختلف قرار الإنترنت من مبنى إلى آخر، حتى داخل الحي الواحد.</p>
       <p>ومع وجود نسبة كبيرة من الموظفين والعائلات والمستأجرين، يصبح نمط السكن مهماً: الفايبر يناسب الاستقرار والاستخدام المرتفع، وراوتر 5G يمنح مرونة للشقق غير المهيأة للتمديد ولمن ينتقل بين المساكن.</p>
@@ -71,7 +60,7 @@ export function RiyadhCityPage() {
 }
 
 export function RiyadhOperatorPage({ operator }) {
-  const content = getRiyadhOperatorContent(operator);
+  const content = { intro: operatorBody("riyadh", operator.slug), faqs: operatorFaqs("riyadh", operator.slug) };
   const schemas = [
     breadcrumbSchema([{ name: "الرئيسية", path: "/" }, { name: "الرياض", path: "/riyadh" }, { name: operator.name, path: `/riyadh/${operator.slug}` }]),
     serviceSchema({ name: `مندوب فايبر ${operator.name} الرياض`, serviceType: "تركيب الألياف البصرية", city: "الرياض", path: `/riyadh/${operator.slug}` }),
@@ -80,21 +69,21 @@ export function RiyadhOperatorPage({ operator }) {
   return <main>
     <section className="hero"><div className="container hero-grid"><div>
       <h1>فايبر {operator.name} الرياض وفحص التغطية</h1>
-      <p className="hero-sub">افحص توفر فايبر {operator.name} على عنوان مبناك في الرياض، واطلع على الباقات ثم تابع طلبك حتى تحديد التركيب.</p>
+      <p className="hero-sub">{operatorIntroduction("riyadh", operator.slug)}</p>
       <ul className="hero-points"><li>✔ فحص المبنى قبل رفع الطلب</li><li>✔ شرح الباقات المنشورة بوضوح</li><li>✔ تواصل مباشر بالاتصال أو واتساب</li></ul>
     </div><LeadForm defaultCity="الرياض" operator={operator.name} /></div></section>
     <section className="container">
-      <p className="notice">موقع مستقل وغير تابع لأي مشغل. نساعدك في فحص تغطية {operator.name} ورفع طلب الاشتراك ومتابعته.</p>
+      <p className="notice">موقع مستقل وغير تابع لأي مشغل. نرتب مراجعة ألياف {operator.name} لمسكنك في {"الرياض"} ونساعد في متابعة إجراء الاشتراك بعد اعتماد التفاصيل.</p>
       <h2>فايبر {operator.name} في مدينة الرياض</h2><p>{content.intro[0]}</p><p>{content.intro[1]}</p>
-      <p>للمقارنة بين المشغلين وخيارات الإنترنت حسب المبنى، راجع <a href="/riyadh">مندوب فايبر الرياض</a>.</p>
+      <p>لمراجعة بدائل {operator.name} على عنوانك ومقارنة خدمات المبنى، راجع <a href="/riyadh">مندوب فايبر الرياض</a>.</p>
       <h2>خيارات باقات فايبر {operator.name}</h2>
-      <OperatorSources operator={operator.slug} /><PricesTable operator={operator.slug} service="fiber" />
+      <OperatorSources operator={operator.slug} /><PricesTable operator={operator.slug} service="fiber" context={`فايبر ${operator.name} في ${"الرياض"}`} />
       <h2>رقم مندوب فايبر {operator.name} الرياض</h2>
       <IntentCtas city="riyadh" operator={operator.slug} />
-      <h2>معلومات قبل تركيب فايبر {operator.name}</h2><ul className="req-list">{operator.facts.map((fact) => <li key={fact}>{fact}</li>)}</ul>
+      <h2>معلومات قبل تركيب فايبر {operator.name}</h2><ul className="req-list">{operatorFacts("riyadh", operator.slug).map((fact) => <li key={fact}>{fact}</li>)}</ul>
       <h2>مندوب {operator.name} في أحياء الرياض</h2><DistrictCards operator={operator} />
-      <h2>فايبر أو 5G في الرياض؟</h2><p>يناسب الفايبر الفلل والمباني الجديدة الجاهزة، خصوصاً مع الألعاب والبث وكثرة الأجهزة. ويكون راوتر 5G عملياً للمستأجرين، أو للشقق التي لا تسمح بتمديدات، أو عند الانتقال المتكرر. اقرأ <a href="/fiber-vs-5g">الفرق بين الفايبر و5G</a> وقارن مع <a href={`/5g/${operator.slug}`}>راوتر 5G من {operator.name}</a>، كما يمكنك مشاهدة <a href="/5g">جميع خيارات 5G</a>.</p>
-      <h2>خطوات طلب فايبر {operator.name} في الرياض</h2><div className="steps"><div className="card"><span>1</span><h4>تحديد المبنى</h4><p>أرسل الحي والموقع الدقيق ورقم الوحدة عند توفره.</p></div><div className="card"><span>2</span><h4>مراجعة النتيجة</h4><p>نتحقق من خيارات العنوان قبل اختيار الباقة.</p></div><div className="card"><span>3</span><h4>رفع الطلب</h4><p>تُسجل البيانات بعد موافقتك على التفاصيل.</p></div><div className="card"><span>4</span><h4>تنسيق التركيب</h4><p>تتابع حالة الطلب وموعد الفني حتى التفعيل.</p></div></div>
+      <h2>فايبر أو 5G في الرياض؟</h2><p>{choiceCopy("riyadh", operator.slug)} اقرأ <a href="/fiber-vs-5g">الفرق بين الفايبر و5G</a> وقارن مع <a href={`/5g/${operator.slug}`}>راوتر 5G من {operator.name}</a>، كما يمكنك مشاهدة <a href="/5g">جميع خيارات 5G</a>.</p>
+      <h2>خطوات طلب فايبر {operator.name} في الرياض</h2><div className="steps"><div className="card"><span>1</span><h4>تحديد المبنى</h4><p>أرسل لطلب {operator.name} بالرياض الحي وموقع العقار ورقم وحدتك حتى يبدأ التحقق من عنوان واضح.</p></div><div className="card"><span>2</span><h4>مراجعة النتيجة</h4><p>نتحقق من خيارات العنوان قبل اختيار الباقة.</p></div><div className="card"><span>3</span><h4>رفع الطلب</h4><p>تُسجل البيانات بعد موافقتك على التفاصيل.</p></div><div className="card"><span>4</span><h4>تنسيق التركيب</h4><p>تتابع حالة الطلب وموعد الفني حتى التفعيل.</p></div></div>
       <h2>مشغلو الفايبر في الرياض</h2><OperatorLinks current={operator.slug} />
       <h2>أسئلة شائعة عن فايبر {operator.name} في الرياض</h2><div className="card faq">{content.faqs.map((faq) => <div key={faq.q}><h4>{faq.q}</h4><p>{faq.a}</p></div>)}</div>
       <JsonLd data={schemas} />

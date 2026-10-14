@@ -1,3 +1,4 @@
+import { localDistricts } from "../lib/local-content";
 import IntentCtas from "./IntentCtas";
 import LeadForm from "./LeadForm";
 import JsonLd, { breadcrumbSchema, faqSchema } from "./JsonLd";
@@ -41,11 +42,11 @@ export default function CityFiveGPage({ city }) {
         <h3><a href={`/5g/${operator.slug}`}>راوتر 5G {operator.name}</a></h3>
         <p>{operator.text}</p>
       </div>)}</div>
-      <p className="notice">{content.prices} <a href={`https://wa.me/${PHONE_WA}`}>واتساب {PHONE_LOCAL}</a></p>
+      <p className="notice">لمراجعة باقات راوتر {content.name} وأسعارها الحالية، أرسل موقع الوحدة عبر واتساب قبل اعتماد الاشتراك. <a href={`https://wa.me/${PHONE_WA}`}>واتساب {PHONE_LOCAL}</a></p>
 
       <h2>مندوب راوتر 5G في أحياء {content.name}</h2>
       <p>{content.neighborhoodIntroduction}</p>
-      <div className="card faq">{content.neighborhoods.map((neighborhood) => <div key={neighborhood.name}>
+      <div className="card faq">{localDistricts(city, "5g").filter((district) => content.neighborhoods.some((neighborhood) => neighborhood.name === district.name)).map((neighborhood) => <div key={neighborhood.name}>
         <h3>{neighborhood.name}</h3><p>{neighborhood.text}</p>
       </div>)}</div>
 
