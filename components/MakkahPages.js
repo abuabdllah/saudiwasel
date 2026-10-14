@@ -17,7 +17,7 @@ function ContactBox({ operator }) {
 
 function DistrictCards({ operator }) {
   const content = localDistricts("makkah", operator?.slug || "city");
-  return <div className="card faq">{content.map((district) => <div key={district.name}><h3>حي {district.name}</h3><p>{district.text}</p></div>)}</div>;
+  return <><div className="card faq">{content.map((district) => <div key={district.name}><h3>حي {district.name}</h3><p>{district.text}</p></div>)}</div><p>أرسل اسم حيك وموقع المبنى، ونتحقق لك من الخيارات المتاحة على عنوانك.</p></>;
 }
 
 function MakkahLinks({ current }) {

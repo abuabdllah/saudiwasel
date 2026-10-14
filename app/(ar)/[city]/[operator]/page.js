@@ -193,7 +193,7 @@ export default async function OperatorPage({ params }) {
           </div>
         </>}
 
-        {c.slug === "jeddah" && <><h2>مندوب فايبر {o.name} في أحياء جدة</h2><div className="card faq">{localDistricts("jeddah", o.slug).map((district) => <div key={district.name}><h3>حي {district.name}</h3><p>{district.text}</p></div>)}</div></>}
+        {c.slug === "jeddah" && <><h2>مندوب فايبر {o.name} في أحياء جدة</h2><div className="card faq">{localDistricts("jeddah", o.slug).map((district) => <div key={district.name}><h3>حي {district.name}</h3><p>{district.text}</p></div>)}</div><p>أرسل اسم حيك وموقع المبنى، ونتحقق لك من الخيارات المتاحة على عنوانك.</p></>}
 
         <h2>خطوات طلب فايبر {o.name} عن طريق المندوب</h2>
         <div className="steps">
