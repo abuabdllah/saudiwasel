@@ -1,3 +1,4 @@
+import { operatorIntroduction, localDistricts, operatorFaqs, operatorFacts, operatorAbout } from "../../../../lib/local-content";
 import IntentCtas from "../../../../components/IntentCtas";
 import PricesTable from "../../../../components/PricesTable";
 import CityNextSteps from "../../../../components/CityNextSteps";
@@ -121,21 +122,7 @@ export default async function OperatorPage({ params }) {
   const others = operators.filter((x) => x.slug !== o.slug);
   const addressAdvice = c.slug === "jeddah" ? jeddahOperatorAdvice[o.slug] : null;
 
-  const faqs = [
-    { q: `كيف أتواصل مع مندوب فايبر ${o.name} في ${c.name}؟`, a: `تواصل معنا عبر واتساب أو اتصل على ${PHONE_LOCAL}، أو عبّي النموذج في أعلى الصفحة وسنرد عليك بأسرع وقت.` },
-    { q: "هل الطلب عن طريق المندوب عليه رسوم إضافية؟", a: "لا، خدمتنا بدون أي رسوم إضافية عليك." },
-    { q: c.slug === "jeddah" && ["stc", "mobily"].includes(o.slug) ? `كيف أعرف إذا كان عنواني مغطى بفايبر ${o.name}؟` : `هل فايبر ${o.name} متوفر في حيي في ${c.name}؟`, a: `تختلف التغطية من حي إلى آخر ومن مبنى إلى آخر. أرسل اسم حيك وموقع مبناك لنتحقق من توفر فايبر ${o.name} تحديداً.` },
-    { q: "هل يوجد رسوم تركيب؟", a: `تُراجع رسوم التركيب والجهاز لدى ${o.name} حسب الباقة والعنوان قبل الموافقة على الطلب.` },
-    { q: `هل أقدر أنتقل من مشغل آخر إلى ${o.name}؟`, a: `نعم إذا كان مبناك مغطى من ${o.name}. ننصحك تتأكد من أي التزام أو مدة عقد على اشتراكك الحالي قبل الانتقال.` },
-    { q: "كم يستغرق التركيب؟", a: "يختلف حسب جاهزية المبنى ومواعيد الفنيين، ونتابع معك الطلب خطوة بخطوة حتى التفعيل." },
-  ];
-
-  if (c.slug === "jeddah" && ["stc", "mobily"].includes(o.slug)) {
-    faqs.push(
-      { q: `كيف أطلب تركيب فايبر ${o.name} في جدة؟`, a: "تواصل معنا أو أرسل النموذج الموجود في الصفحة. بعد فحص التغطية وتأكيد الباقة، نساعدك في رفع طلب الاشتراك ومتابعة التركيب والتفعيل." },
-      { q: "ما البيانات المطلوبة لفحص تغطية الفايبر؟", a: "أرسل اسم الحي وموقع المبنى على الخريطة أو العنوان الوطني، ورقم الوحدة إن وجد، لتحديد العنوان المطلوب فحصه." },
-    );
-  }
+  const faqs = operatorFaqs(c.slug, o.slug);
 
   const schemas = [
     breadcrumbSchema([{ name: "الرئيسية", path: "/" }, { name: c.name, path: `/${c.slug}` }, { name: o.name, path: `/${c.slug}/${o.slug}` }]),
@@ -149,7 +136,7 @@ export default async function OperatorPage({ params }) {
         <div className="container hero-grid">
           <div>
             <h1>فايبر {o.name} {c.name} وفحص التغطية</h1>
-            <p className="hero-sub">تركيب ألياف {o.name} البصرية في {c.name}: نفحص تغطية مبناك مجاناً، نشرح لك الباقات، ونرفع طلبك ونتابعه حتى التفعيل.</p>
+            <p className="hero-sub">{operatorIntroduction(c.slug, o.slug)}</p>
             <ul className="hero-points">
               <li>✔ تواصل مباشر مع المندوب واتساب</li>
               <li>✔ فحص تغطية {o.name} مجاناً</li>
@@ -161,7 +148,7 @@ export default async function OperatorPage({ params }) {
       </section>
 
       <section className="container">
-        <p className="notice">سعودي واصل جهة مستقلة وليست الموقع الرسمي لـ{o.name}. نساعدك كمندوب مبيعات في فحص التغطية ورفع طلب الاشتراك ومتابعته.</p>
+        <p className="notice">موقع مستقل وغير تابع لأي مشغل. للاستفسار عن ألياف {o.name} بمدينة {c.name}، نرتب التحقق من الوحدة ثم نتابع الطلب بعد مراجعة تفاصيله.</p>
 
         <h2>رقم مندوب فايبر {o.name} {c.name}</h2>
         <div className="contact-box">
@@ -174,30 +161,30 @@ export default async function OperatorPage({ params }) {
 
         <h2>خيارات باقات فايبر {o.name}</h2>
         <OperatorSources operator={o.slug} />
-        <PricesTable operator={o.slug} service="fiber" />
+        <PricesTable operator={o.slug} service="fiber" context={`فايبر ${o.name} في ${c.name}`} />
 
         <IntentCtas city={c.slug} operator={o.slug} />
 
         <h2>معلومات مهمة قبل تركيب فايبر {o.name}</h2>
         <ul className="req-list">
-          {o.facts.map((f) => <li key={f}>{f}</li>)}
+          {operatorFacts(c.slug, o.slug).map((fact) => <li key={fact}>{fact}</li>)}
         </ul>
 
         <h2>لماذا تطلب فايبر {o.name} عن طريق مندوب؟</h2>
         <div className="steps">
-          <div className="card"><h4>رد سريع</h4><p>بدل الانتظار في خدمة العملاء، تتواصل مع مندوب يرد عليك واتساب مباشرة.</p></div>
-          <div className="card"><h4>شرح واضح</h4><p>نشرح لك الباقات والفروق بينها ونرشح لك الأنسب لاستخدامك.</p></div>
-          <div className="card"><h4>متابعة الطلب</h4><p>نتابع طلبك مع الفنيين حتى يتم التركيب، وتسألنا في أي وقت عن الحالة.</p></div>
-          <div className="card"><h4>مقارنة المشغلين</h4><p>إذا كان مبناك مغطى من أكثر من مشغل، نوضح لك الفرق قبل أن تقرر.</p></div>
+          <div className="card"><h4>رد سريع</h4><p>للاستفسار عن {o.name} في {c.name}، أرسل رسالة واتساب توضح عنوانك والخطوة التي تحتاج المساعدة فيها.</p></div>
+          <div className="card"><h4>شرح واضح</h4><p>نقارن معك تكلفة باقات {o.name} لمسكن {c.name} ومدة الالتزام، مع بقاء الاختيار النهائي بيدك.</p></div>
+          <div className="card"><h4>متابعة الطلب</h4><p>لمتابعة تركيب {o.name} في {c.name}، نساعد في معرفة حالة الطلب ومتطلبات تنسيق الزيارة دون تحديد موعد مضمون.</p></div>
+          <div className="card"><h4>مقارنة المشغلين</h4><p>إذا أمكن طلب أكثر من خدمة لعقار {c.name}، ضع عرض {o.name} بجانب البدائل المتاحة واقرأ شروط كل منها.</p></div>
         </div>
 
         <h2>عن فايبر {o.name}</h2>
-        <p>{o.about}</p>
+        <p>{operatorAbout(c.slug, o.slug)}</p>
 
         <h2>فايبر {o.name} في {c.name}</h2>
         <p>{addressAdvice ? addressAdvice.introduction : c.intro}</p>
         {addressAdvice && <><h3>{addressAdvice.title}</h3><p>{addressAdvice.advice}</p></>}
-        <p>يتطلب توفر {o.name} بالألياف البصرية في {c.name} التحقق من المبنى المحدد ولا يمكن تعميم النتيجة على الحي، لذلك أول خطوة دائماً هي فحص عنوانك. أرسل اسم حيك وموقع مبناك ونرد عليك بالنتيجة والخيارات المتاحة.</p>
+        <p>يتطلب توفر {o.name} بالألياف البصرية في {c.name} التحقق من المبنى المحدد ولا يمكن تعميم النتيجة على الحي، لذلك أول خطوة دائماً هي فحص عنوانك. لفحص ألياف {o.name} في {c.name}، شارك الحي ورابط مدخل العقار حتى نرتب مراجعة عنوانه.</p>
 
         {c.slug !== "jeddah" && <>
           <h2>مندوب فايبر {o.name} في أحياء {c.name}</h2>
@@ -206,22 +193,11 @@ export default async function OperatorPage({ params }) {
           </div>
         </>}
 
-        {c.slug === "jeddah" && o.slug === "stc" && (
-          <>
-            <h2>فايبر STC في أحياء جدة</h2>
-            <div className="card faq">
-              <div><h3>حي الروضة</h3><p>يقع حي الروضة في وسط جدة، ويضم فللاً وعمائر سكنية متنوعة. أرسل موقع المبنى لفحص التغطية المتاحة على عنوانك.</p></div>
-              <div><h3>حي الصفا</h3><p>يمتد حي الصفا في شرق جدة وتتنوع مساكنه بين العمائر والفلل. شاركنا موقعك للتحقق من التغطية في المبنى.</p></div>
-              <div><h3>حي الحمدانية</h3><p>الحمدانية من أحياء شمال شرق جدة، وتضم مخططات سكنية حديثة وفللاً. تواصل معنا لفحص التغطية حسب عنوانك.</p></div>
-              <div><h3>حي أبحر الشمالية</h3><p>تقع أبحر الشمالية في شمال جدة وتشتهر بالفلل والمخططات الجديدة. أرسل موقع المنزل لنتحقق من خيارات التغطية.</p></div>
-              <div><h3>حي السلامة</h3><p>حي السلامة قريب من المحاور الرئيسية في شمال وسط جدة، ويجمع بين العمائر والفلل. اطلب فحص التغطية لمبناك قبل الاشتراك.</p></div>
-            </div>
-          </>
-        )}
+        {c.slug === "jeddah" && <><h2>مندوب فايبر {o.name} في أحياء جدة</h2><div className="card faq">{localDistricts("jeddah", o.slug).map((district) => <div key={district.name}><h3>حي {district.name}</h3><p>{district.text}</p></div>)}</div></>}
 
         <h2>خطوات طلب فايبر {o.name} عن طريق المندوب</h2>
         <div className="steps">
-          <div className="card"><span>1</span><h4>أرسل عنوانك</h4><p>المدينة والحي وموقع المبنى عبر النموذج أو واتساب.</p></div>
+          <div className="card"><span>1</span><h4>أرسل عنوانك</h4><p>حدد في طلب {o.name} بمدينة {c.name} موقع الوحدة والحي عبر النموذج أو رسالة واتساب.</p></div>
           <div className="card"><span>2</span><h4>فحص التغطية</h4><p>نتحقق من توفر فايبر {o.name} في مبناك.</p></div>
           <div className="card"><span>3</span><h4>اختيار الباقة</h4><p>نرسل لك الباقات والعروض المتاحة وتختار الأنسب.</p></div>
           <div className="card"><span>4</span><h4>التركيب</h4><p>نرفع الطلب ونتابعه معك حتى التركيب والتفعيل.</p></div>
@@ -235,7 +211,7 @@ export default async function OperatorPage({ params }) {
         </ul>
 
         <h2>{o.name} أو {others.map((x) => x.name).join(" أو ")}؟</h2>
-        <p>إذا كان مبناك مغطى من أكثر من مشغل، نقارن لك بين الباقات المتاحة من حيث السرعة والمميزات ومدة الالتزام، وتختار الأنسب لاستخدامك.</p>
+        <p>عند تعدد خدمات عقار {c.name}، نقارن عرض {o.name} بخياراته الأخرى من حيث الرفع والتكلفة والالتزام، ثم تختار وفق استخدام الأسرة.</p>
         <div className="cities">
           {others.map((x) => (
             <a key={x.slug} href={`/${c.slug}/${x.slug}`}>مندوب فايبر {x.name} {c.name}</a>
@@ -246,7 +222,7 @@ export default async function OperatorPage({ params }) {
         </div>
 
         <h2>مبناك غير مغطى بفايبر {o.name}؟</h2>
-        <p>جرّب راوتر 5G: يصلك دون تمديدات، وتكلفة الراوتر تخضع لشروط الباقة. <a href={`/5g/${o.slug}`}>راوتر 5G {o.name}</a> أو <a href="/fiber-vs-5g">قارن بين الفايبر و5G</a>.</p>
+        <p>عند غياب ألياف {o.name} عن مسكن {c.name}، راجع خيار 5G وإشارة الغرفة وتكلفة الجهاز قبل اعتماد بديل دون تمديدات. <a href={`/5g/${o.slug}`}>راوتر 5G {o.name}</a> أو <a href="/fiber-vs-5g">قارن بين الفايبر و5G</a>.</p>
 
         <h2>أسئلة شائعة عن مندوب فايبر {o.name} في {c.name}</h2>
         <div className="card faq">

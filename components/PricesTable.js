@@ -1,7 +1,7 @@
 import { prices } from "../data/prices";
 import { englishPriceText, isEmptyPlan, isEmptyPriceCell, pricingNote } from "../lib/price-display";
 
-export default function PricesTable({ operator, service = "fiber", english = false, plans, caption }) {
+export default function PricesTable({ operator, service = "fiber", english = false, plans, caption, context }) {
   const data = prices[operator];
   const packages = (plans || data[service]).filter(plan => !isEmptyPlan(plan));
   const hasPrices = packages.some(plan => !isEmptyPriceCell(plan.price));
@@ -19,6 +19,6 @@ export default function PricesTable({ operator, service = "fiber", english = fal
         </tr>)}</tbody>
       </table>
     </div>
-    <p className={english ? "en-price-note" : "small-note"} lang={english ? "en" : "ar"} dir={english ? "ltr" : "rtl"}>{pricingNote(hasPrices, english)}</p>
+    <p className={english ? "en-price-note" : "small-note"} lang={english ? "en" : "ar"} dir={english ? "ltr" : "rtl"}>{context && !english ? (hasPrices ? `أسعار ${context} تشمل الضريبة وهي من المصدر الرسمي للمشغل؛ لتغير العروض، أكد سعر عنوانك وتفاصيل الباقة عبر واتساب قبل الطلب.` : `لأسعار ${context} وباقاته الحالية، شارك عنوان الوحدة عبر واتساب حتى تُراجع التفاصيل المتاحة قبل الاشتراك.`) : pricingNote(hasPrices, english)}</p>
   </>;
 }
