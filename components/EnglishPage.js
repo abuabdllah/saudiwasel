@@ -1,7 +1,8 @@
+import PricesTable from "./PricesTable";
 import { operatorSources } from "../lib/operator-sources";
 import JsonLd, { breadcrumbSchema, faqSchema } from "./JsonLd";
 import EnglishLeadForm from "./EnglishLeadForm";
-import { englishPages, englishStcPlans, stcPricesUpdated, englishFivegOperators, englishFivegUpdated, priceEnquiry, connectionComparison } from "../lib/english";
+import { englishPages, englishStcPlans, englishFivegOperators, connectionComparison } from "../lib/english";
 
 const BASE = "https://saudiwasel.com";
 
@@ -84,16 +85,11 @@ export default function EnglishPage({ page }) {
         <section className="en-section" aria-labelledby="en-plans-title">
           <h2 id="en-plans-title">Plan references and official sources</h2>
           <p>Plan names are retained as references from earlier content, not confirmed current offers. Prices, speeds and equipment benefits have not been independently verified. Confirm all current details with the operator before ordering.</p>
-          <nav className="en-footer-links" aria-label="Official operator sources">{Object.entries(operatorSources).map(([slug, source]) => <a key={slug} href={source.url} target="_blank" rel="noopener noreferrer">{slug.toUpperCase()} official website</a>)}</nav>
+          <nav className="en-footer-links" aria-label="Official operator sources">{Object.entries(operatorSources).map(([slug, source]) => <span key={slug}>{slug.toUpperCase()} official website</span>)}</nav>
           {page.path === "/en/fiber-internet-jeddah" ? (
             <>
               <p>Review STC fiber eligibility at the building level, then confirm the current plan, total price including tax, commitment and installation terms with STC.</p>
-              <div className="en-table-wrap" role="region" aria-label="Published STC fiber plans" tabIndex={0}>
-                <table><caption>Earlier STC fiber plan-name references; confirm current availability</caption><thead><tr><th scope="col">Plan</th><th scope="col">Download</th><th scope="col">Upload</th><th scope="col">Price</th><th scope="col">Included benefits</th></tr></thead>
-                  <tbody>{englishStcPlans.map((plan) => <tr key={plan.name}><th scope="row">{plan.name}</th><td>{plan.down}</td><td>{plan.up}</td><td>{plan.price}</td><td>{plan.perks}</td></tr>)}</tbody>
-                </table>
-              </div>
-              <p className="en-price-note">Want to compare another provider? <a href="https://wa.me/966564612017">{priceEnquiry}</a></p>
+              <PricesTable operator="stc" english plans={englishStcPlans} caption="Earlier STC fiber plan-name references; confirm current availability" />
             </>
           ) : (
             <>
@@ -101,14 +97,9 @@ export default function EnglishPage({ page }) {
               {englishFivegOperators.map((operator) => (
                 <div key={operator.slug}>
                   <h3>{operator.name} 5G home plans</h3>
-                  <div className="en-table-wrap" role="region" aria-label={`${operator.name} published 5G plans`} tabIndex={0}>
-                    <table><caption>{operator.name} plan-name references — confirm current availability</caption><thead><tr><th scope="col">Plan</th><th scope="col">Download</th><th scope="col">Upload</th><th scope="col">Price</th><th scope="col">Included benefits</th></tr></thead>
-                      <tbody>{operator.packages.map((plan) => <tr key={plan.name}><th scope="row">{plan.name}</th><td>{plan.down}</td><td>{plan.up}</td><td>{plan.price}</td><td>{plan.perks}</td></tr>)}</tbody>
-                    </table>
-                  </div>
+                  <PricesTable operator={operator.slug} service="fiveg" english plans={operator.packages} caption={`${operator.name} plan-name references — confirm current availability`} />
                 </div>
               ))}
-              <p className="en-price-note"><a href="https://wa.me/966564612017">{priceEnquiry}</a></p>
             </>
           )}
         </section>

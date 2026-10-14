@@ -1,8 +1,9 @@
+import FivegSummaryTable from "../../../components/FivegSummaryTable";
 import OperatorSources from "../../../components/OperatorSources";
 import PageSchema from "../../../components/PageSchema";
 import { pageMetadata } from "../../../lib/seo";
 ﻿import LeadForm from "../../../components/LeadForm";
-import { fivegOperators, fivegUpdated } from "../../../lib/fiveg";
+import { fivegOperators } from "../../../lib/fiveg";
 import { cityFivegPages } from "../../../lib/city-fiveg";
 
 const PHONE_LOCAL = "0564612017";
@@ -56,24 +57,7 @@ export default function FiveGPage() {
         <p>إذا أردت مقارنة الخيارات على عنوانك، راجع خدمات الإنترنت في <a href="/jeddah">جدة</a> أو <a href="/riyadh">الرياض</a> أو <a href="/khobar">الخبر</a>؛ توفر الخدمة يُفحص للموقع نفسه وليس لاسم المدينة فقط.</p>
 
         <h2>مراجعة خيارات 5G ومصادرها الرسمية</h2>
-        <div className="table-wrap">
-          <table className="compare">
-            <thead><tr><th>الشركة</th><th>اسم مرجعي للباقة</th><th>التحميل</th><th>الرفع</th><th>السعر</th><th>المميزات</th></tr></thead>
-            <tbody>
-              {fivegOperators.map((o) => (
-                <tr key={o.slug}>
-                  <td><a href={`/5g/${o.slug}`}>{o.name}</a></td>
-                  <td>{o.packages[0].name}</td>
-                  <td>{o.packages[0].down}</td>
-                  <td>{o.packages[0].up}</td>
-                  <td>{o.packages[0].price}</td>
-                  <td>{o.packages[0].perks}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <p className="small-note">آخر تحديث: {fivegUpdated}. المميزات حسب عروض المشغل الحالية وقد تتغير، تواصل معنا للتأكيد.</p>
+        <FivegSummaryTable />
 
         <h2>باقات راوتر 5G حسب الشركة</h2>
         <div className="cities">

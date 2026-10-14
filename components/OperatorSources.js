@@ -5,6 +5,6 @@ export default function OperatorSources({ operator = "" }) {
   return <div className="source-links">
     <h3>مصادر الباقات وتأكيد المعلومات</h3>
     <p>أسماء الباقات أدناه مرجع من المحتوى السابق، وليست عروضًا مؤكدة حاليًا. لم تُتحقق أسعار أو سرعات أو مزايا حديثة؛ راجع المصدر الرسمي واطلب تأكيد السعر بعد الخصم والضريبة وتكلفة الجهاز والتركيب ومدة الالتزام قبل الاشتراك.</p>
-    <div className="cities">{sources.map(([slug, source]) => <a key={slug} href={source.url} target="_blank" rel="noopener noreferrer">{source.label}</a>)}</div>
+    <div className="cities">{sources.map(([slug, source]) => <span key={slug}>{source.label}</span>)}</div>
   </div>;
 }

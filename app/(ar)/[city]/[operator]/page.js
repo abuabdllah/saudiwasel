@@ -1,3 +1,4 @@
+import PricesTable from "../../../../components/PricesTable";
 import CityNextSteps from "../../../../components/CityNextSteps";
 import OperatorSources from "../../../../components/OperatorSources";
 import { pageMetadata } from "../../../../lib/seo";
@@ -177,17 +178,7 @@ export default async function OperatorPage({ params }) {
 
         <h2>خيارات باقات فايبر {o.name} (أسماء مرجعية؛ أكد التفاصيل الحالية)</h2>
         <OperatorSources operator={o.slug} />
-        <div className="table-wrap">
-          <table className="compare">
-            <thead><tr><th>اسم مرجعي للباقة</th><th>التحميل</th><th>الرفع</th><th>السعر</th><th>المزايا</th></tr></thead>
-            <tbody>
-              {o.packages.map((p) => (
-                <tr key={p.name}><td>{p.name}</td><td>{p.down}</td><td>{p.up}</td><td>{p.price}</td><td>{p.perks}</td></tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <p className="small-note">راجع المصدر الرسمي لـ{o.name} للسعر والضريبة والالتزام. أسماء الباقات مرجعية وليست قائمة عروض مؤكدة حاليًا.</p>
+        <PricesTable operator={o.slug} service="fiber" />
 
         <div className="contact-box">
           <h3>تأكيد أسعار باقات {o.name}</h3>

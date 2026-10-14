@@ -1,3 +1,4 @@
+import PricesTable from "./PricesTable";
 import CityNextSteps from "./CityNextSteps";
 import OperatorSources from "./OperatorSources";
 import LeadForm from "./LeadForm";
@@ -97,8 +98,7 @@ export function RiyadhOperatorPage({ operator }) {
       <p>للمقارنة بين المشغلين وخيارات الإنترنت حسب المبنى، راجع <a href="/riyadh">مندوب فايبر الرياض</a>.</p>
       <h2>رقم مندوب فايبر {operator.name} الرياض</h2><ContactBox operator={operator} />
       <h2>خيارات باقات فايبر {operator.name} (أسماء مرجعية؛ أكد التفاصيل الحالية)</h2>
-      <OperatorSources operator={operator.slug} /><div className="table-wrap"><table className="compare"><thead><tr><th>اسم مرجعي للباقة</th><th>التحميل</th><th>الرفع</th><th>السعر</th><th>المزايا</th></tr></thead><tbody>{operator.packages.map((pack) => <tr key={pack.name}><td>{pack.name}</td><td>{pack.down}</td><td>{pack.up}</td><td>{pack.price}</td><td>{pack.perks}</td></tr>)}</tbody></table></div>
-      <p className="small-note">لا ننشر سعرًا أو عرضًا حاليًا غير متحقق. راجع المصدر الرسمي لـ{operator.name} للتكلفة والضريبة وشروط الباقة قبل الاشتراك.</p>
+      <OperatorSources operator={operator.slug} /><PricesTable operator={operator.slug} service="fiber" />
       <div className="contact-box"><h3>تأكيد السعر قبل رفع الطلب</h3><p>قد تتغير العروض أو شروطها، لذلك نراجع معك الباقة المختارة والعنوان قبل بدء الإجراءات.</p><div className="header-actions"><a href={`tel:${PHONE_LOCAL}`} className="btn btn-call">📞 {PHONE_LOCAL}</a><a href={`https://wa.me/${PHONE_WA}`} className="btn btn-wa">راسلنا واتساب</a></div></div>
       <h2>معلومات قبل تركيب فايبر {operator.name}</h2><ul className="req-list">{operator.facts.map((fact) => <li key={fact}>{fact}</li>)}</ul>
       <h2>مندوب {operator.name} في أحياء الرياض</h2><DistrictCards operator={operator} />
