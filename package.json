@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "postbuild": "node scripts/requested-pages-audit.mjs",
     "start": "next start",
     "check:types": "tsc -p tsconfig.validation.json",
     "audit:seo": "node scripts/seo-audit.mjs",
