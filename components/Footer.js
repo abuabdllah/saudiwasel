@@ -12,7 +12,7 @@ export default function Footer() {
         <IntentCtas />
         <nav className="footer-links" aria-label="روابط الفايبر">
           <a href="/coverage">{isFiveg ? "افحص تغطية 5G" : "افحص تغطية الفايبر"}</a>
-          <a href="/">{isFiveg ? "اطلب راوتر 5G" : "تركيب فايبر"}</a>
+          <a href={isFiveg ? "/" : "/fiber-installation"}>{isFiveg ? "اطلب راوتر 5G" : "تركيب فايبر"}</a>
           <a href="/jeddah">فايبر جدة</a>
           <a href="/riyadh">فايبر الرياض</a>
           <a href="/riyadh">مندوب فايبر الرياض</a>
