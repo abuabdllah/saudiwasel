@@ -2,6 +2,7 @@ import { fivegRouterFaq } from "../lib/fiveg-router";
 import { localDistricts } from "../lib/local-content";
 import CityOperatorLinks from "./CityOperatorLinks";
 import IntentCtas from "./IntentCtas";
+import PricesTable from "./PricesTable";
 import LeadForm from "./LeadForm";
 import JsonLd, { breadcrumbSchema, faqSchema, serviceSchema } from "./JsonLd";
 import { fivegOperators } from "../lib/fiveg";
@@ -47,6 +48,7 @@ export default function JeddahFiveGPage({ zainOnly = false }) {
       <p className="notice">موقع مستقل وغير تابع لأي مشغل. {zainOnly ? "نساعد في مراجعة خيارات زين لعقار جدة، وترتيب الطلب بعد التأكد من متطلباته لدى الشركة." : "لهذه المقارنة بين راوترات جدة، نرتب الاستفسار عن العنوان ونساعد في رفع الخدمة المختارة ومتابعتها."}</p>
 
       <h2>{zainOnly ? "راوتر 5G زين وفايبر زين في جدة" : "خيارات راوتر 5G في جدة"}</h2>
+      {zainOnly && <><h2>باقات فايبر زين في جدة</h2><PricesTable operator="zain" service="fiber" /><h2>باقات زين 5G في جدة</h2><PricesTable operator="zain" service="fiveg" /></>}
       {zainOnly && <p>نركّز على راوتر 5G زين المنزلي، أما توفر فايبر زين فيعتمد على تغطية المبنى. أرسل عنوانك للتحقق من الخيارات المتاحة.</p>}
       <div className="cities">{options.map((o) => <a key={o.slug} href={`/5g/${o.slug}`}>راوتر 5G {o.name}</a>)}</div>
       {!zainOnly && <p className="notice">تواصل معنا لتأكيد الباقات والأسعار المتاحة لعنوانك.</p>}

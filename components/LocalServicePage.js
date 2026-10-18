@@ -39,6 +39,7 @@ export default function LocalServicePage({ pageKey }) {
       <figure style={{ margin: "2rem 0" }}><img src={imageFor(pageKey)} alt={altFor(pageKey)} width="1200" height="675" loading="eager" fetchPriority="high" style={{ width: "100%", height: "auto", borderRadius: "16px" }} /></figure>
       <h2>{isZain ? "مندوب زين" : "راوتر 5G"} في أحياء {page.city}</h2>
       <div className="card faq">{page.districts.map(district => <div key={district.name}><h3>حي {district.name}</h3><p data-editorial>{district.text}</p></div>)}</div>
+      {isZain && <><h2>باقات فايبر زين في {page.city}</h2><PricesTable operator="zain" service="fiber" /></>}
       <h2>{isZain ? `باقات زين 5G للمقارنة في ${page.city}` : `باقات راوتر 5G المنزلية في ${page.city}`}</h2>
       <p data-editorial>{page.pricing}</p>
       {operators.map(operator => <div key={operator} data-price-source>
