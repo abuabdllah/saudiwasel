@@ -1,7 +1,7 @@
 import { prices } from "../data/prices";
 import { englishPriceText, isEmptyPlan, isEmptyPriceCell, pricingNote } from "../lib/price-display";
 
-export default function PricesTable({ operator, service = "fiber", english = false, showOfferNote = true, plans, caption, context }) {
+export default function PricesTable({ operator, service = "fiber", english = false, showOfferNote = true, plans, caption, context, note }) {
   const data = prices[operator];
   const packages = (plans || data[service]).filter(plan => !isEmptyPlan(plan) && !isEmptyPriceCell(plan.price));
   const hasUpload = service === "fiveg" || packages.some(plan => !isEmptyPriceCell(plan.up));
@@ -20,6 +20,6 @@ export default function PricesTable({ operator, service = "fiber", english = fal
         </tr>)}</tbody>
       </table>
     </div>
-    <p className={english ? "en-price-note" : "small-note"} lang={english ? "en" : "ar"} dir={english ? "ltr" : "rtl"}>{operator === "salam" && service === "fiber" && !english ? "الأسعار تقريبية – آخر تحديث أكتوبر 2026. السعر النهائي والعروض الحالية تتأكد مع المندوب حسب عنوانك." : english && service === "fiveg" && operator === "salam" && !hasPrices ? "Message us on WhatsApp for current Salam 5G prices at your address." : context && !english ? (hasPrices ? `أسعار ${context} تشمل الضريبة وهي من المصدر الرسمي للمشغل؛ لأن العروض تتغير، أكّد السعر المتاح لعنوانك وتفاصيل الباقة عبر واتساب قبل الطلب.` : `لأسعار ${context} وباقاته الحالية، شارك عنوان الوحدة عبر واتساب حتى تُراجع التفاصيل المتاحة قبل الاشتراك.`) : pricingNote(hasPrices, english, showOfferNote)}</p>
+    <p className={english ? "en-price-note" : "small-note"} lang={english ? "en" : "ar"} dir={english ? "ltr" : "rtl"}>{note ?? (operator === "salam" && service === "fiber" && !english ? "الأسعار تقريبية – آخر تحديث أكتوبر 2026. السعر النهائي والعروض الحالية تتأكد مع المندوب حسب عنوانك." : english && service === "fiveg" && operator === "salam" && !hasPrices ? "Message us on WhatsApp for current Salam 5G prices at your address." : context && !english ? (hasPrices ? `أسعار ${context} تشمل الضريبة وهي من المصدر الرسمي للمشغل؛ لأن العروض تتغير، أكّد السعر المتاح لعنوانك وتفاصيل الباقة عبر واتساب قبل الطلب.` : `لأسعار ${context} وباقاته الحالية، شارك عنوان الوحدة عبر واتساب حتى تُراجع التفاصيل المتاحة قبل الاشتراك.`) : pricingNote(hasPrices, english, showOfferNote))}</p>
   </>;
 }

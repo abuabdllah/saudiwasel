@@ -91,6 +91,10 @@ export default function sitemap() {
       priority: 0.9,
     })),
 
+    ...["riyadh", "dammam"].flatMap(city => ["zain", "5g"].map(service => ({
+      url: `${base}/${city}/${service}`, lastModified: "2026-10-18", priority: 0.9,
+    }))),
+
     // صفحة 5G الرئيسية
     {
       url: `${base}/5g`,
