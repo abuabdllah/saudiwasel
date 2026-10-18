@@ -52,6 +52,12 @@ export default function sitemap() {
       priority: pair.en === "/en" ? 0.9 : 0.8,
       ...(!pair.switchOnly && { alternates: { languages: { "ar-SA": `${base}${pair.ar}`, "en-SA": `${base}${pair.en}`, "x-default": `${base}${pair.ar}` } } }),
     })),
+    // صفحات الشركات ودليل التركيب
+    ...["/salam", "/stc", "/mobily", "/fiber-installation"].map((path) => ({
+      url: `${base}${path}`,
+      lastModified: "2026-10-18",
+      priority: 0.9,
+    })),
     // الرئيسية
     {
       url: base,
