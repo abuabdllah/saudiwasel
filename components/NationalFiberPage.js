@@ -3,7 +3,6 @@ import PricesTable from "./PricesTable";
 import JsonLd, { breadcrumbSchema, faqSchema } from "./JsonLd";
 import { cities } from "../lib/cities";
 import { operatorCities } from "../lib/operators";
-import { prices } from "../data/prices";
 
 function ContactButtons() {
   return <div className="intent-ctas">
@@ -34,9 +33,7 @@ export default function NationalFiberPage({ page }) {
       {page.sections.map((section) => <section key={section.heading}>
         <h2>{section.heading}</h2>
         {section.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
-        {section.pricing && (prices[page.operator].fiber.length
-          ? <PricesTable operator={page.operator} context={`فايبر ${page.name}`} />
-          : <p className="small-note">لا توجد باقات سلام فايبر مدرجة حاليًا في ملف الأسعار الموحد بالموقع. تتأكد تفاصيل الباقات والأسعار والرسوم مع المندوب حسب العنوان قبل تقديم الطلب.</p>)}
+        {section.pricing && <PricesTable operator={page.operator} context={`فايبر ${page.name}`} />}
         {section.cities && <ul className="city-links">{cities.filter(city => operatorCities.includes(city.slug)).map(city => <li key={city.slug}><a href={`/${city.slug}/${page.operator}`}>فايبر {page.name} في {city.name}</a></li>)}</ul>}
         {section.links && <ul>{section.links.map(link => <li key={link.href}><a href={link.href}>{link.label}</a></li>)}</ul>}
         {section.faq && page.faqs.map(faq => <div key={faq.q}><h3>{faq.q}</h3><p>{faq.a}</p></div>)}
