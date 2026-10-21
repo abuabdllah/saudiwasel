@@ -97,6 +97,7 @@ export default function LeadForm({ defaultCity = "", defaultDistrict = "", opera
     <input type="hidden" name="form-name" value={COVERAGE_FORM_NAME} />
     <h3>{intent === "order" ? "اطلب فايبر بعد فحص عنوانك" : operator ? `افحص تغطية ${operator}` : "افحص تغطية الفايبر"}</h3>
     <p className="coverage-note">التغطية قد تختلف حسب المبنى والعنوان، لذلك يلزم التحقق قبل تأكيد توفر الخدمة. هذا طلب تحقق، وليس نتيجة تغطية آلية.</p>
+    <div className="lead-form-stages">
     {status === "success" ? <div role="status" className="lead-success">
       <h4>تم تسجيل طلب التحقق بنجاح ✅</h4>
       <p>طلبك الآن بانتظار مراجعة توفر الخدمة.</p>
@@ -148,9 +149,10 @@ export default function LeadForm({ defaultCity = "", defaultDistrict = "", opera
         <button type="submit" className="btn btn-coverage" disabled={status === "sending"}>{status === "sending" ? "جاري تسجيل طلبك…" : "أرسل طلب التحقق"}</button>
         <button className="form-back" type="button" onClick={() => setStep(1)} disabled={status === "sending"}>تعديل الموقع</button>
       </>}
-      {error && <p role="alert" className="form-error">{error}</p>}
+      <div className="lead-form-feedback">{error && <p role="alert" className="form-error">{error}</p>}</div>
       <p className="coverage-note">طلب التحقق بانتظار مراجعة توفر الخدمة. يُتاح إرسال تفاصيل الطلب عبر WhatsApp بعد نجاح تسجيله.</p>
       <a href="tel:0564612017" className="form-phone">أو اتصل على <bdi>0564612017</bdi></a>
     </>}
+    </div>
   </form>;
 }

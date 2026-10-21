@@ -45,7 +45,7 @@ for (const path of routes) {
   if (meta("robots")?.includes("noindex")) reportError(path, "Unexpected noindex");
   const alternateLinks = links.filter((link) => link.rel === "alternate" && link.hrefLang);
   for (const link of alternateLinks) {
-    if (!["ar-SA", "en-SA", "x-default"].includes(link.hrefLang) || !link.href.startsWith(canonicalOrigin)) reportError(path, "Incorrect hreflang");
+    if (!["ar", "en", "x-default"].includes(link.hrefLang) || !link.href.startsWith(canonicalOrigin)) reportError(path, "Incorrect hreflang");
   }
   const visible = plain(html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/g, ""));
   const schemas = [];
