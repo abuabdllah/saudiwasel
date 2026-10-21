@@ -1,9 +1,8 @@
 import { operatorBody, operatorFaqs, choiceCopy, operatorFacts, operatorAbout, cityIntroductions, operatorIntroduction, localDistricts, housingDetails } from "../lib/local-content";
-import PricesTable from "./PricesTable";
+import LocalFiberPricing from "./LocalFiberPricing";
 import CityOperatorLinks from "./CityOperatorLinks";
 import IntentCtas from "./IntentCtas";
 import CityNextSteps from "./CityNextSteps";
-import OperatorSources from "./OperatorSources";
 import LeadForm from "./LeadForm";
 import JsonLd, { breadcrumbSchema, faqSchema, serviceSchema } from "./JsonLd";
 import { getRegionalCity } from "../lib/regional";
@@ -72,8 +71,7 @@ export function RegionalOperatorPage({ city, operator }) {
     <section className="container">
       <p className="notice">موقع مستقل وغير تابع لأي مشغل. نرتب مراجعة ألياف {operator.name} لمسكنك في {content.name} ونساعد في متابعة إجراء الاشتراك بعد اعتماد التفاصيل.</p>
       <h2>فايبر {operator.name} في {content.name}</h2><p>{content.intro[0]}</p><p>{content.intro[1]}</p>
-      <h2>خيارات باقات فايبر {operator.name}</h2>
-      <OperatorSources operator={operator.slug} /><PricesTable operator={operator.slug} service="fiber" context={`فايبر ${operator.name} في ${content.name}`} />
+      <LocalFiberPricing city={city} operator={operator} />
       <h2>رقم مندوب فايبر {operator.name} {content.name}</h2>
       <IntentCtas city={city} operator={operator.slug} />
       <h2>معلومات مهمة قبل تركيب فايبر {operator.name}</h2><ul className="req-list">{operatorFacts(city, operator.slug).map((fact) => <li key={fact}>{fact}</li>)}</ul>

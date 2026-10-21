@@ -1,9 +1,8 @@
 import { operatorBody, operatorFaqs, choiceCopy, operatorFacts, operatorAbout, cityIntroductions, operatorIntroduction, localDistricts } from "../lib/local-content";
-import PricesTable from "./PricesTable";
+import LocalFiberPricing from "./LocalFiberPricing";
 import CityOperatorLinks from "./CityOperatorLinks";
 import IntentCtas from "./IntentCtas";
 import CityNextSteps from "./CityNextSteps";
-import OperatorSources from "./OperatorSources";
 import LeadForm from "./LeadForm";
 import JsonLd, { breadcrumbSchema, faqSchema, serviceSchema } from "./JsonLd";
 import { getMakkahDistricts, getMakkahOperatorContent, makkahGeneralFaqs } from "../lib/makkah";
@@ -76,8 +75,7 @@ export function MakkahOperatorPage({ operator }) {
     <section className="container">
       <p className="notice">موقع مستقل وغير تابع لأي مشغل. نرتب مراجعة ألياف {operator.name} لمسكنك في {"مكة"} ونساعد في متابعة إجراء الاشتراك بعد اعتماد التفاصيل.</p>
       <h2>فايبر {operator.name} في مكة المكرمة</h2><p>{content.intro[0]}</p><p>{content.intro[1]}</p>
-      <h2>خيارات باقات فايبر {operator.name}</h2>
-      <OperatorSources operator={operator.slug} /><PricesTable operator={operator.slug} service="fiber" context={`فايبر ${operator.name} في ${"مكة"}`} />
+      <LocalFiberPricing city={"makkah"} operator={operator} />
       <h2>رقم مندوب فايبر {operator.name} مكة</h2>
       <IntentCtas city="makkah" operator={operator.slug} />
       <h2>معلومات قبل تركيب فايبر {operator.name}</h2><ul className="req-list">{operatorFacts("makkah", operator.slug).map((fact) => <li key={fact}>{fact}</li>)}</ul>

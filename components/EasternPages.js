@@ -1,9 +1,8 @@
 import { operatorBody, operatorFaqs, choiceCopy, operatorFacts, operatorAbout, cityIntroductions, operatorIntroduction, localDistricts } from "../lib/local-content";
-import PricesTable from "./PricesTable";
+import LocalFiberPricing from "./LocalFiberPricing";
 import CityOperatorLinks from "./CityOperatorLinks";
 import IntentCtas from "./IntentCtas";
 import CityNextSteps from "./CityNextSteps";
-import OperatorSources from "./OperatorSources";
 import LeadForm from "./LeadForm";
 import JsonLd, { breadcrumbSchema, faqSchema, serviceSchema } from "./JsonLd";
 import { cities } from "../lib/cities";
@@ -109,8 +108,7 @@ export function EasternOperatorPage({ city, operator }) {
         <h2>فايبر {operator.name} في {data.name}</h2>
         <Intro data={data} />
 
-        <h2>خيارات باقات فايبر {operator.name}</h2>
-        <OperatorSources operator={operator.slug} /><PricesTable operator={operator.slug} service="fiber" context={`فايبر ${operator.name} في ${data.name}`} />
+        <LocalFiberPricing city={city} operator={operator} />
         <h2>رقم مندوب فايبر {operator.name} {data.name}</h2>
         <IntentCtas city={city} operator={operator.slug} />
 

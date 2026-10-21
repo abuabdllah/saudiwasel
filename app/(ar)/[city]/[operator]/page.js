@@ -1,8 +1,7 @@
 import { operatorIntroduction, localDistricts, operatorFaqs, operatorFacts, operatorAbout } from "../../../../lib/local-content";
 import IntentCtas from "../../../../components/IntentCtas";
-import PricesTable from "../../../../components/PricesTable";
+import LocalFiberPricing from "../../../../components/LocalFiberPricing";
 import CityNextSteps from "../../../../components/CityNextSteps";
-import OperatorSources from "../../../../components/OperatorSources";
 import { pageMetadata } from "../../../../lib/seo";
 import { notFound } from "next/navigation";
 import { cities } from "../../../../lib/cities";
@@ -159,9 +158,7 @@ export default async function OperatorPage({ params }) {
               : `للاستفسار عن تغطية وباقات فايبر ${o.name} في ${c.name}، تواصل مع المندوب مباشرة:`}</p>
         </div>
 
-        <h2>خيارات باقات فايبر {o.name}</h2>
-        <OperatorSources operator={o.slug} />
-        <PricesTable operator={o.slug} service="fiber" context={`فايبر ${o.name} في ${c.name}`} />
+        <LocalFiberPricing city={c.slug} operator={o} />
 
         <IntentCtas city={c.slug} operator={o.slug} />
 
