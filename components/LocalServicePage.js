@@ -1,3 +1,4 @@
+import { pageMetadata } from "../lib/seo";
 import LeadForm from "./LeadForm";
 import PricesTable from "./PricesTable";
 import JsonLd, { breadcrumbSchema, faqSchema } from "./JsonLd";
@@ -8,11 +9,12 @@ export function localServiceMetadata(key) {
   const page = localServicePages[key];
   const url = `https://saudiwasel.com/${key}`;
   const image = imageFor(key);
+  const metadata = pageMetadata({ title: page.title, description: "", alternates: { canonical: url } });
   return {
-    title: { absolute: page.title }, description: page.intro.split(".")[0],
-    alternates: { canonical: url },
-    openGraph: { title: page.title, description: page.intro.split(".")[0], url, locale: "ar_SA", images: [{ url: `https://saudiwasel.com${image}`, width: 1200, height: 675, alt: altFor(key) }] },
-    twitter: { card: "summary_large_image", title: page.title, images: [`https://saudiwasel.com${image}`] },
+    ...metadata,
+    title: { absolute: page.title },
+    openGraph: { ...metadata.openGraph, title: page.title, images: [{ url: `https://saudiwasel.com${image}`, width: 1200, height: 675, alt: altFor(key) }] },
+    twitter: { ...metadata.twitter, title: page.title, images: [`https://saudiwasel.com${image}`] },
   };
 }
 function imageFor(key) { const [city, type] = key.split("/"); return `/images/${type === "zain" ? "fiber-zain" : "5g-router"}-${city}.webp`; }

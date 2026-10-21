@@ -165,3 +165,14 @@ p { margin-bottom: 12px; }
   .site-header .btn-wa { width: 4.9375rem; }
   .site-header .header-actions a[lang="en-SA"] { width: 2.5625rem; }
 }
+
+/* Reserve the same space before hydration, between steps and during submission.
+   Minimums allow content to grow with larger text or long validation messages. */
+.lead-form { min-height: 1200px; justify-content: flex-start; }
+.lead-form-stages { display: flex; flex-direction: column; gap: 12px; min-height: 960px; }
+.lead-form-feedback { min-height: 72px; }
+@media (max-width: 640px) {
+  .lead-form { min-height: 1400px; }
+  .lead-form-stages { min-height: 1120px; }
+  .lead-form-feedback { min-height: 112px; }
+}

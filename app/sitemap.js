@@ -50,7 +50,7 @@ export default function sitemap() {
       url: `${base}${pair.en}`,
       lastModified: "2026-09-30",
       priority: pair.en === "/en" ? 0.9 : 0.8,
-      ...(!pair.switchOnly && { alternates: { languages: { "ar-SA": `${base}${pair.ar}`, "en-SA": `${base}${pair.en}`, "x-default": `${base}${pair.ar}` } } }),
+      ...(!pair.switchOnly && { alternates: { languages: { ar: `${base}${pair.ar}`, en: `${base}${pair.en}`, "x-default": `${base}${pair.ar}` } } }),
     })),
     // صفحات الشركات ودليل التركيب
     ...["/salam", "/stc", "/mobily", "/fiber-installation"].map((path) => ({
@@ -63,7 +63,7 @@ export default function sitemap() {
       url: base,
       lastModified: siteUpdatedISO,
       priority: 1,
-      alternates: { languages: { "ar-SA": `${base}/`, "en-SA": `${base}/en`, "x-default": `${base}/` } },
+      alternates: { languages: { ar: `${base}/`, en: `${base}/en`, "x-default": `${base}/` } },
     },
 
     // المدن
@@ -77,7 +77,7 @@ export default function sitemap() {
       url: `${base}/jeddah/5g`,
       lastModified: siteUpdatedISO,
       priority: 0.9,
-      alternates: { languages: { "ar-SA": `${base}/jeddah/5g`, "en-SA": `${base}/en/5g-home-internet-jeddah`, "x-default": `${base}/jeddah/5g` } },
+      alternates: { languages: { ar: `${base}/jeddah/5g`, en: `${base}/en/5g-home-internet-jeddah`, "x-default": `${base}/jeddah/5g` } },
     },
     {
       url: `${base}/jeddah/zain`,
@@ -110,7 +110,7 @@ export default function sitemap() {
       url: `${base}/fiber-vs-5g`,
       lastModified: internetGuidesUpdatedISO,
       priority: 0.8,
-      alternates: { languages: { "ar-SA": `${base}/fiber-vs-5g`, "en-SA": `${base}/en/fiber-vs-5g`, "x-default": `${base}/fiber-vs-5g` } },
+      alternates: { languages: { ar: `${base}/fiber-vs-5g`, en: `${base}/en/fiber-vs-5g`, "x-default": `${base}/fiber-vs-5g` } },
     },
 
     // المقالات
