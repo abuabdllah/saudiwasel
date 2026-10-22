@@ -154,6 +154,11 @@ export default function sitemap() {
     },
   ].map((entry) => {
     const path = new URL(entry.url).pathname;
+    const [, city, service, extra] = path.split("/");
+    const titleChanged = ["/salam", "/stc", "/mobily"].includes(path)
+      || (extra === undefined && cities.some(item => item.slug === city)
+        && (!service || ["stc", "salam", "mobily", "zain", "5g"].includes(service)));
+    if (titleChanged) return { ...entry, lastModified: latest("2026-10-22", entry.lastModified) };
     const modified = path === "/" || path === "/5g" || path.startsWith("/5g/")
       || cities.some(city => path === `/${city.slug}` || path.startsWith(`/${city.slug}/`))
       || languagePairs.some(pair => pair.en === path);

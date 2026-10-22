@@ -12,9 +12,9 @@ export function localServiceMetadata(key) {
   const metadata = pageMetadata({ title: page.title, description: "", alternates: { canonical: url } });
   return {
     ...metadata,
-    title: { absolute: page.title },
-    openGraph: { ...metadata.openGraph, title: page.title, images: [{ url: `https://saudiwasel.com${image}`, width: 1200, height: 675, alt: altFor(key) }] },
-    twitter: { ...metadata.twitter, title: page.title, images: [`https://saudiwasel.com${image}`] },
+    title: { absolute: metadata.title },
+    openGraph: { ...metadata.openGraph, images: [{ url: `https://saudiwasel.com${image}`, width: 1200, height: 675, alt: altFor(key) }] },
+    twitter: { ...metadata.twitter, images: [`https://saudiwasel.com${image}`] },
   };
 }
 function imageFor(key) { const [city, type] = key.split("/"); return `/images/${type === "zain" ? "fiber-zain" : "5g-router"}-${city}.webp`; }
